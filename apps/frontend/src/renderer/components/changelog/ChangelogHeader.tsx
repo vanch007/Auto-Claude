@@ -1,4 +1,5 @@
 import { RefreshCw, Check } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '../ui/button';
 import { cn } from '../../lib/utils';
 import type { WizardStep } from './hooks/useChangelog';
@@ -9,32 +10,33 @@ interface ChangelogHeaderProps {
 }
 
 export function ChangelogHeader({ step, onRefresh }: ChangelogHeaderProps) {
+  const { t } = useTranslation(['common']);
   return (
     <div className="flex items-center justify-between border-b border-border px-6 py-4">
       <div className="flex items-center gap-4">
         <div>
-          <h1 className="text-xl font-semibold">Changelog Generator</h1>
+          <h1 className="text-xl font-semibold">{t('common:changelog.title')}</h1>
           <p className="text-sm text-muted-foreground">
             {step === 1
-              ? 'Step 1: Select completed tasks to include'
+              ? t('common:changelog.step1')
               : step === 2
-                ? 'Step 2: Configure and generate changelog'
-                : 'Step 3: Release and archive tasks'}
+                ? t('common:changelog.step2')
+                : t('common:changelog.step3')}
           </p>
         </div>
       </div>
       <div className="flex items-center gap-2">
         {/* Step indicators */}
         <div className="flex items-center gap-2 mr-4">
-          <StepIndicator step={1} currentStep={step} label="Select" />
+          <StepIndicator step={1} currentStep={step} label={t('common:changelog.select')} />
           <div className="w-6 h-px bg-border" />
-          <StepIndicator step={2} currentStep={step} label="Generate" />
+          <StepIndicator step={2} currentStep={step} label={t('common:changelog.generate')} />
           <div className="w-6 h-px bg-border" />
-          <StepIndicator step={3} currentStep={step} label="Release" />
+          <StepIndicator step={3} currentStep={step} label={t('common:changelog.release')} />
         </div>
         <Button variant="outline" size="sm" onClick={onRefresh}>
           <RefreshCw className="mr-2 h-4 w-4" />
-          Refresh
+          {t('common:changelog.refresh')}
         </Button>
       </div>
     </div>

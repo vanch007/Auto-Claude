@@ -20,6 +20,16 @@ export const settingsMock = {
   getSentryDsn: async () => '',  // No DSN in browser mode
   getSentryConfig: async () => ({ dsn: '', tracesSampleRate: 0, profilesSampleRate: 0 }),
 
+  // Custom Prompts
+  loadCustomPrompts: async () => ({
+    systemPromptExtension: '',
+    coderPromptExtension: '',
+    plannerPromptExtension: '',
+    qaPromptExtension: '',
+    enabled: false
+  }),
+  saveCustomPrompts: async () => ({ success: true }),
+
   getCliToolsInfo: async () => ({
     success: true,
     data: {
@@ -47,8 +57,8 @@ export const settingsMock = {
   getDownloadedAppUpdate: async () => ({ success: true, data: null }),
 
   // App Update Event Listeners (no-op in browser mode)
-  onAppUpdateAvailable: () => () => {},
-  onAppUpdateDownloaded: () => () => {},
-  onAppUpdateProgress: () => () => {},
-  onAppUpdateStableDowngrade: () => () => {}
+  onAppUpdateAvailable: () => () => { },
+  onAppUpdateDownloaded: () => () => { },
+  onAppUpdateProgress: () => () => { },
+  onAppUpdateStableDowngrade: () => () => { }
 };

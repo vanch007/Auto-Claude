@@ -167,6 +167,7 @@ export function RateLimitModal() {
   return (
     <Dialog open={isModalOpen} onOpenChange={(open) => !open && hideRateLimitModal()}>
       <DialogContent className="sm:max-w-[520px]">
+
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-warning">
             <AlertCircle className="h-5 w-5" />

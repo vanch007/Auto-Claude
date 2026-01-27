@@ -1,59 +1,11 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, Users, Sparkles, CheckCircle2, AlertCircle, Square, Clock } from 'lucide-react';
+import { Search, Users, Sparkles, CheckCircle2, AlertCircle, Square } from 'lucide-react';
 import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { cn } from '../lib/utils';
 import type { RoadmapGenerationStatus } from '../../shared/types/roadmap';
-
-/**
- * Formats elapsed time in seconds into a human-readable string.
- * Examples: "0:05", "1:23", "12:05", "1:00:05"
- *
- * @param seconds - The elapsed time in seconds
- * @returns Formatted time string (MM:SS or H:MM:SS for >= 1 hour)
- */
-function formatElapsedTime(seconds: number): string {
-  if (seconds < 0) return '0:00';
-
-  const hours = Math.floor(seconds / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const secs = Math.floor(seconds % 60);
-
-  if (hours > 0) {
-    return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  }
-  return `${minutes}:${secs.toString().padStart(2, '0')}`;
-}
-
-/**
- * Formats a timestamp into a human-readable relative time string.
- * Examples: "just now", "5s ago", "2m ago", "1h ago"
- *
- * @param timestamp - The Date object or timestamp to format
- * @returns Formatted relative time string
- */
-function formatTimeAgo(timestamp: Date | string | undefined): string {
-  if (!timestamp) return '';
-
-  const date = timestamp instanceof Date ? timestamp : new Date(timestamp);
-  const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
-  const diffSecs = Math.floor(diffMs / 1000);
-
-  if (diffSecs < 5) return 'just now';
-  if (diffSecs < 60) return `${diffSecs}s ago`;
-
-  const diffMins = Math.floor(diffSecs / 60);
-  if (diffMins < 60) return `${diffMins}m ago`;
-
-  const diffHours = Math.floor(diffMins / 60);
-  if (diffHours < 24) return `${diffHours}h ago`;
-
-  const diffDays = Math.floor(diffHours / 24);
-  return `${diffDays}d ago`;
-}
 
 /**
  * Hook to detect user's reduced motion preference.
@@ -93,113 +45,8 @@ interface RoadmapGenerationProgressProps {
 // Type for generation phases (excluding idle)
 type GenerationPhase = Exclude<RoadmapGenerationStatus['phase'], 'idle'>;
 
-// Phase display configuration (colors and icons only - labels are translated)
-const PHASE_CONFIG: Record<
-  GenerationPhase,
-  {
-    labelKey: string;
-    descriptionKey: string;
-    icon: typeof Search;
-    color: string;
-    bgColor: string;
-  }
-> = {
-  analyzing: {
-    labelKey: 'roadmapProgress.phases.analyzing.label',
-    descriptionKey: 'roadmapProgress.phases.analyzing.description',
-    icon: Search,
-    color: 'bg-amber-500',
-    bgColor: 'bg-amber-500/20',
-  },
-  discovering: {
-    labelKey: 'roadmapProgress.phases.discovering.label',
-    descriptionKey: 'roadmapProgress.phases.discovering.description',
-    icon: Users,
-    color: 'bg-info',
-    bgColor: 'bg-info/20',
-  },
-  generating: {
-    labelKey: 'roadmapProgress.phases.generating.label',
-    descriptionKey: 'roadmapProgress.phases.generating.description',
-    icon: Sparkles,
-    color: 'bg-primary',
-    bgColor: 'bg-primary/20',
-  },
-  complete: {
-    labelKey: 'roadmapProgress.phases.complete.label',
-    descriptionKey: 'roadmapProgress.phases.complete.description',
-    icon: CheckCircle2,
-    color: 'bg-success',
-    bgColor: 'bg-success/20',
-  },
-  error: {
-    labelKey: 'roadmapProgress.phases.error.label',
-    descriptionKey: 'roadmapProgress.phases.error.description',
-    icon: AlertCircle,
-    color: 'bg-destructive',
-    bgColor: 'bg-destructive/20',
-  },
-};
-
 // Phases shown in the step indicator (excluding complete and error)
-const STEP_PHASES: { key: GenerationPhase; labelKey: string }[] = [
-  { key: 'analyzing', labelKey: 'roadmapProgress.steps.analyze' },
-  { key: 'discovering', labelKey: 'roadmapProgress.steps.discover' },
-  { key: 'generating', labelKey: 'roadmapProgress.steps.generate' },
-];
-
-/**
- * Internal component for heartbeat animation indicator.
- * Shows a subtle pulsing animation to indicate the process is alive.
- * Respects user's reduced motion preference.
- */
-function HeartbeatIndicator({
-  isActive,
-  reducedMotion,
-  color,
-  processingLabel,
-  tooltipText,
-}: {
-  isActive: boolean;
-  reducedMotion: boolean;
-  color: string;
-  processingLabel: string;
-  tooltipText: string;
-}) {
-  if (!isActive) return null;
-
-  // Heartbeat animation: subtle scale pulse to show process is alive
-  const heartbeatAnimation = reducedMotion
-    ? { scale: 1, opacity: 1 }
-    : {
-        scale: [1, 1.05, 1],
-        opacity: [0.7, 1, 0.7],
-      };
-
-  const heartbeatTransition = reducedMotion
-    ? { duration: 0 }
-    : {
-        duration: 2,
-        repeat: Infinity,
-        ease: 'easeInOut' as const,
-      };
-
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <motion.div
-          className="flex items-center gap-1.5 cursor-help"
-          animate={heartbeatAnimation}
-          transition={heartbeatTransition}
-        >
-          <div className={cn('h-2 w-2 rounded-full', color)} />
-          <span className="text-xs text-muted-foreground">{processingLabel}</span>
-        </motion.div>
-      </TooltipTrigger>
-      <TooltipContent>{tooltipText}</TooltipContent>
-    </Tooltip>
-  );
-}
+const STEP_PHASE_KEYS: GenerationPhase[] = ['analyzing', 'discovering', 'generating'];
 
 /**
  * Internal component for showing phase steps indicator
@@ -207,12 +54,11 @@ function HeartbeatIndicator({
 function PhaseStepsIndicator({
   currentPhase,
   reducedMotion,
-  t,
 }: {
   currentPhase: RoadmapGenerationStatus['phase'];
   reducedMotion: boolean;
-  t: (key: string) => string;
 }) {
+  const { t } = useTranslation(['common']);
   const getPhaseState = (
     phaseKey: GenerationPhase
   ): 'pending' | 'active' | 'complete' | 'error' => {
@@ -240,10 +86,10 @@ function PhaseStepsIndicator({
 
   return (
     <div className="flex items-center justify-center gap-1 mt-4">
-      {STEP_PHASES.map((phase, index) => {
-        const state = getPhaseState(phase.key);
+      {STEP_PHASE_KEYS.map((phaseKey, index) => {
+        const state = getPhaseState(phaseKey);
         return (
-          <div key={phase.key} className="flex items-center">
+          <div key={phaseKey} className="flex items-center">
             <motion.div
               className={cn(
                 'flex items-center gap-1 px-2 py-1 rounded text-xs font-medium',
@@ -270,13 +116,13 @@ function PhaseStepsIndicator({
                   />
                 </svg>
               )}
-              {t(phase.labelKey)}
+              {t(`common:roadmap.generation.phases.${phaseKey}.step`)}
             </motion.div>
-            {index < STEP_PHASES.length - 1 && (
+            {index < STEP_PHASE_KEYS.length - 1 && (
               <div
                 className={cn(
                   'w-4 h-px mx-1',
-                  getPhaseState(STEP_PHASES[index + 1].key) !== 'pending'
+                  getPhaseState(STEP_PHASE_KEYS[index + 1]) !== 'pending'
                     ? 'bg-success/50'
                     : 'bg-border'
                 )}
@@ -299,75 +145,10 @@ export function RoadmapGenerationProgress({
   className,
   onStop
 }: RoadmapGenerationProgressProps) {
-  const { t } = useTranslation('common');
-  const { phase, progress, message, error, startedAt, lastActivityAt } = generationStatus;
+  const { t } = useTranslation(['common']);
+  const { phase, progress, message, error } = generationStatus;
   const reducedMotion = useReducedMotion();
   const [isStopping, setIsStopping] = useState(false);
-  const [elapsedTime, setElapsedTime] = useState(0);
-  const [lastActivityDisplay, setLastActivityDisplay] = useState('');
-
-  /**
-   * Calculate elapsed time from startedAt timestamp
-   */
-  const calculateElapsedTime = useCallback(() => {
-    if (!startedAt) return 0;
-    const startDate = startedAt instanceof Date ? startedAt : new Date(startedAt);
-    const now = new Date();
-    return Math.floor((now.getTime() - startDate.getTime()) / 1000);
-  }, [startedAt]);
-
-  /**
-   * Update elapsed time every second while generation is active
-   */
-  useEffect(() => {
-    // Only track time for active phases (not idle, complete, or error)
-    const isActivePhase = phase !== 'idle' && phase !== 'complete' && phase !== 'error';
-
-    if (!isActivePhase || !startedAt) {
-      // Reset elapsed time when not active or no start time
-      if (phase === 'idle') {
-        setElapsedTime(0);
-      }
-      return;
-    }
-
-    // Calculate initial elapsed time
-    setElapsedTime(calculateElapsedTime());
-
-    // Set up interval to update every second
-    const intervalId = setInterval(() => {
-      setElapsedTime(calculateElapsedTime());
-    }, 1000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [phase, startedAt, calculateElapsedTime]);
-
-  /**
-   * Update last activity display periodically for relative time
-   */
-  useEffect(() => {
-    // Only track last activity for active phases
-    const isActivePhase = phase !== 'idle' && phase !== 'complete' && phase !== 'error';
-
-    if (!isActivePhase || !lastActivityAt) {
-      setLastActivityDisplay('');
-      return;
-    }
-
-    // Calculate initial display
-    setLastActivityDisplay(formatTimeAgo(lastActivityAt));
-
-    // Update every 5 seconds to keep relative time current
-    const intervalId = setInterval(() => {
-      setLastActivityDisplay(formatTimeAgo(lastActivityAt));
-    }, 5000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [phase, lastActivityAt]);
 
   /**
    * Handle stop button click with error handling and double-click prevention
@@ -390,7 +171,45 @@ export function RoadmapGenerationProgress({
     return null;
   }
 
-  const config = PHASE_CONFIG[phase];
+  const phaseConfig = useMemo(() => ({
+    analyzing: {
+      label: t('common:roadmap.generation.phases.analyzing.label'),
+      description: t('common:roadmap.generation.phases.analyzing.description'),
+      icon: Search,
+      color: 'bg-amber-500',
+      bgColor: 'bg-amber-500/20',
+    },
+    discovering: {
+      label: t('common:roadmap.generation.phases.discovering.label'),
+      description: t('common:roadmap.generation.phases.discovering.description'),
+      icon: Users,
+      color: 'bg-info',
+      bgColor: 'bg-info/20',
+    },
+    generating: {
+      label: t('common:roadmap.generation.phases.generating.label'),
+      description: t('common:roadmap.generation.phases.generating.description'),
+      icon: Sparkles,
+      color: 'bg-primary',
+      bgColor: 'bg-primary/20',
+    },
+    complete: {
+      label: t('common:roadmap.generation.phases.complete.label'),
+      description: t('common:roadmap.generation.phases.complete.description'),
+      icon: CheckCircle2,
+      color: 'bg-success',
+      bgColor: 'bg-success/20',
+    },
+    error: {
+      label: t('common:roadmap.generation.phases.error.label'),
+      description: t('common:roadmap.generation.phases.error.description'),
+      icon: AlertCircle,
+      color: 'bg-destructive',
+      bgColor: 'bg-destructive/20',
+    },
+  }), [t]);
+
+  const config = phaseConfig[phase as GenerationPhase];
   const Icon = config.icon;
   const isActivePhase = phase !== 'complete' && phase !== 'error';
 
@@ -398,32 +217,32 @@ export function RoadmapGenerationProgress({
   const pulseAnimation = reducedMotion
     ? {}
     : {
-        scale: [1, 1.1, 1],
-        opacity: [1, 0.8, 1],
-      };
+      scale: [1, 1.1, 1],
+      opacity: [1, 0.8, 1],
+    };
 
   const pulseTransition = reducedMotion
     ? { duration: 0 }
     : {
-        duration: 1.5,
-        repeat: isActivePhase ? Infinity : 0,
-        ease: 'easeInOut' as const,
-      };
+      duration: 1.5,
+      repeat: isActivePhase ? Infinity : 0,
+      ease: 'easeInOut' as const,
+    };
 
   const dotAnimation = reducedMotion
     ? { scale: 1, opacity: 1 }
     : {
-        scale: [1, 1.5, 1],
-        opacity: [1, 0.5, 1],
-      };
+      scale: [1, 1.5, 1],
+      opacity: [1, 0.5, 1],
+    };
 
   const dotTransition = reducedMotion
     ? { duration: 0 }
     : {
-        duration: 1,
-        repeat: Infinity,
-        ease: 'easeInOut' as const,
-      };
+      duration: 1,
+      repeat: Infinity,
+      ease: 'easeInOut' as const,
+    };
 
   const indeterminateAnimation = reducedMotion
     ? { x: '150%' }
@@ -432,10 +251,10 @@ export function RoadmapGenerationProgress({
   const indeterminateTransition = reducedMotion
     ? { duration: 0 }
     : {
-        duration: 1.5,
-        repeat: Infinity,
-        ease: 'easeInOut' as const,
-      };
+      duration: 1.5,
+      repeat: Infinity,
+      ease: 'easeInOut' as const,
+    };
 
   return (
     <div className={cn('space-y-4 p-6 rounded-xl bg-card border', className)}>
@@ -451,10 +270,10 @@ export function RoadmapGenerationProgress({
                 disabled={isStopping}
               >
                 <Square className="h-4 w-4 mr-1" />
-                {isStopping ? t('roadmapProgress.stopping') : t('buttons.stop')}
+                {isStopping ? t('common:roadmap.generation.stopping') : t('common:roadmap.generation.stop')}
               </Button>
             </TooltipTrigger>
-            <TooltipContent>{t('roadmapProgress.stopGeneration')}</TooltipContent>
+            <TooltipContent>{t('common:roadmap.generation.stopTooltip')}</TooltipContent>
           </Tooltip>
         </div>
       )}
@@ -490,10 +309,12 @@ export function RoadmapGenerationProgress({
             transition={{ duration: 0.2 }}
             className="space-y-1"
           >
-            <h3 className="text-lg font-semibold">{t(config.labelKey)}</h3>
-            <p className="text-sm text-muted-foreground">{t(config.descriptionKey)}</p>
-            {message && message !== t(config.descriptionKey) && (
-              <p className="text-xs text-muted-foreground mt-1">{message}</p>
+            <h3 className="text-lg font-semibold">{config.label}</h3>
+            <p className="text-sm text-muted-foreground">{config.description}</p>
+            {message && message !== config.description && (
+              <p className="text-xs text-muted-foreground mt-1">
+                {t(`common:roadmap.generation.phases.${phase}.description`, { defaultValue: message })}
+              </p>
             )}
           </motion.div>
         </AnimatePresence>
@@ -503,40 +324,8 @@ export function RoadmapGenerationProgress({
       {isActivePhase && (
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-muted-foreground">{t('roadmapProgress.progress')}</span>
-              {/* Elapsed time display */}
-              {startedAt && (
-                <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                  <Clock className="h-3 w-3" />
-                  <span className="tabular-nums">{formatElapsedTime(elapsedTime)}</span>
-                </div>
-              )}
-              {/* Last activity display */}
-              {lastActivityDisplay && (
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <span className="text-xs text-muted-foreground/70 cursor-help">
-                      · {t('roadmapProgress.lastActivityPrefix')} {lastActivityDisplay}
-                    </span>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    {t('roadmapProgress.lastProgressUpdateTooltip')}
-                  </TooltipContent>
-                </Tooltip>
-              )}
-            </div>
-            <div className="flex items-center gap-3">
-              {/* Heartbeat indicator to show process is alive */}
-              <HeartbeatIndicator
-                isActive={isActivePhase}
-                reducedMotion={reducedMotion}
-                color={config.color}
-                processingLabel={t('roadmapProgress.processing')}
-                tooltipText={t('roadmapProgress.processActiveTooltip')}
-              />
-              <span className="text-xs font-medium">{progress}%</span>
-            </div>
+            <span className="text-xs text-muted-foreground">{t('common:roadmap.generation.progress')}</span>
+            <span className="text-xs font-medium">{progress}%</span>
           </div>
           <div className="relative h-2 w-full overflow-hidden rounded-full bg-border">
             {progress > 0 ? (
@@ -560,7 +349,7 @@ export function RoadmapGenerationProgress({
       )}
 
       {/* Phase steps indicator */}
-      <PhaseStepsIndicator currentPhase={phase} reducedMotion={reducedMotion} t={t} />
+      <PhaseStepsIndicator currentPhase={phase} reducedMotion={reducedMotion} />
 
       {/* Error display - shows whenever error is present, regardless of phase */}
       <AnimatePresence mode="wait">

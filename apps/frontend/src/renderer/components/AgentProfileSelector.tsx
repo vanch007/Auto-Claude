@@ -143,8 +143,8 @@ export function AgentProfileSelector({
     if (profile) {
       return {
         icon: iconMap[profile.icon || 'Scale'] || Scale,
-        label: profile.name,
-        description: profile.description
+        label: t(profile.name),
+        description: t(profile.description)
       };
     }
     // Default to auto profile (the actual default)
@@ -180,13 +180,14 @@ export function AgentProfileSelector({
           <SelectContent>
             {DEFAULT_AGENT_PROFILES.map((profile) => {
               const ProfileIcon = iconMap[profile.icon || 'Scale'] || Scale;
-              const modelLabel = AVAILABLE_MODELS.find(m => m.value === profile.model)?.label;
+              const model = AVAILABLE_MODELS.find(m => m.value === profile.model);
+              const modelLabel = model?.label ? t(model.label) : profile.model;
               return (
                 <SelectItem key={profile.id} value={profile.id}>
                   <div className="flex items-center gap-2">
                     <ProfileIcon className="h-4 w-4 shrink-0" />
                     <div>
-                      <span className="font-medium">{profile.name}</span>
+                      <span className="font-medium">{t(profile.name)}</span>
                       <span className="ml-2 text-xs text-muted-foreground">
                         ({modelLabel} + {profile.thinkingLevel})
                       </span>
@@ -248,7 +249,10 @@ export function AgentProfileSelector({
             <div className="px-4 pb-4 -mt-1">
               <div className="grid grid-cols-2 gap-2 text-xs">
                 {(Object.keys(PHASE_LABEL_KEYS) as Array<keyof PhaseModelConfig>).map((phase) => {
-                  const modelLabel = AVAILABLE_MODELS.find(m => m.value === currentPhaseModels[phase])?.label?.replace('Claude ', '') || currentPhaseModels[phase];
+                  const modelObj = AVAILABLE_MODELS.find(m => m.value === currentPhaseModels[phase]);
+                  const modelLabel = modelObj?.label
+                    ? t(modelObj.label).replace('Claude ', '')
+                    : currentPhaseModels[phase];
                   return (
                     <div key={phase} className="flex items-center justify-between rounded bg-background/50 px-2 py-1">
                       <span className="text-muted-foreground">{t(PHASE_LABEL_KEYS[phase].label)}:</span>
@@ -287,7 +291,7 @@ export function AgentProfileSelector({
                         <SelectContent>
                           {AVAILABLE_MODELS.map((m) => (
                             <SelectItem key={m.value} value={m.value}>
-                              {m.label}
+                              {t(m.label)}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -306,7 +310,7 @@ export function AgentProfileSelector({
                         <SelectContent>
                           {THINKING_LEVELS.map((level) => (
                             <SelectItem key={level.value} value={level.value}>
-                              {level.label}
+                              {t(level.label)}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -339,7 +343,7 @@ export function AgentProfileSelector({
               <SelectContent>
                 {AVAILABLE_MODELS.map((m) => (
                   <SelectItem key={m.value} value={m.value}>
-                    {m.label}
+                    {t(m.label)}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -363,9 +367,9 @@ export function AgentProfileSelector({
                 {THINKING_LEVELS.map((level) => (
                   <SelectItem key={level.value} value={level.value}>
                     <div className="flex items-center gap-2">
-                      <span>{level.label}</span>
+                      <span>{t(level.label)}</span>
                       <span className="text-xs text-muted-foreground">
-                        - {level.description}
+                        - {t(level.description)}
                       </span>
                     </div>
                   </SelectItem>

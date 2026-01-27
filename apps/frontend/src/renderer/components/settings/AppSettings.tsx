@@ -20,7 +20,8 @@ import {
   Bug,
   Server,
   Terminal,
-  Users
+  Users,
+  MessageSquare
 } from 'lucide-react';
 
 // GitLab icon component (lucide-react doesn't have one)
@@ -28,7 +29,7 @@ function GitLabIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" role="img" aria-labelledby="gitlab-icon-title">
       <title id="gitlab-icon-title">GitLab</title>
-      <path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z"/>
+      <path d="M22.65 14.39L12 22.13 1.35 14.39a.84.84 0 0 1-.3-.94l1.22-3.78 2.44-7.51A.42.42 0 0 1 4.82 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.49h8.1l2.44-7.51A.42.42 0 0 1 18.6 2a.43.43 0 0 1 .58 0 .42.42 0 0 1 .11.18l2.44 7.51L23 13.45a.84.84 0 0 1-.35.94z" />
     </svg>
   );
 }
@@ -56,6 +57,7 @@ import { TerminalFontSettings } from './terminal-font-settings/TerminalFontSetti
 import { ProfileList } from './ProfileList';
 import { AccountSettings } from './AccountSettings';
 import { ProjectSelector } from './ProjectSelector';
+import { PromptSettings } from './PromptSettings';
 import { ProjectSettingsContent, ProjectSettingsSection } from './ProjectSettingsContent';
 import { useProjectStore } from '../../stores/project-store';
 import type { UseProjectSettingsReturn } from '../project-settings/hooks/useProjectSettings';
@@ -69,7 +71,7 @@ interface AppSettingsDialogProps {
 }
 
 // App-level settings sections
-export type AppSection = 'appearance' | 'display' | 'language' | 'devtools' | 'terminal-fonts' | 'agent' | 'paths' | 'integrations' | 'accounts' | 'api-profiles' | 'updates' | 'notifications' | 'debug';
+export type AppSection = 'appearance' | 'display' | 'language' | 'devtools' | 'terminal-fonts' | 'prompts' | 'agent' | 'paths' | 'integrations' | 'accounts' | 'api-profiles' | 'updates' | 'notifications' | 'debug';
 
 interface NavItemConfig<T extends string> {
   id: T;
@@ -82,6 +84,7 @@ const appNavItemsConfig: NavItemConfig<AppSection>[] = [
   { id: 'language', icon: Globe },
   { id: 'devtools', icon: Code },
   { id: 'terminal-fonts', icon: Terminal },
+  { id: 'prompts', icon: MessageSquare },
   { id: 'agent', icon: Bot },
   { id: 'paths', icon: FolderOpen },
   { id: 'accounts', icon: Users },
@@ -156,7 +159,7 @@ export function AppSettingsDialog({ open, onOpenChange, initialSection, initialP
 
     // If on project section with a project selected, save project settings too
     if (activeTopLevel === 'project' && selectedProject && projectSettingsHook) {
-      await projectSettingsHook.handleSave(() => {});
+      await projectSettingsHook.handleSave(() => { });
       // Check for project errors
       if (projectSettingsHook.error || projectSettingsHook.envError) {
         setProjectError(projectSettingsHook.error || projectSettingsHook.envError);
@@ -192,6 +195,8 @@ export function AppSettingsDialog({ open, onOpenChange, initialSection, initialP
         return <DevToolsSettings settings={settings} onSettingsChange={setSettings} />;
       case 'terminal-fonts':
         return <TerminalFontSettings />;
+      case 'prompts':
+        return <PromptSettings />;
       case 'agent':
         return <GeneralSettings settings={settings} onSettingsChange={setSettings} section="agent" />;
       case 'paths':

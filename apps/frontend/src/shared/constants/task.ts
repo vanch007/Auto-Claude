@@ -64,13 +64,13 @@ export const SUBTASK_STATUS_COLORS: Record<string, string> = {
 
 // Execution phase labels
 export const EXECUTION_PHASE_LABELS: Record<string, string> = {
-  idle: 'Idle',
-  planning: 'Planning',
-  coding: 'Coding',
-  qa_review: 'AI Review',
-  qa_fixing: 'Fixing Issues',
-  complete: 'Complete',
-  failed: 'Failed'
+  idle: 'execution.phases.idle',
+  planning: 'execution.phases.planning',
+  coding: 'execution.phases.coding',
+  qa_review: 'execution.phases.reviewing',
+  qa_fixing: 'execution.phases.fixing',
+  complete: 'execution.phases.complete',
+  failed: 'execution.phases.failed'
 };
 
 // Execution phase colors (for progress bars and indicators)
@@ -111,15 +111,15 @@ export const EXECUTION_PHASE_WEIGHTS: Record<string, { start: number; end: numbe
 // ============================================
 
 export const TASK_CATEGORY_LABELS: Record<string, string> = {
-  feature: 'Feature',
-  bug_fix: 'Bug Fix',
-  refactoring: 'Refactoring',
-  documentation: 'Docs',
-  security: 'Security',
-  performance: 'Performance',
-  ui_ux: 'UI/UX',
-  infrastructure: 'Infrastructure',
-  testing: 'Testing'
+  feature: 'form.classification.values.category.feature',
+  bug_fix: 'form.classification.values.category.bug_fix',
+  refactoring: 'form.classification.values.category.refactoring',
+  documentation: 'form.classification.values.category.documentation',
+  security: 'form.classification.values.category.security',
+  performance: 'form.classification.values.category.performance',
+  ui_ux: 'form.classification.values.category.ui_ux',
+  infrastructure: 'form.classification.values.category.infrastructure',
+  testing: 'form.classification.values.category.testing'
 };
 
 export const TASK_CATEGORY_COLORS: Record<string, string> = {
@@ -139,11 +139,11 @@ export const TASK_CATEGORY_COLORS: Record<string, string> = {
 // ============================================
 
 export const TASK_COMPLEXITY_LABELS: Record<string, string> = {
-  trivial: 'Trivial',
-  small: 'Small',
-  medium: 'Medium',
-  large: 'Large',
-  complex: 'Complex'
+  trivial: 'form.classification.values.complexity.trivial',
+  small: 'form.classification.values.complexity.small',
+  medium: 'form.classification.values.complexity.medium',
+  large: 'form.classification.values.complexity.large',
+  complex: 'form.classification.values.complexity.complex'
 };
 
 export const TASK_COMPLEXITY_COLORS: Record<string, string> = {
@@ -159,10 +159,10 @@ export const TASK_COMPLEXITY_COLORS: Record<string, string> = {
 // ============================================
 
 export const TASK_IMPACT_LABELS: Record<string, string> = {
-  low: 'Low Impact',
-  medium: 'Medium Impact',
-  high: 'High Impact',
-  critical: 'Critical Impact'
+  low: 'form.classification.values.impact.low',
+  medium: 'form.classification.values.impact.medium',
+  high: 'form.classification.values.impact.high',
+  critical: 'form.classification.values.impact.critical'
 };
 
 export const TASK_IMPACT_COLORS: Record<string, string> = {
@@ -177,10 +177,10 @@ export const TASK_IMPACT_COLORS: Record<string, string> = {
 // ============================================
 
 export const TASK_PRIORITY_LABELS: Record<string, string> = {
-  low: 'Low',
-  medium: 'Medium',
-  high: 'High',
-  urgent: 'Urgent'
+  low: 'form.classification.values.priority.low',
+  medium: 'form.classification.values.priority.medium',
+  high: 'form.classification.values.priority.high',
+  urgent: 'form.classification.values.priority.urgent'
 };
 
 export const TASK_PRIORITY_COLORS: Record<string, string> = {

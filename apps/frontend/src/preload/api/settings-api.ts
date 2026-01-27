@@ -8,10 +8,22 @@ import type {
   ToolDetectionResult
 } from '../../shared/types';
 
+export interface CustomPrompts {
+  systemPromptExtension: string;
+  coderPromptExtension: string;
+  plannerPromptExtension: string;
+  qaPromptExtension: string;
+  enabled: boolean;
+}
+
 export interface SettingsAPI {
   // App Settings
   getSettings: () => Promise<IPCResult<AppSettings>>;
   saveSettings: (settings: Partial<AppSettings>) => Promise<IPCResult>;
+
+  // Custom Prompts
+  loadCustomPrompts: () => Promise<CustomPrompts>;
+  saveCustomPrompts: (prompts: CustomPrompts) => Promise<{ success: boolean; error?: string }>;
 
   // CLI Tools Detection
   getCliToolsInfo: () => Promise<IPCResult<{
@@ -45,6 +57,13 @@ export const createSettingsAPI = (): SettingsAPI => ({
 
   saveSettings: (settings: Partial<AppSettings>): Promise<IPCResult> =>
     ipcRenderer.invoke(IPC_CHANNELS.SETTINGS_SAVE, settings),
+
+  // Custom Prompts
+  loadCustomPrompts: (): Promise<CustomPrompts> =>
+    ipcRenderer.invoke('CUSTOM_PROMPTS_LOAD'),
+
+  saveCustomPrompts: (prompts: CustomPrompts): Promise<{ success: boolean; error?: string }> =>
+    ipcRenderer.invoke('CUSTOM_PROMPTS_SAVE', prompts),
 
   // CLI Tools Detection
   getCliToolsInfo: (): Promise<IPCResult<{

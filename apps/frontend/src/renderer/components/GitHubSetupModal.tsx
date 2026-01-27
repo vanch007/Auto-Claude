@@ -426,10 +426,10 @@ export function GitHubSetupModal({
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
                 <Github className="h-5 w-5" />
-                Confirm Repository
+                {t('githubSetup.confirmTitle')}
               </DialogTitle>
               <DialogDescription>
-                We detected a GitHub repository for this project. Please confirm or change it.
+                {t('githubSetup.confirmDescription')}
               </DialogDescription>
             </DialogHeader>
 
@@ -438,7 +438,7 @@ export function GitHubSetupModal({
                 <div className="flex items-center gap-3">
                   <CheckCircle2 className="h-6 w-6 text-green-500" />
                   <div>
-                    <p className="font-medium">Repository Detected</p>
+                    <p className="font-medium">{t('githubSetup.repoDetected')}</p>
                     <p className="text-sm text-muted-foreground font-mono">
                       {detectedRepo}
                     </p>
@@ -459,11 +459,11 @@ export function GitHubSetupModal({
 
             <DialogFooter>
               <Button variant="outline" onClick={handleChangeRepo}>
-                Use Different Repository
+                {t('githubSetup.useDifferentRepo')}
               </Button>
               <Button onClick={handleConfirmRepo}>
                 <CheckCircle2 className="mr-2 h-4 w-4" />
-                Confirm & Continue
+                {t('githubSetup.confirmAndContinue')}
               </Button>
             </DialogFooter>
           </>
@@ -475,10 +475,10 @@ export function GitHubSetupModal({
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
                 <Github className="h-5 w-5" />
-                Connect to GitHub
+                {t('githubSetup.connectTitle')}
               </DialogTitle>
               <DialogDescription>
-                Your project needs a GitHub repository. Create a new one or link to an existing repository.
+                {t('githubSetup.connectDescription')}
               </DialogDescription>
             </DialogHeader>
 
@@ -492,9 +492,9 @@ export function GitHubSetupModal({
                     aria-label={t('githubSetup.createRepoAriaLabel')}
                   >
                     <Plus className="h-8 w-8 text-muted-foreground" />
-                    <span className="text-sm font-medium">Create New Repo</span>
+                    <span className="text-sm font-medium">{t('githubSetup.createNew')}</span>
                     <span className="text-xs text-muted-foreground text-center">
-                      Create a new repository on GitHub
+                      {t('githubSetup.createNewDesc')}
                     </span>
                   </button>
                   <button
@@ -503,9 +503,9 @@ export function GitHubSetupModal({
                     aria-label={t('githubSetup.linkRepoAriaLabel')}
                   >
                     <Link className="h-8 w-8 text-muted-foreground" />
-                    <span className="text-sm font-medium">Link Existing</span>
+                    <span className="text-sm font-medium">{t('githubSetup.linkExisting')}</span>
                     <span className="text-xs text-muted-foreground text-center">
-                      Connect to an existing repository
+                      {t('githubSetup.linkExistingDesc')}
                     </span>
                   </button>
                 </div>
@@ -520,18 +520,18 @@ export function GitHubSetupModal({
                       className="text-primary hover:underline"
                       aria-label={t('githubSetup.goBackAriaLabel')}
                     >
-                      ← Back
+                      {t('common:buttons.back')}
                     </button>
-                    <span>Create a new repository</span>
+                    <span>{t('githubSetup.createNewTitle')}</span>
                   </div>
 
                   {/* Owner selection */}
                   <div className="space-y-2">
-                    <Label>Owner</Label>
+                    <Label>{t('githubSetup.owner')}</Label>
                     {isLoadingOrgs ? (
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Loader2 className="h-4 w-4 animate-spin" />
-                        Loading accounts...
+                        {t('common:labels.loading')}
                       </div>
                     ) : (
                       <div className="flex flex-wrap gap-2" role="radiogroup" aria-label={t('common:accessibility.repositoryOwnerAriaLabel')}>
@@ -539,11 +539,10 @@ export function GitHubSetupModal({
                         {githubUsername && (
                           <button
                             onClick={() => setSelectedOwner(githubUsername)}
-                            className={`flex items-center gap-2 px-3 py-2 rounded-md border ${
-                              selectedOwner === githubUsername
-                                ? 'border-primary bg-primary/10 text-primary'
-                                : 'border-muted hover:border-primary/50'
-                            }`}
+                            className={`flex items-center gap-2 px-3 py-2 rounded-md border ${selectedOwner === githubUsername
+                              ? 'border-primary bg-primary/10 text-primary'
+                              : 'border-muted hover:border-primary/50'
+                              }`}
                             disabled={isCreatingRepo}
                             role="radio"
                             aria-checked={selectedOwner === githubUsername}
@@ -558,11 +557,10 @@ export function GitHubSetupModal({
                           <button
                             key={org.login}
                             onClick={() => setSelectedOwner(org.login)}
-                            className={`flex items-center gap-2 px-3 py-2 rounded-md border ${
-                              selectedOwner === org.login
-                                ? 'border-primary bg-primary/10 text-primary'
-                                : 'border-muted hover:border-primary/50'
-                            }`}
+                            className={`flex items-center gap-2 px-3 py-2 rounded-md border ${selectedOwner === org.login
+                              ? 'border-primary bg-primary/10 text-primary'
+                              : 'border-muted hover:border-primary/50'
+                              }`}
                             disabled={isCreatingRepo}
                             role="radio"
                             aria-checked={selectedOwner === org.login}
@@ -576,13 +574,13 @@ export function GitHubSetupModal({
                     )}
                     {organizations.length > 0 && (
                       <p className="text-xs text-muted-foreground">
-                        Select your personal account or an organization
+                        {t('githubSetup.selectOwnerHelp')}
                       </p>
                     )}
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="repo-name">Repository Name</Label>
+                    <Label htmlFor="repo-name">{t('githubSetup.repoName')}</Label>
                     <div className="flex items-center gap-2">
                       <span className="text-sm text-muted-foreground">
                         {selectedOwner || '...'} /
@@ -599,37 +597,35 @@ export function GitHubSetupModal({
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Visibility</Label>
+                    <Label>{t('githubSetup.visibility')}</Label>
                     <div className="flex gap-2" role="radiogroup" aria-label={t('common:accessibility.repositoryVisibilityAriaLabel')}>
                       <button
                         onClick={() => setIsPrivateRepo(true)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-md border ${
-                          isPrivateRepo
-                            ? 'border-primary bg-primary/10 text-primary'
-                            : 'border-muted hover:border-primary/50'
-                        }`}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-md border ${isPrivateRepo
+                          ? 'border-primary bg-primary/10 text-primary'
+                          : 'border-muted hover:border-primary/50'
+                          }`}
                         disabled={isCreatingRepo}
                         role="radio"
                         aria-checked={isPrivateRepo}
                         aria-label={t('githubSetup.selectVisibilityAriaLabel', { visibility: 'private' })}
                       >
                         <Lock className="h-4 w-4" />
-                        <span className="text-sm">Private</span>
+                        <span className="text-sm">{t('githubSetup.private')}</span>
                       </button>
                       <button
                         onClick={() => setIsPrivateRepo(false)}
-                        className={`flex items-center gap-2 px-3 py-2 rounded-md border ${
-                          !isPrivateRepo
-                            ? 'border-primary bg-primary/10 text-primary'
-                            : 'border-muted hover:border-primary/50'
-                        }`}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-md border ${!isPrivateRepo
+                          ? 'border-primary bg-primary/10 text-primary'
+                          : 'border-muted hover:border-primary/50'
+                          }`}
                         disabled={isCreatingRepo}
                         role="radio"
                         aria-checked={!isPrivateRepo}
                         aria-label={t('githubSetup.selectVisibilityAriaLabel', { visibility: 'public' })}
                       >
                         <Globe className="h-4 w-4" />
-                        <span className="text-sm">Public</span>
+                        <span className="text-sm">{t('githubSetup.public')}</span>
                       </button>
                     </div>
                   </div>
@@ -645,13 +641,13 @@ export function GitHubSetupModal({
                       className="text-primary hover:underline"
                       aria-label={t('githubSetup.goBackAriaLabel')}
                     >
-                      ← Back
+                      {t('common:buttons.back')}
                     </button>
-                    <span>Link to existing repository</span>
+                    <span>{t('githubSetup.linkExistingTitle')}</span>
                   </div>
 
                   <div className="space-y-2">
-                    <Label htmlFor="existing-repo">Repository</Label>
+                    <Label htmlFor="existing-repo">{t('githubSetup.repositoryLabel')}</Label>
                     <Input
                       id="existing-repo"
                       value={existingRepoName}
@@ -676,7 +672,7 @@ export function GitHubSetupModal({
             <DialogFooter>
               {onSkip && (
                 <Button variant="outline" onClick={onSkip} disabled={isCreatingRepo}>
-                  Skip for now
+                  {t('common:buttons.skip')}
                 </Button>
               )}
               {repoAction === 'create' && (
@@ -684,12 +680,12 @@ export function GitHubSetupModal({
                   {isCreatingRepo ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Creating...
+                      {t('common:labels.creating')}
                     </>
                   ) : (
                     <>
                       <Plus className="mr-2 h-4 w-4" />
-                      Create Repository
+                      {t('common:buttons.create')}
                     </>
                   )}
                 </Button>
@@ -699,7 +695,7 @@ export function GitHubSetupModal({
                   {isCreatingRepo ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Linking...
+                      Link...
                     </>
                   ) : (
                     <>
@@ -734,7 +730,7 @@ export function GitHubSetupModal({
                 Select Base Branch
               </DialogTitle>
               <DialogDescription>
-                Choose which branch Auto Claude should use as the base for creating task branches.
+                {t('githubSetup.branchDescription')}
               </DialogDescription>
             </DialogHeader>
 
@@ -743,7 +739,7 @@ export function GitHubSetupModal({
               {detectedRepo && (
                 <div className="flex items-center gap-2 text-sm">
                   <Github className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-muted-foreground">Repository:</span>
+                  <span className="text-muted-foreground">{t('githubSetup.repositoryLabel')}</span>
                   <code className="px-2 py-0.5 bg-muted rounded font-mono text-xs">
                     {detectedRepo}
                   </code>
@@ -763,10 +759,10 @@ export function GitHubSetupModal({
                     {isLoadingBranches ? (
                       <div className="flex items-center gap-2">
                         <Loader2 className="h-3 w-3 animate-spin" />
-                        <span>Loading branches...</span>
+                        <span>{t('common:labels.loading')}</span>
                       </div>
                     ) : (
-                      <SelectValue placeholder="Select a branch" />
+                      <SelectValue placeholder={t('githubSetup.selectBranch')} />
                     )}
                   </SelectTrigger>
                   <SelectContent>
@@ -777,7 +773,7 @@ export function GitHubSetupModal({
                           {branch === recommendedBranch && (
                             <span className="flex items-center gap-1 text-xs text-success">
                               <Sparkles className="h-3 w-3" />
-                              Recommended
+                              {t('githubSetup.recommended')}
                             </span>
                           )}
                         </div>
@@ -859,8 +855,8 @@ export function GitHubSetupModal({
   // Progress indicator
   const renderProgress = () => {
     const steps: { label: string }[] = [
-      { label: 'Authenticate' },
-      { label: 'Configure' },
+      { label: t('common:steps.authenticate') },
+      { label: t('common:steps.configure') },
     ];
 
     // Don't show progress on complete step
@@ -871,22 +867,21 @@ export function GitHubSetupModal({
     // Config steps (branch) = 1
     const currentIndex =
       step === 'github-auth' ? 0 :
-      step === 'claude-auth' ? 0 :
-      step === 'repo' ? 0 :
-      1;
+        step === 'claude-auth' ? 0 :
+          step === 'repo' ? 0 :
+            1;
 
     return (
       <div className="flex items-center justify-center gap-2 mb-4">
         {steps.map((s, index) => (
           <div key={index} className="flex items-center">
             <div
-              className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-medium ${
-                index < currentIndex
-                  ? 'bg-success text-success-foreground'
-                  : index === currentIndex
+              className={`flex items-center justify-center w-6 h-6 rounded-full text-xs font-medium ${index < currentIndex
+                ? 'bg-success text-success-foreground'
+                : index === currentIndex
                   ? 'bg-primary text-primary-foreground'
                   : 'bg-muted text-muted-foreground'
-              }`}
+                }`}
             >
               {index < currentIndex ? (
                 <CheckCircle2 className="h-4 w-4" />
@@ -894,9 +889,8 @@ export function GitHubSetupModal({
                 index + 1
               )}
             </div>
-            <span className={`ml-2 text-xs ${
-              index === currentIndex ? 'text-foreground font-medium' : 'text-muted-foreground'
-            }`}>
+            <span className={`ml-2 text-xs ${index === currentIndex ? 'text-foreground font-medium' : 'text-muted-foreground'
+              }`}>
               {s.label}
             </span>
             {index < steps.length - 1 && (

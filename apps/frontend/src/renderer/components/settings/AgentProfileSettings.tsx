@@ -116,7 +116,8 @@ export function AgentProfileSettings() {
    */
   const getModelLabel = (modelValue: string): string => {
     const model = AVAILABLE_MODELS.find((m) => m.value === modelValue);
-    return model?.label || modelValue;
+    // Use translation key if available, otherwise fallback to value
+    return model?.label ? t(model.label) : modelValue;
   };
 
   /**
@@ -124,7 +125,8 @@ export function AgentProfileSettings() {
    */
   const getThinkingLabel = (thinkingValue: string): string => {
     const level = THINKING_LEVELS.find((l) => l.value === thinkingValue);
-    return level?.label || thinkingValue;
+    // Use translation key if available, otherwise fallback to value
+    return level?.label ? t(level.label) : thinkingValue;
   };
 
   /**
@@ -172,7 +174,7 @@ export function AgentProfileSettings() {
 
           <div className="flex-1 min-w-0 pr-6">
             <div className="flex items-center gap-2">
-              <h3 className="font-medium text-sm text-foreground">{profile.name}</h3>
+              <h3 className="font-medium text-sm text-foreground">{t(profile.name)}</h3>
               {isCustomized && (
                 <span className="inline-flex items-center rounded bg-amber-500/10 px-1.5 py-0.5 text-[9px] font-medium text-amber-600 dark:text-amber-400">
                   {t('agentProfile.customized')}
@@ -180,7 +182,7 @@ export function AgentProfileSettings() {
               )}
             </div>
             <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">
-              {profile.description}
+              {t(profile.description)}
             </p>
 
             {/* Model and thinking level badges */}
@@ -281,7 +283,7 @@ export function AgentProfileSettings() {
                           <SelectContent>
                             {AVAILABLE_MODELS.map((m) => (
                               <SelectItem key={m.value} value={m.value}>
-                                {m.label}
+                                {t(m.label)}
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -300,7 +302,7 @@ export function AgentProfileSettings() {
                           <SelectContent>
                             {THINKING_LEVELS.map((level) => (
                               <SelectItem key={level.value} value={level.value}>
-                                {level.label}
+                                {t(level.label)}
                               </SelectItem>
                             ))}
                           </SelectContent>

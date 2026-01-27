@@ -65,9 +65,10 @@ import type { ModelTypeShort, ThinkingLevel } from '../../shared/types/settings'
 
 // Agent configuration data - mirrors AGENT_CONFIGS from backend
 // Model and thinking are now dynamically read from user settings
+// Labels and descriptions use i18n keys for localization
 interface AgentConfig {
-  label: string;
-  description: string;
+  labelKey: string;
+  descriptionKey: string;
   category: string;
   tools: string[];
   mcp_servers: string[];
@@ -91,56 +92,56 @@ function getThinkingLabel(level: ThinkingLevel): string {
 const AGENT_CONFIGS: Record<string, AgentConfig> = {
   // Spec Creation Phases - all use 'spec' phase settings
   spec_gatherer: {
-    label: 'Spec Gatherer',
-    description: 'Collects initial requirements from user',
+    labelKey: 'agents.spec_gatherer.label',
+    descriptionKey: 'agents.spec_gatherer.description',
     category: 'spec',
     tools: ['Read', 'Glob', 'Grep', 'WebFetch', 'WebSearch'],
     mcp_servers: [],
     settingsSource: { type: 'phase', phase: 'spec' },
   },
   spec_researcher: {
-    label: 'Spec Researcher',
-    description: 'Validates external integrations and APIs',
+    labelKey: 'agents.spec_researcher.label',
+    descriptionKey: 'agents.spec_researcher.description',
     category: 'spec',
     tools: ['Read', 'Glob', 'Grep', 'WebFetch', 'WebSearch'],
     mcp_servers: ['context7'],
     settingsSource: { type: 'phase', phase: 'spec' },
   },
   spec_writer: {
-    label: 'Spec Writer',
-    description: 'Creates the spec.md document',
+    labelKey: 'agents.spec_writer.label',
+    descriptionKey: 'agents.spec_writer.description',
     category: 'spec',
     tools: ['Read', 'Glob', 'Grep', 'Write', 'Edit', 'Bash'],
     mcp_servers: [],
     settingsSource: { type: 'phase', phase: 'spec' },
   },
   spec_critic: {
-    label: 'Spec Critic',
-    description: 'Self-critique using deep analysis',
+    labelKey: 'agents.spec_critic.label',
+    descriptionKey: 'agents.spec_critic.description',
     category: 'spec',
     tools: ['Read', 'Glob', 'Grep'],
     mcp_servers: [],
     settingsSource: { type: 'phase', phase: 'spec' },
   },
   spec_discovery: {
-    label: 'Spec Discovery',
-    description: 'Initial project discovery and analysis',
+    labelKey: 'agents.spec_discovery.label',
+    descriptionKey: 'agents.spec_discovery.description',
     category: 'spec',
     tools: ['Read', 'Glob', 'Grep', 'WebFetch', 'WebSearch'],
     mcp_servers: [],
     settingsSource: { type: 'phase', phase: 'spec' },
   },
   spec_context: {
-    label: 'Spec Context',
-    description: 'Builds context from existing codebase',
+    labelKey: 'agents.spec_context.label',
+    descriptionKey: 'agents.spec_context.description',
     category: 'spec',
     tools: ['Read', 'Glob', 'Grep'],
     mcp_servers: [],
     settingsSource: { type: 'phase', phase: 'spec' },
   },
   spec_validation: {
-    label: 'Spec Validation',
-    description: 'Validates spec completeness and quality',
+    labelKey: 'agents.spec_validation.label',
+    descriptionKey: 'agents.spec_validation.description',
     category: 'spec',
     tools: ['Read', 'Glob', 'Grep'],
     mcp_servers: [],
@@ -149,8 +150,8 @@ const AGENT_CONFIGS: Record<string, AgentConfig> = {
 
   // Build Phases
   planner: {
-    label: 'Planner',
-    description: 'Creates implementation plan with subtasks',
+    labelKey: 'agents.planner.label',
+    descriptionKey: 'agents.planner.description',
     category: 'build',
     tools: ['Read', 'Glob', 'Grep', 'Write', 'Edit', 'Bash', 'WebFetch', 'WebSearch'],
     mcp_servers: ['context7', 'graphiti-memory', 'auto-claude'],
@@ -158,8 +159,8 @@ const AGENT_CONFIGS: Record<string, AgentConfig> = {
     settingsSource: { type: 'phase', phase: 'planning' },
   },
   coder: {
-    label: 'Coder',
-    description: 'Implements individual subtasks',
+    labelKey: 'agents.coder.label',
+    descriptionKey: 'agents.coder.description',
     category: 'build',
     tools: ['Read', 'Glob', 'Grep', 'Write', 'Edit', 'Bash', 'WebFetch', 'WebSearch'],
     mcp_servers: ['context7', 'graphiti-memory', 'auto-claude'],
@@ -169,8 +170,8 @@ const AGENT_CONFIGS: Record<string, AgentConfig> = {
 
   // QA Phases
   qa_reviewer: {
-    label: 'QA Reviewer',
-    description: 'Validates acceptance criteria. Uses Electron or Puppeteer based on project type.',
+    labelKey: 'agents.qa_reviewer.label',
+    descriptionKey: 'agents.qa_reviewer.description',
     category: 'qa',
     tools: ['Read', 'Glob', 'Grep', 'Bash', 'WebFetch', 'WebSearch'],
     mcp_servers: ['context7', 'graphiti-memory', 'auto-claude'],
@@ -178,8 +179,8 @@ const AGENT_CONFIGS: Record<string, AgentConfig> = {
     settingsSource: { type: 'phase', phase: 'qa' },
   },
   qa_fixer: {
-    label: 'QA Fixer',
-    description: 'Fixes QA-reported issues. Uses Electron or Puppeteer based on project type.',
+    labelKey: 'agents.qa_fixer.label',
+    descriptionKey: 'agents.qa_fixer.description',
     category: 'qa',
     tools: ['Read', 'Glob', 'Grep', 'Write', 'Edit', 'Bash', 'WebFetch', 'WebSearch'],
     mcp_servers: ['context7', 'graphiti-memory', 'auto-claude'],
@@ -189,40 +190,40 @@ const AGENT_CONFIGS: Record<string, AgentConfig> = {
 
   // Utility Phases - use feature settings
   pr_reviewer: {
-    label: 'PR Reviewer',
-    description: 'Reviews GitHub pull requests',
+    labelKey: 'agents.pr_reviewer.label',
+    descriptionKey: 'agents.pr_reviewer.description',
     category: 'utility',
     tools: ['Read', 'Glob', 'Grep', 'WebFetch', 'WebSearch'],
     mcp_servers: ['context7'],
     settingsSource: { type: 'feature', feature: 'githubPrs' },
   },
   commit_message: {
-    label: 'Commit Message',
-    description: 'Generates commit messages',
+    labelKey: 'agents.commit_message.label',
+    descriptionKey: 'agents.commit_message.description',
     category: 'utility',
     tools: [],
     mcp_servers: [],
     settingsSource: { type: 'feature', feature: 'utility' },
   },
   merge_resolver: {
-    label: 'Merge Resolver',
-    description: 'Resolves merge conflicts',
+    labelKey: 'agents.merge_resolver.label',
+    descriptionKey: 'agents.merge_resolver.description',
     category: 'utility',
     tools: [],
     mcp_servers: [],
     settingsSource: { type: 'feature', feature: 'utility' },
   },
   insights: {
-    label: 'Insights',
-    description: 'Extracts code insights',
+    labelKey: 'agents.insights.label',
+    descriptionKey: 'agents.insights.description',
     category: 'utility',
     tools: ['Read', 'Glob', 'Grep', 'WebFetch', 'WebSearch'],
     mcp_servers: [],
     settingsSource: { type: 'feature', feature: 'insights' },
   },
   analysis: {
-    label: 'Analysis',
-    description: 'Codebase analysis with context lookup',
+    labelKey: 'agents.analysis.label',
+    descriptionKey: 'agents.analysis.description',
     category: 'utility',
     tools: ['Read', 'Glob', 'Grep', 'WebFetch', 'WebSearch'],
     mcp_servers: ['context7'],
@@ -230,8 +231,8 @@ const AGENT_CONFIGS: Record<string, AgentConfig> = {
     settingsSource: { type: 'feature', feature: 'insights' },
   },
   batch_analysis: {
-    label: 'Batch Analysis',
-    description: 'Batch processing of issues or items',
+    labelKey: 'agents.batch_analysis.label',
+    descriptionKey: 'agents.batch_analysis.description',
     category: 'utility',
     tools: ['Read', 'Glob', 'Grep', 'WebFetch', 'WebSearch'],
     mcp_servers: [],
@@ -241,16 +242,16 @@ const AGENT_CONFIGS: Record<string, AgentConfig> = {
 
   // Ideation & Roadmap - use feature settings
   ideation: {
-    label: 'Ideation',
-    description: 'Generates feature ideas',
+    labelKey: 'agents.ideation.label',
+    descriptionKey: 'agents.ideation.description',
     category: 'ideation',
     tools: ['Read', 'Glob', 'Grep', 'WebFetch', 'WebSearch'],
     mcp_servers: [],
     settingsSource: { type: 'feature', feature: 'ideation' },
   },
   roadmap_discovery: {
-    label: 'Roadmap Discovery',
-    description: 'Discovers roadmap items',
+    labelKey: 'agents.roadmap_discovery.label',
+    descriptionKey: 'agents.roadmap_discovery.description',
     category: 'ideation',
     tools: ['Read', 'Glob', 'Grep', 'WebFetch', 'WebSearch'],
     mcp_servers: ['context7'],
@@ -259,16 +260,16 @@ const AGENT_CONFIGS: Record<string, AgentConfig> = {
 };
 
 // MCP Server descriptions - accurate per backend models.py
-const MCP_SERVERS: Record<string, { name: string; description: string; icon: React.ElementType; tools?: string[] }> = {
+const MCP_SERVERS: Record<string, { nameKey: string; descriptionKey: string; icon: React.ElementType; tools?: string[] }> = {
   context7: {
-    name: 'Context7',
-    description: 'Documentation lookup for libraries and frameworks via @upstash/context7-mcp',
+    nameKey: 'mcp.servers.context7.name',
+    descriptionKey: 'mcp.servers.context7.description',
     icon: Search,
     tools: ['mcp__context7__resolve-library-id', 'mcp__context7__get-library-docs'],
   },
   'graphiti-memory': {
-    name: 'Graphiti Memory',
-    description: 'Knowledge graph for cross-session context. Requires GRAPHITI_MCP_URL env var.',
+    nameKey: 'mcp.servers.graphiti.name',
+    descriptionKey: 'mcp.servers.graphiti.description',
     icon: Brain,
     tools: [
       'mcp__graphiti-memory__search_nodes',
@@ -279,8 +280,8 @@ const MCP_SERVERS: Record<string, { name: string; description: string; icon: Rea
     ],
   },
   'auto-claude': {
-    name: 'Auto-Claude Tools',
-    description: 'Build progress tracking, session context, discoveries & gotchas recording',
+    nameKey: 'mcp.servers.autoClaude.name',
+    descriptionKey: 'mcp.servers.autoClaude.description',
     icon: ListChecks,
     tools: [
       'mcp__auto-claude__update_subtask_status',
@@ -292,8 +293,8 @@ const MCP_SERVERS: Record<string, { name: string; description: string; icon: Rea
     ],
   },
   linear: {
-    name: 'Linear',
-    description: 'Project management via Linear API. Requires LINEAR_API_KEY env var.',
+    nameKey: 'mcp.servers.linear.name',
+    descriptionKey: 'mcp.servers.linear.description',
     icon: ClipboardList,
     tools: [
       'mcp__linear-server__list_teams',
@@ -305,8 +306,8 @@ const MCP_SERVERS: Record<string, { name: string; description: string; icon: Rea
     ],
   },
   electron: {
-    name: 'Electron MCP',
-    description: 'Desktop app automation via Chrome DevTools Protocol. Requires ELECTRON_MCP_ENABLED=true.',
+    nameKey: 'mcp.servers.electron.name',
+    descriptionKey: 'mcp.servers.electron.description',
     icon: Monitor,
     tools: [
       'mcp__electron__get_electron_window_info',
@@ -316,8 +317,8 @@ const MCP_SERVERS: Record<string, { name: string; description: string; icon: Rea
     ],
   },
   puppeteer: {
-    name: 'Puppeteer MCP',
-    description: 'Web browser automation for non-Electron web frontends.',
+    nameKey: 'mcp.servers.puppeteer.name',
+    descriptionKey: 'mcp.servers.puppeteer.description',
     icon: Globe,
     tools: [
       'mcp__puppeteer__puppeteer_connect_active_tab',
@@ -344,11 +345,11 @@ const ALL_MCP_SERVERS = [
 
 // Category metadata - neutral styling per design.json
 const CATEGORIES = {
-  spec: { label: 'Spec Creation', icon: FileCheck },
-  build: { label: 'Build', icon: Code },
-  qa: { label: 'QA', icon: CheckCircle2 },
-  utility: { label: 'Utility', icon: Wrench },
-  ideation: { label: 'Ideation', icon: Lightbulb },
+  spec: { labelKey: 'settings:agentProfile.phases.spec.label', icon: FileCheck },
+  build: { labelKey: 'settings:agentProfile.phases.coding.label', icon: Code },
+  qa: { labelKey: 'settings:agentProfile.phases.qa.label', icon: CheckCircle2 },
+  utility: { labelKey: 'settings:sections.agent.title', icon: Wrench },
+  ideation: { labelKey: 'settings:general.featureModelSettings', icon: Lightbulb },
 };
 
 interface AgentCardProps {
@@ -372,7 +373,18 @@ function AgentCard({ id, config, modelLabel, thinkingLabel, overrides, mcpServer
 
   // Build combined MCP server info including custom servers
   const allMcpServers = useMemo(() => {
-    const servers = { ...MCP_SERVERS };
+    const servers: Record<string, { name: string; description: string; icon: React.ElementType }> = {};
+
+    // Add standard servers with localized names
+    for (const [key, server] of Object.entries(MCP_SERVERS)) {
+      servers[key] = {
+        name: t(server.nameKey),
+        description: t(server.descriptionKey),
+        icon: server.icon,
+      };
+    }
+
+    // Add custom servers
     for (const custom of customServers) {
       servers[custom.id] = {
         name: custom.name,
@@ -381,7 +393,7 @@ function AgentCard({ id, config, modelLabel, thinkingLabel, overrides, mcpServer
       };
     }
     return servers;
-  }, [customServers]);
+  }, [customServers, t]);
 
   // Calculate effective MCPs: defaults + adds - removes, then filter by project-level MCP states
   const effectiveMcps = useMemo(() => {
@@ -438,7 +450,7 @@ function AgentCard({ id, config, modelLabel, thinkingLabel, overrides, mcpServer
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
-            <h3 className="font-medium text-sm text-foreground">{config.label}</h3>
+            <h3 className="font-medium text-sm text-foreground">{t(config.labelKey)}</h3>
             <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-secondary text-secondary-foreground">
               {modelLabel}
             </span>
@@ -446,7 +458,7 @@ function AgentCard({ id, config, modelLabel, thinkingLabel, overrides, mcpServer
               {thinkingLabel}
             </span>
           </div>
-          <p className="text-xs text-muted-foreground truncate">{config.description}</p>
+          <p className="text-xs text-muted-foreground truncate">{t(config.descriptionKey)}</p>
         </div>
         <div className="flex items-center gap-2 text-muted-foreground">
           <span className="text-xs">
@@ -574,7 +586,7 @@ function AgentCard({ id, config, modelLabel, thinkingLabel, overrides, mcpServer
       <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>{t('mcp.addMcpTo', { agent: config.label })}</DialogTitle>
+            <DialogTitle>{t('mcp.addMcpTo', { agent: t(config.labelKey) })}</DialogTitle>
             <DialogDescription>{t('mcp.addMcpDescription')}</DialogDescription>
           </DialogHeader>
           <div className="space-y-2 py-4">
@@ -1332,7 +1344,7 @@ export function AgentTools() {
                   )}
                   <CategoryIcon className="h-4 w-4 text-muted-foreground" />
                   <h2 className="text-sm font-semibold text-foreground">
-                    {category.label}
+                    {t(category.labelKey)}
                   </h2>
                   <span className="text-xs text-muted-foreground">
                     ({agents.length} agents)

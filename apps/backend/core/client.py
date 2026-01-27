@@ -39,6 +39,97 @@ _CACHE_TTL_SECONDS = 300  # 5 minute TTL
 _CACHE_LOCK = threading.Lock()  # Protects _PROJECT_INDEX_CACHE access
 
 
+def _get_ai_response_language() -> str:
+    """
+    Get AI response language setting from Auto-Claude settings.json or environment variable.
+
+    Priority:
+    1. AI_RESPONSE_LANGUAGE environment variable (for explicit override)
+    2. 'language' field from Auto-Claude settings.json (follows UI language)
+    3. Default to 'en'
+
+    The settings.json file is stored in:
+    - Windows: %APPDATA%/auto-claude/settings.json
+    - macOS: ~/Library/Application Support/auto-claude/settings.json
+    - Linux: ~/.config/auto-claude/settings.json
+
+    Returns:
+        Language code (e.g., 'en', 'zh-CN')
+    """
+    import sys
+
+    # First check environment variable for explicit override
+    env_lang = os.environ.get("AI_RESPONSE_LANGUAGE")
+    if env_lang:
+        return env_lang
+
+    # Try to read from settings.json
+    try:
+        if sys.platform == "win32":
+            # Windows: Use APPDATA
+            appdata = os.environ.get("APPDATA", "")
+            if appdata:
+                settings_path = Path(appdata) / "auto-claude" / "settings.json"
+            else:
+                return "en"
+        elif sys.platform == "darwin":
+            # macOS: Use ~/Library/Application Support
+            home = Path.home()
+            settings_path = home / "Library" / "Application Support" / "auto-claude" / "settings.json"
+        else:
+            # Linux: Use ~/.config
+            home = Path.home()
+            xdg_config = os.environ.get("XDG_CONFIG_HOME", str(home / ".config"))
+            settings_path = Path(xdg_config) / "auto-claude" / "settings.json"
+
+        if settings_path.exists():
+            with open(settings_path, "r", encoding="utf-8") as f:
+                settings = json.load(f)
+                return settings.get("language", "en")
+    except Exception as e:
+        logger.debug(f"Could not read language from settings.json: {e}")
+
+    return "en"
+
+
+def _load_custom_prompts() -> dict[str, Any]:
+    """
+    Load custom prompts from Auto-Claude custom-prompts.json file.
+
+    The custom-prompts.json file is stored in the same directory as settings.json:
+    - Windows: %APPDATA%/auto-claude/custom-prompts.json
+    - macOS: ~/Library/Application Support/auto-claude/custom-prompts.json
+    - Linux: ~/.config/auto-claude/custom-prompts.json
+
+    Returns:
+        Dict with custom prompt settings, or empty dict if not found.
+    """
+    import sys
+
+    try:
+        if sys.platform == "win32":
+            appdata = os.environ.get("APPDATA", "")
+            if appdata:
+                prompts_path = Path(appdata) / "auto-claude" / "custom-prompts.json"
+            else:
+                return {}
+        elif sys.platform == "darwin":
+            home = Path.home()
+            prompts_path = home / "Library" / "Application Support" / "auto-claude" / "custom-prompts.json"
+        else:
+            home = Path.home()
+            xdg_config = os.environ.get("XDG_CONFIG_HOME", str(home / ".config"))
+            prompts_path = Path(xdg_config) / "auto-claude" / "custom-prompts.json"
+
+        if prompts_path.exists():
+            with open(prompts_path, "r", encoding="utf-8") as f:
+                return json.load(f)
+    except Exception as e:
+        logger.debug(f"Could not read custom prompts: {e}")
+
+    return {}
+
+
 def _get_cached_project_data(
     project_dir: Path,
 ) -> tuple[dict[str, Any], dict[str, bool]]:
@@ -783,6 +874,17 @@ def create_client(
         f"and build-progress.txt updates."
     )
 
+    # Add language instruction based on frontend settings or environment variable
+    # Reads from the Auto-Claude settings.json file to respect UI language setting
+    ai_response_language = _get_ai_response_language()
+    if ai_response_language == "zh-CN":
+        base_prompt = (
+            f"{base_prompt}\n\n"
+            f"IMPORTANT: You MUST respond in Simplified Chinese (简体中文). "
+            f"All your explanations, comments, and communications should be in Chinese. "
+            f"Code itself should remain in English (variable names, etc.), but all natural language output must be in Chinese."
+        )
+
     # Include CLAUDE.md if enabled and present
     if should_use_claude_md():
         claude_md_content = load_claude_md(project_dir)
@@ -793,6 +895,18 @@ def create_client(
             print("   - CLAUDE.md: not found in project root")
     else:
         print("   - CLAUDE.md: disabled by project settings")
+
+    # Include custom prompts if enabled
+    custom_prompts = _load_custom_prompts()
+    if custom_prompts.get("enabled", False):
+        system_extension = custom_prompts.get("systemPromptExtension", "")
+        if system_extension:
+            base_prompt = f"{base_prompt}\n\n# Custom Instructions\n\n{system_extension}"
+            print("   - Custom prompts: included in system prompt")
+        else:
+            print("   - Custom prompts: enabled but empty")
+    else:
+        print("   - Custom prompts: disabled")
     print()
 
     # Build options dict, conditionally including output_format

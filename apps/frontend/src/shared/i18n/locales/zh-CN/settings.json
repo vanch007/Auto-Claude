@@ -1,0 +1,1262 @@
+{
+  "agents": {
+    "spec_gatherer": {
+      "label": "需求收集器",
+      "description": "收集用户的初步需求"
+    },
+    "spec_researcher": {
+      "label": "需求研究器",
+      "description": "验证外部集成和 API"
+    },
+    "spec_writer": {
+      "label": "需求编写器",
+      "description": "创建 spec.md 文档"
+    },
+    "spec_critic": {
+      "label": "需求评审员",
+      "description": "通过深度分析进行自我评审"
+    },
+    "spec_discovery": {
+      "label": "需求发现器",
+      "description": "初步的项目发现与分析"
+    },
+    "spec_context": {
+      "label": "需求上下文",
+      "description": "从现有代码库构建上下文"
+    },
+    "spec_validation": {
+      "label": "需求验证器",
+      "description": "验证需求的完整性和质量"
+    },
+    "planner": {
+      "label": "规划器",
+      "description": "创建包含子任务的实施计划"
+    },
+    "coder": {
+      "label": "编码器",
+      "description": "执行具体的子任务"
+    },
+    "qa_reviewer": {
+      "label": "QA 评审员",
+      "description": "验证验收标准"
+    },
+    "qa_fixer": {
+      "label": "QA 修复员",
+      "description": "修复 QA 报告的问题"
+    },
+    "pr_reviewer": {
+      "label": "PR 评审员",
+      "description": "评审 GitHub 拉取请求"
+    },
+    "commit_message": {
+      "label": "提交信息",
+      "description": "生成提交信息"
+    },
+    "merge_resolver": {
+      "label": "合并解决器",
+      "description": "解决合并冲突"
+    },
+    "insights": {
+      "label": "洞察器",
+      "description": "提取代码洞察"
+    },
+    "analysis": {
+      "label": "分析器",
+      "description": "通过上下文查找进行代码库分析"
+    },
+    "batch_analysis": {
+      "label": "批量分析员",
+      "description": "批量处理问题或条目"
+    },
+    "ideation": {
+      "label": "构思器",
+      "description": "生成功能创意"
+    },
+    "roadmap_discovery": {
+      "label": "路线图发现员",
+      "description": "发现路线图条目"
+    }
+  },
+  "title": "设置",
+  "tabs": {
+    "app": "应用设置",
+    "project": "项目设置"
+  },
+  "sections": {
+    "appearance": {
+      "title": "外观",
+      "description": "自定义 Auto Claude 的视觉风格"
+    },
+    "display": {
+      "title": "显示",
+      "description": "调整 UI 元素的缩放比例"
+    },
+    "language": {
+      "title": "语言",
+      "description": "选择您偏好的语言"
+    },
+    "devtools": {
+      "title": "开发者工具",
+      "description": "IDE 及终端偏好设置"
+    },
+    "agent": {
+      "title": "Agent 设置",
+      "description": "默认模型与架构配置"
+    },
+    "paths": {
+      "title": "路径",
+      "description": "CLI 工具与框架执行路径"
+    },
+    "accounts": {
+      "title": "账号",
+      "description": "Claude 账号及 API 端点"
+    },
+    "updates": {
+      "title": "更新",
+      "description": "Auto Claude 版本更新"
+    },
+    "notifications": {
+      "title": "通知",
+      "description": "消息提醒偏好"
+    },
+    "debug": {
+      "title": "调试与日志",
+      "description": "故障排除工具"
+    },
+    "terminal-fonts": {
+      "description": "自定义终端字体外观",
+      "title": "终端字体"
+    },
+    "prompts": {
+      "title": "提示词设置",
+      "description": "自定义 AI 系统提示词"
+    }
+  },
+  "prompts": {
+    "enableCustomPrompts": "启用自定义提示词",
+    "enableCustomPromptsDescription": "将自定义提示词应用于 AI 交互",
+    "infoText": "自定义提示词将追加到系统提示词中。使用此功能添加项目特定指令、编码风格偏好或语言要求。",
+    "systemPrompt": "系统提示词扩展",
+    "systemPromptDescription": "此内容将追加到所有 Agent 的基础系统提示词中。",
+    "systemPromptPlaceholder": "示例：始终使用 TypeScript 严格模式。遵循函数式编程模式。添加全面的错误处理。",
+    "agentSpecificPrompts": "Agent 专用提示词（高级）",
+    "coderPrompt": "编码 Agent 扩展",
+    "coderPromptDescription": "编码 Agent 的附加指令。",
+    "coderPromptPlaceholder": "示例：使用 async/await 而非回调。优先使用组合而非继承。",
+    "plannerPrompt": "规划 Agent 扩展",
+    "plannerPromptDescription": "规划 Agent 的附加指令。",
+    "plannerPromptPlaceholder": "示例：将任务分解为更小的子任务。考虑边界情况。",
+    "qaPrompt": "QA Agent 扩展",
+    "qaPromptDescription": "QA 审核 Agent 的附加指令。",
+    "qaPromptPlaceholder": "示例：检查安全漏洞。验证错误处理。",
+    "saved": "已保存",
+    "reset": "重置为默认"
+  },
+  "apiProfiles": {
+    "title": "API 配置",
+    "description": "配置自定义的 Anthropic 兼容 API 端点",
+    "addButton": "添加配置",
+    "presets": {
+      "anthropic": "Anthropic",
+      "openrouter": "OpenRouter",
+      "groq": "Groq",
+      "glmGlobal": "智谱 (国际)",
+      "glmChina": "智谱 (国内)",
+      "zaiChina": "z.AI (中国)",
+      "zaiGlobal": "z.AI (国际)"
+    },
+    "fields": {
+      "name": "名称",
+      "preset": "预设项",
+      "baseUrl": "基础 URL",
+      "apiKey": "API 密钥"
+    },
+    "placeholders": {
+      "name": "我的自定义 API",
+      "preset": "选择提供商预设",
+      "baseUrl": "https://api.anthropic.com",
+      "apiKey": "sk-ant-..."
+    },
+    "hints": {
+      "preset": "预设项会自动填入基础 URL；您仍需手动粘贴 API 密钥。",
+      "baseUrl": "示例：https://api.anthropic.com 或 http://localhost:8080"
+    },
+    "validation": {
+      "nameRequired": "名称必填",
+      "baseUrlRequired": "基础 URL 必填",
+      "baseUrlInvalid": "URL 格式无效（必须以 http:// 或 https:// 开头）",
+      "apiKeyRequired": "API 密钥必填",
+      "apiKeyInvalid": "API 密钥格式无效"
+    },
+    "actions": {
+      "save": "保存配置",
+      "saving": "保存中...",
+      "cancel": "取消",
+      "changeKey": "更改",
+      "cancelKeyChange": "取消"
+    },
+    "testConnection": {
+      "label": "测试连接",
+      "testing": "测试中...",
+      "success": "连接成功",
+      "failure": "连接失败"
+    },
+    "models": {
+      "title": "可选：模型名称映射",
+      "description": "从您的 API 提供商中选择模型。留空则使用默认值。",
+      "defaultLabel": "默认模型 (可选)",
+      "haikuLabel": "Haiku 模型 (可选)",
+      "sonnetLabel": "Sonnet 模型 (可选)",
+      "opusLabel": "Opus 模型 (可选)",
+      "defaultPlaceholder": "如：claude-sonnet-4-5-20250929",
+      "haikuPlaceholder": "如：claude-haiku-4-5-20251001",
+      "sonnetPlaceholder": "如：claude-sonnet-4-5-20250929",
+      "opusPlaceholder": "如：claude-opus-4-5-20251101"
+    },
+    "empty": {
+      "title": "未配置任何 API 资料",
+      "description": "创建一个配置文件，以便为您的构建任务配置自定义 API 端点。",
+      "action": "创建第一个配置"
+    },
+    "switchToOauth": {
+      "label": "切换至 OAuth",
+      "loading": "切换中..."
+    },
+    "activeBadge": "激活",
+    "customModels": "自定义模型：{{models}}",
+    "setActive": {
+      "label": "设为激活",
+      "loading": "设置中..."
+    },
+    "tooltips": {
+      "edit": "编辑配置",
+      "deleteActive": "请先切换至 OAuth 再删除",
+      "deleteInactive": "删除配置"
+    },
+    "deleteAriaLabel": "删除配置 {{name}}",
+    "toast": {
+      "create": {
+        "title": "配置已创建",
+        "description": "\"{{name}}\" 已成功添加。"
+      },
+      "update": {
+        "title": "配置已更新",
+        "description": "\"{{name}}\" 已成功更新。"
+      },
+      "delete": {
+        "title": "配置已删除",
+        "description": "\"{{name}}\" 已移除。",
+        "errorTitle": "删除配置失败",
+        "errorFallback": "删除配置时发生错误。"
+      },
+      "switch": {
+        "oauthTitle": "已切换至 OAuth",
+        "oauthDescription": "现在使用 OAuth 身份验证",
+        "profileTitle": "配置已激活",
+        "profileDescription": "现在使用 {{name}}",
+        "errorTitle": "切换身份验证模式失败",
+        "errorFallback": "切换身份验证方法时发生错误。"
+      }
+    },
+    "dialog": {
+      "createTitle": "添加 API 配置",
+      "editTitle": "编辑配置",
+      "description": "为您的构建任务配置自定义的 Anthropic 兼容 API 端点。",
+      "deleteTitle": "删除配置？",
+      "deleteDescription": "您确定要删除 \"{{name}}\" 吗？此操作无法撤销。",
+      "cancel": "取消",
+      "delete": "删除",
+      "deleting": "删除中..."
+    }
+  },
+  "modelSelect": {
+    "placeholder": "选择模型或手动输入",
+    "placeholderManual": "输入模型名称 (如：claude-sonnet-4-5-20250929)",
+    "searchPlaceholder": "搜索模型...",
+    "noResults": "未找到匹配的模型",
+    "discoveryNotAvailable": "模型自动发现不可用。请手动输入模型名称。"
+  },
+  "language": {
+    "label": "界面语言",
+    "description": "选择应用程序界面的显示语言"
+  },
+  "scale": {
+    "presets": "缩放预设",
+    "presetsDescription": "常用缩放比例快速选择",
+    "fineTune": "微调缩放",
+    "fineTuneDescription": "从 75% 到 200%，以 5% 为增量调整",
+    "default": "默认",
+    "comfortable": "舒适",
+    "large": "大号"
+  },
+  "general": {
+    "otherAgentSettings": "其他 Agent 设置",
+    "otherAgentSettingsDescription": "额外的 Agent 配置选项",
+    "agentFramework": "Agent 框架",
+    "agentFrameworkDescription": "用于自主任务的代码编写框架",
+    "agentFrameworkAutoClaude": "Auto Claude",
+    "aiTerminalNaming": "AI 终端命名",
+    "aiTerminalNamingDescription": "根据命令内容自动为终端命名 (使用 Haiku 模型)",
+    "featureModelSettings": "特性模型设置",
+    "featureModelSettingsDescription": "用于洞察、构思及路线图的模型与思考层级",
+    "model": "模型",
+    "thinkingLevel": "思考层级",
+    "paths": "路径",
+    "pathsDescription": "配置可执行文件和框架的路径",
+    "pythonPath": "Python 路径",
+    "pythonPathDescription": "Python 可执行文件路径 (留空则自动检测)",
+    "pythonPathPlaceholder": "python3 (默认)",
+    "gitPath": "Git 路径",
+    "gitPathDescription": "Git 可执行文件路径 (留空则自动检测)",
+    "gitPathPlaceholder": "git (默认)",
+    "githubCLIPath": "GitHub CLI 路径",
+    "githubCLIPathDescription": "GitHub CLI (gh) 可执行文件路径 (留空则自动检测)",
+    "githubCLIPathPlaceholder": "gh (默认)",
+    "claudePath": "Claude CLI 路径",
+    "claudePathDescription": "Claude CLI 可执行文件路径 (留空则自动检测)",
+    "claudePathPlaceholder": "claude (默认)",
+    "detectedPath": "自动检测到的路径",
+    "detectedVersion": "版本",
+    "detectedSource": "来源",
+    "sourceUserConfig": "用户配置",
+    "sourceVenv": "虚拟环境",
+    "sourceHomebrew": "Homebrew",
+    "sourceNvm": "NVM",
+    "sourceSystemPath": "系统 PATH",
+    "sourceBundled": "内置捆绑",
+    "sourceFallback": "回退方案",
+    "notDetected": "未检测到",
+    "autoClaudePath": "Auto Claude 路径",
+    "autoClaudePathDescription": "项目中 auto-claude 目录的相对路径",
+    "autoClaudePathPlaceholder": "auto-claude (默认)",
+    "autoNameTerminals": "自动为终端命名",
+    "autoNameTerminalsDescription": "使用 AI 根据终端活动生成描述性名称"
+  },
+  "theme": {
+    "title": "外观",
+    "description": "自定义 Auto Claude 的视觉风格",
+    "mode": {
+      "system": "系统",
+      "light": "浅色",
+      "dark": "深色"
+    },
+    "modeDescription": "在浅色和深色主题之间切换",
+    "light": "浅色",
+    "dark": "深色",
+    "system": "跟随系统",
+    "colorTheme": "颜色主题",
+    "colorThemeDescription": "选择您偏好的配色方案",
+    "appearanceMode": "外观模式",
+    "appearanceModeDesc": "选择浅色、深色或跟随系统",
+    "colorThemeDesc": "选择界面的配色方案",
+    "backgroundColor": "背景颜色",
+    "accentColor": "强调色",
+    "themes": {
+      "default": {
+        "name": "默认",
+        "description": "Oscura 风格，淡黄色强调色"
+      },
+      "dusk": {
+        "name": "黄昏",
+        "description": "更温暖的变体，深色模式稍浅"
+      },
+      "lime": {
+        "name": "青柠",
+        "description": "清新活力的青柠色配紫色"
+      },
+      "ocean": {
+        "name": "海洋",
+        "description": "沉稳专业的蓝色调"
+      },
+      "retro": {
+        "name": "复古",
+        "description": "温暖怀旧的琥珀色调"
+      },
+      "neo": {
+        "name": "霓虹",
+        "description": "现代赛博朋克粉红/洋红"
+      },
+      "forest": {
+        "name": "森林",
+        "description": "自然质朴的绿色调"
+      }
+    }
+  },
+  "devtools": {
+    "title": "开发者工具",
+    "description": "配置在处理工作树时偏好的 IDE 和终端",
+    "detecting": "正在检测已安装的工具...",
+    "detectAgain": "重新检测",
+    "ide": {
+      "label": "偏好的 IDE",
+      "description": "Auto Claude 将在此编辑器中打开工作树",
+      "placeholder": "选择 IDE...",
+      "customPath": "自定义 IDE 路径",
+      "customPathPlaceholder": "IDE 执行文件路径"
+    },
+    "terminal": {
+      "label": "偏好的终端",
+      "description": "Auto Claude 将在此开启终端会话",
+      "placeholder": "选择终端...",
+      "customPath": "自定义终端路径",
+      "customPathPlaceholder": "终端执行文件路径"
+    },
+    "detected": "已检测到",
+    "notInstalled": "未安装",
+    "detectedSummary": "系统上检测到：",
+    "noToolsDetected": "未检测到额外工具 (将使用 VS Code 和系统默认终端)",
+    "autoNameClaude": {
+      "label": "自动命名 Claude 终端",
+      "description": "根据您的第一条消息生成 Claude 终端的描述性名称"
+    },
+    "yoloMode": {
+      "label": "YOLO 模式",
+      "description": "带 --dangerously-skip-permissions 标志启动 Claude，绕过所有安全确认。风险极大，请谨慎操作。",
+      "warning": "此模式绕过了 Claude 的权限系统。仅当您完全信任正在执行的代码时才启用。"
+    },
+    "tabTerminalFonts": "终端字体",
+    "tabTools": "工具"
+  },
+  "updates": {
+    "title": "更新",
+    "description": "管理 Auto Claude 的版本更新",
+    "appUpdateReady": "应用更新已就绪",
+    "newVersion": "新版本",
+    "released": "发布日期",
+    "downloading": "正在下载...",
+    "updateDownloaded": "更新已下载！点击安装并重启以应用更新。",
+    "installAndRestart": "安装并重启",
+    "downloadUpdate": "下载更新",
+    "version": "版本",
+    "loading": "加载中...",
+    "checkingForUpdates": "正在检查更新...",
+    "newVersionAvailable": "发现新版本：",
+    "latestVersion": "您正在运行最新版本。",
+    "viewRelease": "在 GitHub 上查看详细说明",
+    "unableToCheck": "无法检查更新",
+    "checkForUpdates": "检查更新",
+    "autoUpdateProjects": "自动更新项目",
+    "autoUpdateProjectsDescription": "有新版本可用时，自动更新项目中的 Auto Claude",
+    "betaUpdates": "测试版更新",
+    "betaUpdatesDescription": "接收包含新功能的测试版本 (可能不稳定)",
+    "stableDowngradeAvailable": "稳定版可用",
+    "stableDowngradeDescription": "您当前使用的是测试版。由于您已关闭测试版更新，可以切换到最新的稳定版本。",
+    "stableVersion": "稳定版本",
+    "downloadStableVersion": "下载稳定版本"
+  },
+  "notifications": {
+    "title": "通知",
+    "description": "配置默认的通知偏好",
+    "onTaskComplete": "任务完成时",
+    "onTaskCompleteDescription": "任务成功完成时发送通知",
+    "onTaskFailed": "任务失败时",
+    "onTaskFailedDescription": "任务由于错误失败时发送通知",
+    "onReviewNeeded": "需要评审时",
+    "onReviewNeededDescription": "QA 需要您的评审时发送通知",
+    "sound": "声音",
+    "soundDescription": "通知时播放声音"
+  },
+  "actions": {
+    "save": "保存设置",
+    "rerunWizard": "重新运行向导",
+    "rerunWizardDescription": "再次启动初始设置向导"
+  },
+  "projectSections": {
+    "general": {
+      "title": "常规",
+      "description": "为 {{project}} 配置 Auto-Build、Agent 模型和通知",
+      "useClaudeMd": "使用 CLAUDE.md",
+      "useClaudeMdDescription": "在 Agent 上下文中包含 CLAUDE.md 指令",
+      "autoBuildIntegration": "自动构建集成",
+      "notInitialized": "未初始化",
+      "initializeDescription": "初始化自动构建以启用任务创建和 Agent 工作流。",
+      "initializing": "正在初始化...",
+      "initializeAutoBuild": "初始化自动构建",
+      "initialized": "已初始化",
+      "checkingStatus": "检查状态...",
+      "agentConfiguration": "Agent 配置",
+      "model": "模型"
+    },
+    "claude": {
+      "title": "Claude 验证",
+      "description": "Claude 身份验证设置"
+    },
+    "linear": {
+      "title": "Linear",
+      "description": "Linear 集成",
+      "integrationTitle": "Linear 集成",
+      "integrationDescription": "连接到 Linear 以进行问题跟踪和任务导入",
+      "syncDescription": "与 Linear 同步问题跟踪"
+    },
+    "github": {
+      "title": "GitHub",
+      "description": "GitHub Issues 同步",
+      "integrationTitle": "GitHub 集成",
+      "integrationDescription": "连接到 GitHub 以进行问题跟踪",
+      "syncDescription": "与 GitHub Issues 同步",
+      "enableIssues": "启用 GitHub Issues",
+      "enableIssuesDescription": "从侧边栏查看和管理 GitHub Issues",
+      "pat": "个人访问令牌",
+      "useOAuth": "使用 GitHub CLI",
+      "useManual": "使用手动令牌",
+      "patHelp": "从以下位置创建具有 repo 权限的令牌：",
+      "repo": "仓库",
+      "repoPlaceholder": "owner/repository",
+      "repoFormat": "格式: owner/repo (例如: facebook/react)",
+      "connectionStatus": "连接状态",
+      "connectedTo": "已通过 {{repo}} 连接",
+      "notConnected": "未连接",
+      "checking": "检查中...",
+      "issuesAvailable": "Issues 可用",
+      "issuesAvailableDesc": "从侧边栏访问 GitHub Issues，查看、调查并从 Issues 创建任务。",
+      "defaultBranch": "默认分支",
+      "defaultBranchDesc": "创建任务工作树的基础分支",
+      "autoSync": "加载时自动同步",
+      "autoSyncDesc": "项目加载时自动获取 Issues",
+      "loadingBranches": "加载分支...",
+      "selectBranch": "选择分支...",
+      "autoDetect": "自动检测 (main/master)",
+      "newTasksBranchFrom": "所有新任务将基于 {{branch}} 分支",
+      "loadingRepos": "正在加载仓库...",
+      "selectRepo": "选择仓库...",
+      "noReposFound": "未找到仓库",
+      "enterManually": "手动输入",
+      "authenticatedAs": "已验证为 {{username}}",
+      "connectedToRepo": "已连接到 {{repo}}",
+      "searchBranches": "搜索分支...",
+      "noBranches": "未找到分支",
+      "selectFromList": "从列表选择",
+      "manualEntry": "或手动输入",
+      "errorLoadingRepos": "加载仓库出错",
+      "yourRepos": "您的仓库",
+      "privateRepo": "私有",
+      "publicRepo": "公开",
+      "selected": "已选择:",
+      "repository": "仓库",
+      "refreshBranches": "刷新分支",
+      "githubSettings": "GitHub 设置",
+      "searchRepos": "搜索仓库...",
+      "noMatchingRepos": "没有匹配的仓库",
+      "noMatchingBranches": "没有匹配的分支"
+    },
+    "gitlab": {
+      "title": "GitLab",
+      "description": "GitLab 议题同步",
+      "integrationTitle": "GitLab 集成",
+      "integrationDescription": "连接到 GitLab 以进行议题跟踪",
+      "syncDescription": "与 GitLab 议题同步"
+    },
+    "memory": {
+      "title": "记忆",
+      "description": "Graphiti 记忆后端",
+      "integrationTitle": "记忆",
+      "syncDescription": "配置持久记忆",
+      "enableMemory": "启用记忆",
+      "enableMemoryDesc": "使用 LadybugDB (嵌入式数据库) 实现持久的跨会话记忆",
+      "enableAgentAccess": "启用 Agent 记忆访问",
+      "enableAgentAccessDesc": "允许 Agent 通过 MCP 搜索并向知识图谱添加内容",
+      "mcpUrl": "Graphiti MCP 服务器 URL",
+      "mcpUrlDesc": "用于 Agent 访问记忆的 Graphiti MCP 服务器 URL",
+      "embeddingProvider": "Embedding 提供商",
+      "embeddingProviderDesc": "语义搜索的提供商 (可选 - 关键字搜索无需此项)",
+      "selectProvider": "选择 Embedding 提供商",
+      "dbName": "数据库名称",
+      "dbNameDesc": "存储在 ~/.auto-claude/memories/",
+      "dbPath": "数据库路径 (可选)",
+      "dbPathDesc": "自定义存储位置。默认：~/.auto-claude/memories/",
+      "localFree": "Ollama (本地 - 免费)",
+      "azureConfig": "Azure OpenAI 配置",
+      "azureKey": "API 密钥",
+      "azureBaseUrl": "基础 URL",
+      "azureDeployment": "Embedding 部署名称",
+      "usingGlobalKey": "使用全局密钥",
+      "overrideGlobal": "使用 App 设置中的密钥。在下方输入项目专用密钥以覆盖。",
+      "requiredForProvider": "{{provider}} Embeddings 所需",
+      "getKeyFrom": "获取密钥：",
+      "integrationDescription": "Configure persistent cross-session memory for agents"
+    }
+  },
+  "agentProfile": {
+    "label": "Agent 配置",
+    "title": "默认 Agent 配置",
+    "sectionDescription": "为模型和思考层级选择预设配置",
+    "profilesInfo": "Agent 配置提供了模型和思考层级的预设选项。当您创建新任务时，这些设置将作为默认值。您始终可以在任务创建向导中覆盖它们。",
+    "custom": "自定义",
+    "customConfiguration": "自定义配置",
+    "customDescription": "手动选择模型与思考层级",
+    "phaseConfiguration": "阶段化配置",
+    "phaseConfigurationDescription": "为每个阶段自定义模型和思考层级",
+    "clickToCustomize": "点击自定义",
+    "model": "模型",
+    "thinking": "思考",
+    "thinkingLevel": "思考层级",
+    "selectModel": "选择模型",
+    "selectThinkingLevel": "选择思考层级",
+    "perPhaseOptimization": "(基于阶段的优化)",
+    "resetToDefaults": "重置为默认值",
+    "resetToProfileDefaults": "重置为 {{profile}} 预设",
+    "customized": "已自定义",
+    "phaseConfigNote": "这些设置将作为使用此配置文件创建新任务时的默认值。您可以在任务创建向导中逐任务覆盖。",
+    "phases": {
+      "spec": {
+        "label": "需求创建 (Spec)",
+        "description": "探索、需求分析、上下文收集"
+      },
+      "planning": {
+        "label": "计划 (Planning)",
+        "description": "实施计划制定与架构设计"
+      },
+      "coding": {
+        "label": "编码 (Coding)",
+        "description": "具体的代码实施"
+      },
+      "qa": {
+        "label": "QA 评审",
+        "description": "质量保证与验证"
+      }
+    }
+  },
+  "workspace": {
+    "roles": {
+      "backend": "后端",
+      "frontend": "前端",
+      "mobile": "移动端",
+      "shared": "共享",
+      "apiGateway": "API 网关",
+      "worker": "工作进程",
+      "other": "其他"
+    }
+  },
+  "integrations": {
+    "title": "集成",
+    "description": "管理 Claude 账号与 API 密钥",
+    "claudeAccounts": "Claude 账号",
+    "claudeAccountsDescription": "添加多个 Claude 订阅，以便在触发频率限制时自动切换。",
+    "claudeAccountsWarning": "验证时，请确保您在浏览器中登录了正确的 Claude 账号。每个配置应对应不同的订阅账号。",
+    "noAccountsYet": "尚未配置任何账号",
+    "default": "默认",
+    "active": "激活",
+    "authenticated": "已验证",
+    "needsAuth": "待验证",
+    "authenticate": "验证",
+    "authenticating": "验证中...",
+    "setActive": "设为激活",
+    "manualTokenEntry": "手动输入 Token",
+    "runSetupToken": "运行 claude 并输入 /login 以进行验证",
+    "tokenPlaceholder": "sk-ant-oat01-...",
+    "emailPlaceholder": "邮箱 (可选，仅用于显示)",
+    "saveToken": "保存 Token",
+    "accountNamePlaceholder": "账号名称 (如：办公、个人)",
+    "autoSwitching": "自动账号切换",
+    "autoSwitchingDescription": "自动在账号间切换以避免工作中断。配置主动监控以便在达到限制前进行切换。",
+    "enableAutoSwitching": "启用自动切换",
+    "masterSwitch": "所有自动切换功能的总开关",
+    "proactiveMonitoring": "主动监控",
+    "proactiveDescription": "定期检查使用情况并在达到限制前进行切换",
+    "checkUsageEvery": "检查周期",
+    "seconds15": "15 秒",
+    "seconds30": "30 秒 (推荐)",
+    "minute1": "1 分钟",
+    "disabled": "已禁用",
+    "sessionThreshold": "会话使用量阈值",
+    "sessionThresholdDescription": "当会话使用量达到此水平时切换 (推荐 95%)",
+    "weeklyThreshold": "周度使用量阈值",
+    "weeklyThresholdDescription": "当周度使用量达到此水平时切换 (推荐 99%)",
+    "reactiveRecovery": "被动恢复",
+    "reactiveDescription": "在遇到意外的频率限制时自动切换",
+    "apiKeys": "API 密钥",
+    "apiKeysInfo": "此处设置的密钥将作为默认值。单个项目可以在其设置中覆盖这些值。",
+    "openaiKey": "OpenAI API 密钥",
+    "openaiKeyDescription": "Graphiti 记忆后端所需 (用于向量嵌入)",
+    "toast": {
+      "authSuccess": "配置已验证",
+      "authSuccessWithEmail": "已连接为 {{email}}",
+      "authSuccessGeneric": "验证完成。您现在可以使用此账号。",
+      "authStartFailed": "身份验证失败",
+      "addProfileFailed": "添加配置失败",
+      "loadProfilesFailed": "加载配置失败",
+      "deleteProfileFailed": "删除配置失败",
+      "renameProfileFailed": "重命名配置失败",
+      "setActiveProfileFailed": "激活配置失败",
+      "profileCreatedAuthFailed": "配置已创建 - 需要验证",
+      "profileCreatedAuthFailedDescription": "已添加配置，但无法启动验证过程。请点击登录按钮进行验证。",
+      "tokenSaved": "Token 已保存",
+      "tokenSavedDescription": "您的 Token 已成功保存。",
+      "tokenSaveFailed": "保存 Token 失败",
+      "settingsUpdateFailed": "更新设置失败",
+      "tryAgain": "请重试。",
+      "terminalCreationFailed": "创建验证终端失败",
+      "terminalCreationFailedDescription": "无法启动验证过程。{{error}}",
+      "maxTerminalsReached": "达到终端数量上限",
+      "maxTerminalsReachedDescription": "请关闭一些终端后重试。您最多可开启 12 个终端。",
+      "terminalError": "终端错误",
+      "terminalErrorDescription": "创建终端失败：{{error}}",
+      "authProcessFailed": "身份验证过程无法启动",
+      "authProcessFailedDescription": "无法创建身份验证终端。请检查日志了解详情。"
+    },
+    "alerts": {
+      "profileCreatedAuthFailed": "配置已创建，但准备验证失败：{{error}}",
+      "authPrepareFailed": "准备验证失败：{{error}}",
+      "authStartFailedMessage": "启动验证失败。请重试。"
+    }
+  },
+  "accounts": {
+    "title": "账号",
+    "description": "管理 Claude 账号与 API 端点",
+    "tabs": {
+      "claudeCode": "Claude Code",
+      "customEndpoints": "自定义端点"
+    },
+    "claudeCode": {
+      "description": "添加多个 Claude 订阅，以便在触发频率限制时自动切换。",
+      "noAccountsYet": "尚未配置任何账号",
+      "default": "默认",
+      "active": "激活",
+      "authenticated": "已验证",
+      "needsAuth": "待验证",
+      "authenticate": "验证",
+      "authenticating": "验证中...",
+      "setActive": "设为激活",
+      "manualTokenEntry": "手动输入 Token",
+      "runSetupToken": "运行 claude 并输入 /login 验证",
+      "tokenPlaceholder": "sk-ant-oat01-...",
+      "emailPlaceholder": "邮箱 (可选，用于显示)",
+      "saveToken": "保存 Token",
+      "accountNamePlaceholder": "账号名称 (如：办公、个人)"
+    },
+    "customEndpoints": {
+      "description": "配置自定义的 Anthropic 兼容 API 端点",
+      "addButton": "添加配置",
+      "activeBadge": "激活",
+      "customModels": "自定义模型：{{models}}",
+      "setActive": {
+        "label": "设为激活",
+        "loading": "设置中..."
+      },
+      "switchToOauth": {
+        "label": "使用 Claude Code",
+        "loading": "切换中..."
+      },
+      "tooltips": {
+        "edit": "编辑配置",
+        "deleteActive": "无法删除激活的配置",
+        "deleteInactive": "删除配置"
+      },
+      "empty": {
+        "title": "无自定义端点",
+        "description": "配置自定义的 Anthropic 兼容 API 端点以使用其他提供商。",
+        "action": "添加配置"
+      },
+      "dialog": {
+        "deleteTitle": "删除配置",
+        "deleteDescription": "您确定要删除 \"{{name}}\" 吗？此操作无法撤销。",
+        "cancel": "取消",
+        "delete": "删除",
+        "deleting": "删除中..."
+      }
+    },
+    "autoSwitching": {
+      "title": "自动账号切换",
+      "description": "自动在账号间切换以避免中断。配置主动监控以便在达到限制前切换。",
+      "enableAutoSwitching": "启用自动切换",
+      "masterSwitch": "所有自动切换功能的总开关",
+      "proactiveMonitoring": "主动监控",
+      "proactiveDescription": "定期检查使用情况并在触发限额前切换",
+      "sessionThreshold": "会话使用量阈值",
+      "sessionThresholdDescription": "当会话限额达到此比例时切换 (推荐 95%)",
+      "weeklyThreshold": "周度使用量阈值",
+      "weeklyThresholdDescription": "当周度限额达到此比例时切换 (推荐 99%)",
+      "reactiveRecovery": "被动恢复",
+      "reactiveDescription": "在遇到意外限额时自动切换"
+    },
+    "priority": {
+      "title": "账号优先级顺序",
+      "description": "通过拖拽重新排序。系统将按顺序切换到下一个可用账号。",
+      "noAccounts": "尚未配置账号。请在上方添加以设置优先级。",
+      "noEmail": "未提供邮箱",
+      "active": "激活",
+      "inUse": "使用中",
+      "next": "下一个",
+      "unlimited": "无限制",
+      "unavailable": "不可用",
+      "typeOAuth": "OAuth",
+      "typeAPI": "API",
+      "payPerUse": "按需付费",
+      "needsAuth": "未经验证",
+      "duplicateUsage": "检测到重复的使用情况",
+      "duplicateUsageHint": "此配置的使用情况与另一个配置完全一致，表明它们可能通过同一个 Anthropic 账号验证。请使用不同账号重新验证以修复。",
+      "sessionUsage": "会话使用量 (5 小时窗口)",
+      "weeklyUsage": "周度使用量 (7 天窗口)",
+      "oauthSection": "Claude 账号 (优先轮询)",
+      "apiSection": "回退端点 (当所有账号用尽后)",
+      "tipTitle": "优先级是如何工作的",
+      "tipDescription": "Claude 账号已包含在您的订阅中，系统会优先轮换。API 端点按量收费，作为当所有 Claude 账号都达到频率限制时的备选方案。",
+      "status": {
+        "healthy": "健康",
+        "moderate": "较频繁",
+        "highUsage": "高频率",
+        "nearLimit": "逼近限制",
+        "rateLimited": "触发频率限制"
+      },
+      "needsReauth": "Needs re-auth",
+      "needsReauthHint": "This profile's refresh token is invalid. Click to re-authenticate."
+    },
+    "toast": {
+      "loadProfilesFailed": "加载配置失败",
+      "addProfileFailed": "添加配置失败",
+      "deleteProfileFailed": "删除配置失败",
+      "renameProfileFailed": "重命名配置失败",
+      "setActiveProfileFailed": "设置激活配置失败",
+      "tokenSaved": "Token 已保存",
+      "tokenSavedDescription": "您的 Token 已成功保存。",
+      "tokenSaveFailed": "保存 Token 失败",
+      "settingsUpdateFailed": "更新设置失败",
+      "tryAgain": "请重试。"
+    },
+    "alerts": {
+      "profileCreatedAuthFailed": "配置已创建但准备验证失败：{{error}}",
+      "authPrepareFailed": "准备验证失败：{{error}}",
+      "authStartFailedMessage": "启动验证失败。请重试。"
+    }
+  },
+  "featured": {
+    "insights": {
+      "label": "洞察对话",
+      "description": "询问关于代码的问题"
+    },
+    "ideation": {
+      "label": "创意生成",
+      "description": "生成功能创意和改进建议"
+    },
+    "roadmap": {
+      "label": "路线图",
+      "description": "创建战略功能路线图"
+    },
+    "githubIssues": {
+      "label": "GitHub 议题",
+      "description": "自动议题分类与分析"
+    },
+    "githubPrs": {
+      "label": "GitHub PR 评审",
+      "description": "基于 AI 的拉取请求评审"
+    },
+    "utility": {
+      "label": "实用工具",
+      "description": "提交信息生成与合并冲突解决"
+    }
+  },
+  "debug": {
+    "title": "调试与日志",
+    "description": "访问日志和调试信息以解决故障",
+    "errorReporting": {
+      "label": "匿名错误报告",
+      "description": "发送崩溃报告以帮助改进 Auto Claude。不会收集个人数据或代码。"
+    },
+    "openLogsFolder": "打开日志文件夹",
+    "copyDebugInfo": "复制调试信息",
+    "copied": "已复制！",
+    "loadInfo": "加载调试信息",
+    "systemInfo": "系统信息",
+    "logsLocation": "日志位置",
+    "recentErrors": "最近的错误",
+    "noRecentErrors": "暂无最近错误",
+    "helpTitle": "反馈问题",
+    "helpText": "在反馈 Bug 时，点击“复制调试信息”以获取有助于我们诊断问题的系统背景和错误详情。"
+  },
+  "projectSettings": {
+    "noProjectSelected": {
+      "title": "未选择项目",
+      "description": "请在侧边栏选择一个项目以配置其设置。"
+    },
+    "memory": {
+      "sectionTitle": "记忆",
+      "enableMemory": "启用记忆",
+      "enableMemoryDesc": "使用嵌入式图数据库实现持久化跨会话记忆",
+      "fileBasedMemory": "使用基于文件的记忆。会话洞察本地存储在 JSON 文件中。启用记忆以获得持久化跨会话上下文和语义搜索。",
+      "agentMemoryAccess": "启用 Agent 记忆访问",
+      "agentMemoryAccessDesc": "允许 Agent 通过 MCP 搜索和添加知识图谱",
+      "mcpServerUrl": "Graphiti MCP 服务器 URL",
+      "mcpServerUrlDesc": "Graphiti MCP 服务器的 URL",
+      "embeddingProvider": "嵌入式提供商",
+      "embeddingProviderDesc": "用于语义搜索的提供商（可选 - 关键词搜索无需配置）",
+      "selectEmbeddingProvider": "选择嵌入式提供商",
+      "openaiApiKey": "OpenAI API 密钥",
+      "usingGlobalKey": "使用全局密钥",
+      "usingKeyFromApp": "使用应用设置中的密钥。在下方输入项目专用密钥以覆盖。",
+      "requiredForOpenai": "OpenAI 嵌入需要此密钥",
+      "voyageApiKey": "Voyage AI API 密钥",
+      "requiredForVoyage": "Voyage AI 嵌入需要此密钥",
+      "embeddingModel": "嵌入模型",
+      "googleApiKey": "Google AI API 密钥",
+      "requiredForGoogle": "Google AI 嵌入需要此密钥",
+      "azureConfig": "Azure OpenAI 配置",
+      "apiKey": "API 密钥",
+      "baseUrl": "基础 URL",
+      "embeddingDeployment": "嵌入部署名称",
+      "ollamaConfig": "Ollama 配置",
+      "checking": "检查中...",
+      "connected": "已连接",
+      "notRunning": "未运行",
+      "selectEmbeddingModel": "选择嵌入模型",
+      "recommendedOllama": "推荐: qwen3-embedding:4b (平衡), :8b (高质量), :0.6b (快速)",
+      "embeddingDimension": "嵌入维度",
+      "requiredOllamaDim": "Ollama 嵌入需要此配置（如 nomic-embed-text 为 768）",
+      "databaseName": "数据库名称",
+      "databaseNameDesc": "记忆数据库名称（存储在 ~/.auto-claude/memories/）",
+      "databasePath": "数据库路径（可选）",
+      "databasePathDesc": "自定义存储位置。默认: ~/.auto-claude/memories/",
+      "enabled": "已启用",
+      "disabled": "已禁用"
+    },
+    "linear": {
+      "sectionTitle": "Linear 集成",
+      "enableSync": "启用 Linear 同步",
+      "enableSyncDesc": "自动创建和更新 Linear 议题",
+      "apiKey": "API 密钥",
+      "apiKeyDesc": "从以下位置获取 API 密钥",
+      "linearSettings": "Linear 设置",
+      "connectionStatus": "连接状态",
+      "connectedTo": "已连接到 {{team}}",
+      "tasksAvailable": "有 {{count}}+ 个任务可导入",
+      "notConnected": "未连接",
+      "importTasks": "导入现有任务",
+      "selectIssuesDesc": "选择要导入 AutoBuild 作为任务的 Linear 议题。",
+      "importFromLinear": "从 Linear 导入任务",
+      "realtimeSync": "实时同步",
+      "realtimeSyncDesc": "自动导入在 Linear 中创建的新任务",
+      "realtimeSyncWarning": "启用后，新的 Linear 议题将自动导入 AutoBuild。请确保配置下方的团队/项目过滤器以控制导入哪些议题。",
+      "teamId": "团队 ID（可选）",
+      "autoDetected": "自动检测",
+      "projectId": "项目 ID（可选）",
+      "autoCreated": "自动创建"
+    },
+    "github": {
+      "sectionTitle": "GitHub 集成",
+      "projectSpecific": "项目专用配置",
+      "projectSpecificDesc": "此 GitHub 仓库仅为 {{project}} 配置。每个项目可以有自己的 GitHub 仓库。",
+      "enableIssues": "启用 GitHub Issues",
+      "enableIssuesDesc": "从 GitHub 同步议题并自动创建任务",
+      "authentication": "GitHub 认证",
+      "useManualToken": "使用手动令牌",
+      "authenticatedViaOAuth": "已通过 GitHub OAuth (gh CLI) 认证",
+      "personalAccessToken": "个人访问令牌",
+      "useOAuth": "使用 OAuth",
+      "createTokenDesc": "从以下位置创建具有 repo 权限的令牌",
+      "githubSettings": "GitHub 设置",
+      "repository": "仓库",
+      "repositoryDesc": "格式: owner/repo（如 facebook/react）",
+      "connectionStatus": "连接状态",
+      "connectedTo": "已连接到 {{repo}}",
+      "notConnected": "未连接",
+      "issuesAvailable": "Issues 可用",
+      "issuesAvailableDesc": "从侧边栏访问 GitHub Issues，查看、调查并创建任务。",
+      "autoSync": "加载时自动同步",
+      "autoSyncDesc": "项目加载时自动获取议题"
+    },
+    "general": "常规",
+    "connectionStatus": "连接状态"
+  },
+  "mcp": {
+    "title": "MCP 服务概览",
+    "titleWithProject": "{{projectName}} 的 MCP 服务概览",
+    "description": "配置在该项目中可供 Agent 使用的 MCP 服务器",
+    "descriptionNoProject": "选择一个项目以配置 MCP 服务器",
+    "serversEnabled": "已启用 {{count}} 个服务",
+    "configuration": "MCP 服务配置",
+    "configurationHint": "禁用不必要的服务可减少上下文占用并加快启动速度",
+    "noProjectSelected": "未选择项目",
+    "noProjectSelectedDescription": "从下拉菜单选择一个项目以查看和配置 MCP 服务器。",
+    "projectNotInitialized": "项目未初始化",
+    "projectNotInitializedDescription": "请先为该项目初始化 Auto Claude 以配置 MCP 服务器。",
+    "browserAutomation": "浏览器自动化 (仅限 QA Agent)",
+    "alwaysEnabled": "始终启用",
+    "addServer": "添加服务器",
+    "addMcpTo": "为 {{agent}} 添加 MCP 服务",
+    "addMcpDescription": "选择一个要添加到此 Agent 的 MCP 服务器",
+    "allMcpsAdded": "所有可用的 MCP 服务器都已添加",
+    "added": "已添加",
+    "removed": "已移除",
+    "remove": "移除",
+    "restore": "恢复",
+    "noMcpServers": "无 MCP 服务",
+    "cannotRemove": "无法移除 (必需)",
+    "servers": {
+      "context7": {
+        "name": "Context7",
+        "description": "库文档查找"
+      },
+      "graphiti": {
+        "name": "Graphiti 记忆",
+        "description": "跨会话上下文知识图谱",
+        "notConfigured": "Requires memory configuration (see Memory settings)"
+      },
+      "linear": {
+        "name": "Linear",
+        "description": "项目管理集成",
+        "notConfigured": "Requires Linear integration (see Linear settings)"
+      },
+      "electron": {
+        "name": "Electron MCP",
+        "description": "通过 Chrome DevTools 进行桌面应用自动化"
+      },
+      "puppeteer": {
+        "name": "Puppeteer MCP",
+        "description": "针对非 Electron 前端的浏览器自动化"
+      },
+      "autoClaude": {
+        "name": "Auto-Claude 工具",
+        "description": "构建进度追踪、会话上下文、发现与注意事项记录"
+      }
+    },
+    "customServers": "自定义服务器",
+    "addCustomServer": "添加自定义服务器",
+    "editCustomServer": "编辑自定义服务器",
+    "customServerDescription": "添加基于命令行或 HTTP 的 MCP 服务器",
+    "serverType": "服务器类型",
+    "typeCommand": "命令行 (npx/npm)",
+    "typeHttp": "HTTP",
+    "serverName": "名称",
+    "serverNamePlaceholder": "我的 MCP 服务",
+    "serverDescription": "描述",
+    "serverDescriptionPlaceholder": "此服务的作用",
+    "command": "命令",
+    "args": "参数",
+    "argsHint": "空格分隔的参数",
+    "url": "URL",
+    "headers": "请求头",
+    "headerName": "键",
+    "headerValue": "值",
+    "noCustomServers": "尚未配置自定义服务器。添加一个吧！",
+    "errorNameRequired": "服务器名称为必填项",
+    "errorIdExists": "具有此 ID 的服务器已存在",
+    "errorCommandRequired": "基于命令行的服务器必须填入命令",
+    "errorUrlRequired": "基于 HTTP 的服务器必须填入 URL",
+    "testConnection": "测试",
+    "testing": "测试中...",
+    "authToken": "身份验证 Token",
+    "authTokenPlaceholder": "粘贴 API Token 或 PAT",
+    "authTokenHint": "将作为 Bearer Token 包含在 Authorization 头部中",
+    "advancedHeaders": "额外请求头",
+    "status": {
+      "healthy": "服务器有响应",
+      "unhealthy": "服务器无响应",
+      "needsAuth": "需要身份验证",
+      "checking": "正在检查...",
+      "unknown": "状态未知"
+    },
+    "hints": {
+      "github": "探测到 GitHub MCP 服务。您需要具有相应权限的个人访问令牌 (PAT)。",
+      "createGithubPat": "创建 GitHub PAT",
+      "google": "探测到 Google API。您需要 OAuth 令牌或 API 密钥。",
+      "createGoogleToken": "创建 Google 凭据",
+      "anthropic": "探测到 Anthropic API。您需要 API 密钥。",
+      "createAnthropicKey": "创建 Anthropic API 密钥",
+      "openai": "探测到 OpenAI API。您需要 API 密钥。",
+      "createOpenaiKey": "创建 OpenAI API 密钥"
+    }
+  },
+  "profiles": {
+    "auto": {
+      "name": "Auto",
+      "description": "AI 自动优化每个阶段"
+    },
+    "complex": {
+      "name": "复杂任务",
+      "description": "适合大型重构或复杂系统"
+    },
+    "balanced": {
+      "name": "均衡",
+      "description": "平衡速度与质量"
+    },
+    "quick": {
+      "name": "快速",
+      "description": "快速迭代和简单任务"
+    }
+  },
+  "models": {
+    "opus": "Claude Opus 4.5",
+    "sonnet": "Claude Sonnet 4.5",
+    "haiku": "Claude Haiku 4.5"
+  },
+  "thinking": {
+    "none": {
+      "label": "无",
+      "description": "不进行扩展思考"
+    },
+    "low": {
+      "label": "低",
+      "description": "简短思考"
+    },
+    "medium": {
+      "label": "中",
+      "description": "适度分析"
+    },
+    "high": {
+      "label": "高",
+      "description": "深度思考"
+    },
+    "ultrathink": {
+      "label": "超强思考",
+      "description": "最大推理深度"
+    }
+  },
+  "terminalFonts": {
+    "configActions": "配置:",
+    "copy": "复制到剪贴板",
+    "cursorConfig": {
+      "blinkStatus": "状态:",
+      "currentStyle": "当前:",
+      "cursorAccentColor": "光标强调色",
+      "cursorAccentColorDescription": "光标可见时的颜色（影响对比度和可见性）",
+      "cursorBlink": "光标闪烁",
+      "cursorBlinkDescription": "启用或禁用光标闪烁动画",
+      "cursorColorDescription": "Current color: {{color}}",
+      "cursorColorLabel": "Cursor accent color",
+      "cursorStyle": "光标样式",
+      "cursorStyleDescription": "选择终端光标的外观",
+      "description": "自定义光标样式、闪烁行为和强调色",
+      "disabled": "已禁用",
+      "enabled": "已启用",
+      "pickColor": "点击选择颜色",
+      "preview": "预览:",
+      "reset": "重置",
+      "resetColor": "重置为黑色",
+      "selectStyle": "选择光标样式...",
+      "styleBar": "竖线",
+      "styleBarDescription": "垂直竖线光标",
+      "styleBlock": "块状",
+      "styleBlockDescription": "全块光标",
+      "styleUnderline": "下划线",
+      "styleUnderlineDescription": "下划线光标",
+      "title": "光标配置"
+    },
+    "description": "自定义终端字体外观、光标行为和性能设置。更改将立即应用于所有活动终端。",
+    "export": "导出 JSON",
+    "fontConfig": {
+      "commonWeights": "常用: 400 (常规), 600 (半粗), 700 (粗体)",
+      "decreaseFontSize": "减小字体大小 {{step}}",
+      "decreaseFontWeight": "减小字体粗细 {{step}}",
+      "description": "自定义字体系列、大小、粗细、行高和字间距",
+      "fontChain": "字体链:",
+      "fontFamily": "字体系列",
+      "fontFamilyDescription": "终端文本的主要等宽字体",
+      "fontSize": "字体大小",
+      "fontSizeDescription": "基础字体大小（像素）(10-24px)",
+      "fontWeight": "字体粗细",
+      "fontWeightDescription": "字体粗细 100（细体）到 900（黑体），步进 100",
+      "increaseFontSize": "增大字体大小 {{step}}",
+      "increaseFontWeight": "增大字体粗细 {{step}}",
+      "letterSpacing": "字间距",
+      "letterSpacingDescription": "字符间水平间距 (-2 到 5px)",
+      "lineHeight": "行高",
+      "lineHeightDescription": "行高为字体大小的倍数 (1.0-2.0)",
+      "noFonts": "未找到字体",
+      "pixels": "像素",
+      "searchFont": "搜索字体...",
+      "selectFont": "选择字体...",
+      "title": "字体配置"
+    },
+    "import": "导入 JSON",
+    "importExport": {
+      "copyFailed": "复制到剪贴板失败",
+      "copySuccess": "设置已复制到剪贴板",
+      "exportFailed": "导出设置失败",
+      "exportSuccess": "设置已成功导出",
+      "fileTooLarge": "导入文件过大（最大 10KB）",
+      "importFailed": "导入设置失败：JSON 格式无效",
+      "importFailedRange": "值必须在有效范围内",
+      "importSuccess": "设置已成功导入",
+      "readError": "读取文件失败"
+    },
+    "performanceConfig": {
+      "decreaseScrollback": "减少回滚 {{step}}",
+      "description": "调整回滚限制和其他性能相关设置",
+      "increaseScrollback": "增加回滚 {{step}}",
+      "kValue": "{{value}}K",
+      "lines": "行",
+      "presetExtended": "扩展",
+      "presetExtendedDescription": "Extended history (50K lines)",
+      "presetMaximum": "最大",
+      "presetMaximumDescription": "Maximum history (100K lines)",
+      "presetMinimal": "最小",
+      "presetMinimalDescription": "Minimal history (1K lines)",
+      "presetStandard": "标准",
+      "presetStandardDescription": "Standard history (10K lines)",
+      "presets": "快速预设",
+      "presetsDescription": "不同使用场景的常用回滚限制",
+      "scrollback": "回滚限制",
+      "scrollbackDescription": "终端历史记录保存的最大行数 (1K-100K)",
+      "scrollbackPresets": "Quick Presets",
+      "scrollbackValue": "{{value}} 行",
+      "title": "性能设置"
+    },
+    "presets": {
+      "applyFailed": "应用预设「{{name}}」失败",
+      "applyPreset": "应用此预设",
+      "builtin": "内置预设",
+      "builtinDescription": "Click to apply a pre-configured preset",
+      "custom": "自定义预设",
+      "customDescription": "Save your current configuration as a custom preset",
+      "deletePreset": "删除此预设",
+      "deleted": "预设「{{name}}」已删除",
+      "description": "应用来自流行 IDE 和终端的预配置预设",
+      "duplicateName": "已存在同名预设",
+      "intellij": "JetBrains Mono 13px, block cursor",
+      "intellijName": "IntelliJ IDEA",
+      "macos": "SF Mono 13px, block cursor",
+      "macosName": "macOS Terminal",
+      "noCustomPresets": "No custom presets yet. Save your current configuration to get started.",
+      "presetNameLabel": "预设名称",
+      "presetNamePlaceholder": "Preset name...",
+      "reset": "重置为默认",
+      "resetButton": "重置为系统默认",
+      "resetDescription": "Restore the default settings for your operating system",
+      "resetToOS": "重置为 {{os}} 默认值",
+      "savePreset": "将当前配置保存为预设",
+      "saved": "预设「{{name}}」已成功保存",
+      "summary": "{{font}}, {{size}}px, {{cursor}} cursor",
+      "title": "快速预设",
+      "ubuntu": "Ubuntu Mono 13px, block cursor",
+      "ubuntuName": "Ubuntu Terminal",
+      "unknownFont": "未知",
+      "vscode": "Consolas 14px, block cursor",
+      "vscodeName": "VS Code",
+      "builtinDesc": "点击应用预配置预设",
+      "customDesc": "将当前配置保存为自定义预设",
+      "resetDesc": "恢复操作系统的默认设置",
+      "presetDetails": "{{font}}, {{size}}px, {{cursor}} 光标",
+      "namePlaceholder": "预设名称...",
+      "nameLabel": "预设名称"
+    },
+    "preview": {
+      "ariaLabel": "终端预览，显示当前字体设置的示例输出",
+      "description": "实时预览终端设置（300毫秒内更新）",
+      "infoText": "预览将在设置更改后 300 毫秒内更新。这是一个用于演示目的的只读终端。",
+      "title": "实时预览"
+    },
+    "slider": {
+      "currentValue": "Current value: {{value}}",
+      "decrease": "Decrease {{label}} by {{step}}",
+      "increase": "Increase {{label}} by {{step}}"
+    },
+    "title": "终端字体"
+  },
+  "display": {
+    "resetToDefault": "重置为默认（100%）",
+    "decreaseScale": "减小缩放 {{step}}%",
+    "increaseScale": "增加缩放 {{step}}%",
+    "applyScaleChanges": "应用缩放更改",
+    "backgroundColor": "背景颜色",
+    "accentColor": "强调色"
+  },
+  "common": {
+    "actions": {
+      "apply": "应用"
+    }
+  },
+  "projectSelector": {
+    "selectProject": "选择项目...",
+    "noProjects": "暂无项目",
+    "addProject": "添加项目..."
+  }
+}

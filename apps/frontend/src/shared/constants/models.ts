@@ -10,9 +10,9 @@ import type { AgentProfile, PhaseModelConfig, FeatureModelConfig, FeatureThinkin
 // ============================================
 
 export const AVAILABLE_MODELS = [
-  { value: 'opus', label: 'Claude Opus 4.5' },
-  { value: 'sonnet', label: 'Claude Sonnet 4.5' },
-  { value: 'haiku', label: 'Claude Haiku 4.5' }
+  { value: 'opus', label: 'models.opus' },
+  { value: 'sonnet', label: 'models.sonnet' },
+  { value: 'haiku', label: 'models.haiku' }
 ] as const;
 
 // Maps model shorthand to actual Claude model IDs
@@ -37,11 +37,11 @@ export const THINKING_BUDGET_MAP: Record<string, number | null> = {
 
 // Thinking levels for Claude model (budget token allocation)
 export const THINKING_LEVELS = [
-  { value: 'none', label: 'None', description: 'No extended thinking' },
-  { value: 'low', label: 'Low', description: 'Brief consideration' },
-  { value: 'medium', label: 'Medium', description: 'Moderate analysis' },
-  { value: 'high', label: 'High', description: 'Deep thinking' },
-  { value: 'ultrathink', label: 'Ultra Think', description: 'Maximum reasoning depth' }
+  { value: 'none', label: 'thinking.none.label', description: 'thinking.none.description' },
+  { value: 'low', label: 'thinking.low.label', description: 'thinking.low.description' },
+  { value: 'medium', label: 'thinking.medium.label', description: 'thinking.medium.description' },
+  { value: 'high', label: 'thinking.high.label', description: 'thinking.high.description' },
+  { value: 'ultrathink', label: 'thinking.ultrathink.label', description: 'thinking.ultrathink.description' }
 ] as const;
 
 // ============================================
@@ -141,12 +141,12 @@ export const DEFAULT_FEATURE_THINKING: FeatureThinkingConfig = {
 
 // Feature labels for UI display
 export const FEATURE_LABELS: Record<keyof FeatureModelConfig, { label: string; description: string }> = {
-  insights: { label: 'Insights Chat', description: 'Ask questions about your codebase' },
-  ideation: { label: 'Ideation', description: 'Generate feature ideas and improvements' },
-  roadmap: { label: 'Roadmap', description: 'Create strategic feature roadmaps' },
-  githubIssues: { label: 'GitHub Issues', description: 'Automated issue triage and labeling' },
-  githubPrs: { label: 'GitHub PR Review', description: 'AI-powered pull request reviews' },
-  utility: { label: 'Utility', description: 'Commit messages and merge conflict resolution' }
+  insights: { label: 'featured.insights.label', description: 'featured.insights.description' },
+  ideation: { label: 'featured.ideation.label', description: 'featured.ideation.description' },
+  roadmap: { label: 'featured.roadmap.label', description: 'featured.roadmap.description' },
+  githubIssues: { label: 'featured.githubIssues.label', description: 'featured.githubIssues.description' },
+  githubPrs: { label: 'featured.githubPrs.label', description: 'featured.githubPrs.description' },
+  utility: { label: 'featured.utility.label', description: 'featured.utility.description' }
 };
 
 // Default agent profiles for preset model/thinking configurations
@@ -154,8 +154,8 @@ export const FEATURE_LABELS: Record<keyof FeatureModelConfig, { label: string; d
 export const DEFAULT_AGENT_PROFILES: AgentProfile[] = [
   {
     id: 'auto',
-    name: 'Auto (Optimized)',
-    description: 'Uses Opus across all phases with optimized thinking levels',
+    name: 'profiles.auto.name',
+    description: 'profiles.auto.description',
     model: 'opus',
     thinkingLevel: 'high',
     icon: 'Sparkles',
@@ -164,8 +164,8 @@ export const DEFAULT_AGENT_PROFILES: AgentProfile[] = [
   },
   {
     id: 'complex',
-    name: 'Complex Tasks',
-    description: 'For intricate, multi-step implementations requiring deep analysis',
+    name: 'profiles.complex.name',
+    description: 'profiles.complex.description',
     model: 'opus',
     thinkingLevel: 'ultrathink',
     icon: 'Brain',
@@ -174,8 +174,8 @@ export const DEFAULT_AGENT_PROFILES: AgentProfile[] = [
   },
   {
     id: 'balanced',
-    name: 'Balanced',
-    description: 'Good balance of speed and quality for most tasks',
+    name: 'profiles.balanced.name',
+    description: 'profiles.balanced.description',
     model: 'sonnet',
     thinkingLevel: 'medium',
     icon: 'Scale',
@@ -184,8 +184,8 @@ export const DEFAULT_AGENT_PROFILES: AgentProfile[] = [
   },
   {
     id: 'quick',
-    name: 'Quick Edits',
-    description: 'Fast iterations for simple changes and quick fixes',
+    name: 'profiles.quick.name',
+    description: 'profiles.quick.description',
     model: 'haiku',
     thinkingLevel: 'low',
     icon: 'Zap',

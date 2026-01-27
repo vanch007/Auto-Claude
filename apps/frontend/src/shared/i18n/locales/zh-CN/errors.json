@@ -1,0 +1,9 @@
+{
+  "task": {
+    "parseImplementationPlan": "解析 {{specId}} 的实施计划 (implementation_plan.json) 失败：{{error}}",
+    "jsonError": {
+      "titleSuffix": "(JSON 错误)",
+      "description": "⚠️ JSON 解析错误：{{error}}\n\nimplementation_plan.json 文件格式有误。请运行后端的自动修复工具或手动修复该文件。"
+    }
+  }
+}

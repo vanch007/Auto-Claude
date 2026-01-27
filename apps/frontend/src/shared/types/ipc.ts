@@ -341,6 +341,22 @@ export interface ElectronAPI {
   getSentryDsn: () => Promise<string>;
   getSentryConfig: () => Promise<{ dsn: string; tracesSampleRate: number; profilesSampleRate: number }>;
 
+  // Custom Prompts
+  loadCustomPrompts: () => Promise<{
+    systemPromptExtension: string;
+    coderPromptExtension: string;
+    plannerPromptExtension: string;
+    qaPromptExtension: string;
+    enabled: boolean;
+  }>;
+  saveCustomPrompts: (prompts: {
+    systemPromptExtension: string;
+    coderPromptExtension: string;
+    plannerPromptExtension: string;
+    qaPromptExtension: string;
+    enabled: boolean;
+  }) => Promise<{ success: boolean; error?: string }>;
+
   getCliToolsInfo: () => Promise<IPCResult<{
     python: import('./cli').ToolDetectionResult;
     git: import('./cli').ToolDetectionResult;

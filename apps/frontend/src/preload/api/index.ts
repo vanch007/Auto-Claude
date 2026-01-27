@@ -1,7 +1,7 @@
 import { ProjectAPI, createProjectAPI } from './project-api';
 import { TerminalAPI, createTerminalAPI } from './terminal-api';
 import { TaskAPI, createTaskAPI } from './task-api';
-import { SettingsAPI, createSettingsAPI } from './settings-api';
+import { SettingsAPI, createSettingsAPI, CustomPrompts } from './settings-api';
 import { FileAPI, createFileAPI } from './file-api';
 import { AgentAPI, createAgentAPI } from './agent-api';
 import type { IdeationAPI } from './modules/ideation-api';
@@ -90,5 +90,6 @@ export type {
   ClaudeCodeAPI,
   McpAPI,
   ScreenshotAPI,
-  QueueAPI
+  QueueAPI,
+  CustomPrompts
 };

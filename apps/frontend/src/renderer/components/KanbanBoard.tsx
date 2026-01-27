@@ -415,7 +415,7 @@ const DroppableColumn = memo(function DroppableColumn({ status, tasks, onTaskCli
                     checked={selectAllCheckedState}
                     onCheckedChange={handleSelectAllChange}
                     disabled={taskCount === 0}
-                    aria-label={isAllSelected ? t('kanban.deselectAll') : t('kanban.selectAll')}
+                    aria-label={isAllSelected ? t('common:accessibility.deselectAllAriaLabel') : t('common:accessibility.selectAllAriaLabel')}
                     className="h-4 w-4"
                   />
                 </div>
@@ -1465,7 +1465,7 @@ export function KanbanBoard({ tasks, onTaskClick, onNewTaskClick, onRefresh, isR
         <DragOverlay>
           {activeTask ? (
             <div className="drag-overlay-card">
-              <TaskCard task={activeTask} onClick={() => {}} />
+              <TaskCard task={activeTask} onClick={() => { }} />
             </div>
           ) : null}
         </DragOverlay>

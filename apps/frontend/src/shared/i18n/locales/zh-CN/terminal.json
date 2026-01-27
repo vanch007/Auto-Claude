@@ -1,0 +1,53 @@
+{
+  "expand": {
+    "expand": "展开终端",
+    "collapse": "折叠终端"
+  },
+  "auth": {
+    "terminalTitle": "认证：{{profileName}}",
+    "maxTerminalsReached": "无法开启认证终端：已达到终端数量上限。请先关闭一个终端。"
+  },
+  "worktree": {
+    "create": "工作树 (Worktree)",
+    "createNew": "新建工作树",
+    "existing": "终端工作树",
+    "taskWorktrees": "任务工作树",
+    "otherWorktrees": "其他",
+    "createTitle": "创建终端工作树",
+    "createDescription": "为此终端创建一个隔离的工作空间。所有工作都将在该工作树目录中进行。",
+    "name": "工作树名称",
+    "namePlaceholder": "my-feature",
+    "nameRequired": "工作树名称必填",
+    "nameInvalid": "名称必须以字母或数字开头并结尾",
+    "nameHelp": "仅限小写字母、数字、短横线和下划线（空格将转换为连字符）",
+    "associateTask": "关联任务",
+    "selectTask": "选择一个任务...",
+    "noTask": "无任务 (独立的临时工作树)",
+    "createBranch": "创建 Git 分支",
+    "branchHelp": "将创建分支：{{branch}}",
+    "baseBranch": "基准分支",
+    "selectBaseBranch": "选择基准分支...",
+    "searchBranch": "搜索分支...",
+    "noBranchFound": "未找到分支",
+    "useProjectDefault": "使用项目默认值 ({{branch}})",
+    "baseBranchHelp": "用于创建工作树的基准分支",
+    "openInIDE": "在 IDE 中打开",
+    "maxReached": "已达到终端工作树的最大数量上限 (12个)",
+    "alreadyExists": "已存在同名的工作树",
+    "deleteTitle": "删除工作树？",
+    "deleteDescription": "这将永久删除该工作树及其分支。任何未提交的更改都将丢失。",
+    "detached": "(游离状态)"
+  },
+  "resume": {
+    "pending": "Resume Available",
+    "pendingTooltip": "Click to resume previous Claude session"
+  },
+  "history": "历史记录",
+  "restoreSessionsFrom": "恢复会话...",
+  "sessions": "个会话",
+  "session": "个会话",
+  "invokeClaudeAll": "在所有终端调用 Claude",
+  "newTerminal": "新建终端",
+  "files": "文件",
+  "terminalsCount": "{{count}} / 12 个终端"
+}

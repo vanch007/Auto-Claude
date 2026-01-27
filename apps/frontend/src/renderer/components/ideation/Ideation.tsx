@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { TabsContent } from '../ui/tabs';
 import { EnvConfigModal } from '../EnvConfigModal';
 import { IDEATION_TYPE_DESCRIPTIONS } from '../../../shared/constants';
@@ -18,6 +19,7 @@ interface IdeationProps {
 }
 
 export function Ideation({ projectId, onGoToTask }: IdeationProps) {
+  const { t } = useTranslation('common');
   // Get showArchived from shared context for cross-page sync
   const { showArchived } = useViewState();
 
@@ -108,11 +110,11 @@ export function Ideation({ projectId, onGoToTask }: IdeationProps) {
           typesToAdd={[]}
           availableTypesToAdd={[]}
           onToggleIdeationType={toggleIdeationType}
-          onToggleTypeToAdd={() => {}}
+          onToggleTypeToAdd={() => { }}
           onSetConfig={setConfig}
           onCloseConfigDialog={() => setShowConfigDialog(false)}
-          onCloseAddMoreDialog={() => {}}
-          onConfirmAddMore={() => {}}
+          onCloseAddMoreDialog={() => { }}
+          onConfirmAddMore={() => { }}
         />
 
         <EnvConfigModal
@@ -170,7 +172,7 @@ export function Ideation({ projectId, onGoToTask }: IdeationProps) {
               ))}
               {activeIdeas.length === 0 && (
                 <div className="text-center py-8 text-muted-foreground">
-                  No ideas to display
+                  {t('common:labels.noIdeasToDisplay', { defaultValue: 'No ideas to display' })}
                 </div>
               )}
             </div>
@@ -187,7 +189,7 @@ export function Ideation({ projectId, onGoToTask }: IdeationProps) {
               <TabsContent key={type} value={type} className="flex-1 overflow-auto p-4">
                 <div className="mb-4 p-3 bg-muted/50 rounded-lg">
                   <p className="text-sm text-muted-foreground">
-                    {IDEATION_TYPE_DESCRIPTIONS[type]}
+                    {t(`common:ideation.descriptions.${type}`, { defaultValue: IDEATION_TYPE_DESCRIPTIONS[type] })}
                   </p>
                 </div>
                 <div className="grid gap-3">

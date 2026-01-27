@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Brain, Scale, Zap, Sparkles, Sliders, Check } from 'lucide-react';
 import { Button } from './ui/button';
 import {
@@ -31,6 +32,7 @@ export function InsightsModelSelector({
   onConfigChange,
   disabled
 }: InsightsModelSelectorProps) {
+  const { t } = useTranslation('settings');
   const [showCustomModal, setShowCustomModal] = useState(false);
 
   // Default to 'balanced' if no config, or if 'auto' profile was selected (not applicable for insights)
@@ -67,10 +69,11 @@ export function InsightsModelSelector({
   // Build display text for current selection
   const getDisplayText = () => {
     if (selectedProfileId === 'custom' && currentConfig) {
-      const modelLabel = AVAILABLE_MODELS.find(m => m.value === currentConfig.model)?.label || currentConfig.model;
+      const modelObj = AVAILABLE_MODELS.find(m => m.value === currentConfig.model);
+      const modelLabel = modelObj?.label ? t(modelObj.label) : currentConfig.model;
       return `${modelLabel} + ${currentConfig.thinkingLevel}`;
     }
-    return profile?.name || 'Balanced';
+    return (profile?.name ? t(profile.name) : 'Balanced');
   };
 
   return (
@@ -82,7 +85,7 @@ export function InsightsModelSelector({
             size="sm"
             className="h-8 gap-2 px-2"
             disabled={disabled}
-            title={`Model: ${getDisplayText()}`}
+            title={`${t('general.model')}: ${getDisplayText()}`}
           >
             <Icon className="h-4 w-4" />
             <span className="hidden text-xs text-muted-foreground sm:inline">
@@ -95,7 +98,8 @@ export function InsightsModelSelector({
           {DEFAULT_AGENT_PROFILES.filter(p => !p.isAutoProfile).map((p) => {
             const ProfileIcon = iconMap[p.icon || 'Brain'];
             const isSelected = selectedProfileId === p.id;
-            const modelLabel = AVAILABLE_MODELS.find(m => m.value === p.model)?.label;
+            const modelObj = AVAILABLE_MODELS.find(m => m.value === p.model);
+            const modelLabel = modelObj?.label ? t(modelObj.label) : p.model;
             return (
               <DropdownMenuItem
                 key={p.id}
@@ -104,7 +108,7 @@ export function InsightsModelSelector({
               >
                 <ProfileIcon className="h-4 w-4 shrink-0" />
                 <div className="min-w-0 flex-1">
-                  <div className="font-medium">{p.name}</div>
+                  <div className="font-medium">{t(p.name)}</div>
                   <div className="truncate text-xs text-muted-foreground">
                     {modelLabel} + {p.thinkingLevel}
                   </div>

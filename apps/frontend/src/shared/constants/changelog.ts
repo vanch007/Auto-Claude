@@ -8,9 +8,9 @@
 // ============================================
 
 export const CHANGELOG_FORMAT_LABELS: Record<string, string> = {
-  'keep-a-changelog': 'Keep a Changelog',
-  'simple-list': 'Simple List',
-  'github-release': 'GitHub Release'
+  'keep-a-changelog': 'changelog.formats.keepAChangelog',
+  'simple-list': 'changelog.formats.simpleList',
+  'github-release': 'changelog.formats.githubRelease'
 };
 
 export const CHANGELOG_FORMAT_DESCRIPTIONS: Record<string, string> = {
@@ -24,9 +24,9 @@ export const CHANGELOG_FORMAT_DESCRIPTIONS: Record<string, string> = {
 // ============================================
 
 export const CHANGELOG_AUDIENCE_LABELS: Record<string, string> = {
-  'technical': 'Technical',
-  'user-facing': 'User-Facing',
-  'marketing': 'Marketing'
+  'technical': 'changelog.audiences.technical',
+  'end-user': 'changelog.audiences.endUser',
+  'mixed': 'changelog.audiences.mixed'
 };
 
 export const CHANGELOG_AUDIENCE_DESCRIPTIONS: Record<string, string> = {
@@ -40,10 +40,9 @@ export const CHANGELOG_AUDIENCE_DESCRIPTIONS: Record<string, string> = {
 // ============================================
 
 export const CHANGELOG_EMOJI_LEVEL_LABELS: Record<string, string> = {
-  'none': 'None',
-  'little': 'Headings Only',
-  'medium': 'Headings + Highlights',
-  'high': 'Everything'
+  'none': 'changelog.emojiLevels.none',
+  'standard': 'changelog.emojiLevels.standard',
+  'vibrant': 'changelog.emojiLevels.vibrant'
 };
 
 export const CHANGELOG_EMOJI_LEVEL_DESCRIPTIONS: Record<string, string> = {
@@ -58,9 +57,9 @@ export const CHANGELOG_EMOJI_LEVEL_DESCRIPTIONS: Record<string, string> = {
 // ============================================
 
 export const CHANGELOG_SOURCE_MODE_LABELS: Record<string, string> = {
-  'tasks': 'Completed Tasks',
-  'git-history': 'Git History',
-  'branch-diff': 'Branch Comparison'
+  'auto': 'changelog.sourceModes.auto',
+  'git': 'changelog.sourceModes.git',
+  'manual': 'changelog.sourceModes.manual'
 };
 
 export const CHANGELOG_SOURCE_MODE_DESCRIPTIONS: Record<string, string> = {

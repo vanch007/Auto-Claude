@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Sparkles, FileCode, Square } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
@@ -49,6 +50,7 @@ export function GenerationProgressScreen({
   onDismiss,
   onStop
 }: GenerationProgressScreenProps) {
+  const { t } = useTranslation('common');
   const logsEndRef = useRef<HTMLDivElement>(null);
   const [showLogs, setShowLogs] = useState(false);
   const [isStopping, setIsStopping] = useState(false);
@@ -95,9 +97,9 @@ export function GenerationProgressScreen({
           <div>
             <div className="flex items-center gap-2 mb-1">
               <Sparkles className="h-5 w-5 text-primary animate-pulse" />
-              <h2 className="text-lg font-semibold">Generating Ideas</h2>
+              <h2 className="text-lg font-semibold">{t('ideation.progress.generating')}</h2>
               <Badge variant="outline">
-                {completedCount}/{enabledTypes.length} complete
+                {completedCount}/{enabledTypes.length} {t('ideation.progress.complete')}
               </Badge>
             </div>
             <p className="text-sm text-muted-foreground">{generationStatus.message}</p>
@@ -109,7 +111,7 @@ export function GenerationProgressScreen({
               onClick={() => setShowLogs(!showLogs)}
             >
               <FileCode className="h-4 w-4 mr-1" />
-              {showLogs ? 'Hide' : 'Show'} Logs
+              {showLogs ? t('ideation.progress.hideLogs') : t('ideation.progress.showLogs')} Logs
             </Button>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -120,10 +122,10 @@ export function GenerationProgressScreen({
                   disabled={isStopping}
                 >
                   <Square className="h-4 w-4 mr-1" />
-                  {isStopping ? 'Stopping...' : 'Stop'}
+                  {isStopping ? t('ideation.progress.stopping') : t('ideation.progress.stop')}
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>Stop generation</TooltipContent>
+              <TooltipContent>{t('buttons.stop')}</TooltipContent>
             </Tooltip>
           </div>
         </div>
@@ -134,15 +136,14 @@ export function GenerationProgressScreen({
           {enabledTypes.map((type) => (
             <div
               key={type}
-              className={`flex items-center gap-1.5 px-2 py-1 rounded-md text-xs ${
-                typeStates[type] === 'completed'
+              className={`flex items-center gap-1.5 px-2 py-1 rounded-md text-xs ${typeStates[type] === 'completed'
                   ? 'bg-success/10 text-success'
                   : typeStates[type] === 'failed'
                     ? 'bg-destructive/10 text-destructive'
                     : typeStates[type] === 'generating'
                       ? 'bg-primary/10 text-primary'
                       : 'bg-muted text-muted-foreground'
-              }`}
+                }`}
             >
               <TypeStateIcon state={typeStates[type]} />
               <TypeIcon type={type} />
@@ -199,7 +200,7 @@ export function GenerationProgressScreen({
                   <TypeStateIcon state={state} />
                   {ideas.length > 0 && (
                     <Badge variant="outline" className="ml-auto">
-                      {ideas.length} ideas
+                      {ideas.length} {t('ideation.header.ideas')}
                     </Badge>
                   )}
                 </div>
@@ -215,7 +216,7 @@ export function GenerationProgressScreen({
                       onConvert={onConvert}
                       onGoToTask={onGoToTask}
                       onDismiss={onDismiss}
-                      onToggleSelect={() => {/* Selection disabled during generation */}}
+                      onToggleSelect={() => {/* Selection disabled during generation */ }}
                     />
                   ))}
 
@@ -230,21 +231,21 @@ export function GenerationProgressScreen({
                   {/* Show pending message */}
                   {state === 'pending' && (
                     <div className="text-sm text-muted-foreground py-2">
-                      Waiting to start...
+                      {t('ideation.progress.waiting')}
                     </div>
                   )}
 
                   {/* Show failed message */}
                   {state === 'failed' && ideas.length === 0 && (
                     <div className="text-sm text-destructive py-2">
-                      Failed to generate ideas for this category
+                      {t('ideation.progress.failed')}
                     </div>
                   )}
 
                   {/* Show empty message if completed with no ideas */}
                   {state === 'completed' && ideas.length === 0 && (
                     <div className="text-sm text-muted-foreground py-2">
-                      No ideas generated for this category
+                      {t('ideation.progress.noIdeas')}
                     </div>
                   )}
                 </div>

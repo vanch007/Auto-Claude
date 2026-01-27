@@ -48,11 +48,11 @@ export function IdeationHeader({
         <div>
           <div className="flex items-center gap-2 mb-1">
             <Lightbulb className="h-5 w-5 text-primary" />
-            <h2 className="text-lg font-semibold">Ideation</h2>
-            <Badge variant="outline">{totalIdeas} ideas</Badge>
+            <h2 className="text-lg font-semibold">{t('common:ideation.header.title')}</h2>
+            <Badge variant="outline">{totalIdeas} {t('common:ideation.header.ideas')}</Badge>
           </div>
           <p className="text-sm text-muted-foreground">
-            AI-generated feature ideas for your project
+            {t('common:ideation.header.subtitle')}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -60,7 +60,7 @@ export function IdeationHeader({
           {hasSelection ? (
             <>
               <Badge variant="secondary" className="mr-1">
-                {selectedCount} selected
+                {selectedCount} {t('common:ideation.header.selected')}
               </Badge>
               <Button
                 variant="outline"
@@ -69,7 +69,7 @@ export function IdeationHeader({
                 onClick={onDeleteSelected}
               >
                 <Trash2 className="h-4 w-4 mr-1" />
-                Delete
+                {t('common:buttons.delete')}
               </Button>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -142,7 +142,7 @@ export function IdeationHeader({
                   aria-label={t('accessibility.addMoreAriaLabel')}
                 >
                   <Plus className="h-4 w-4 mr-1" />
-                  Add More
+                  {t('common:buttons.addMore', { defaultValue: 'Add More' })}
                 </Button>
               </TooltipTrigger>
               <TooltipContent>{t('accessibility.addMoreAriaLabel')}</TooltipContent>

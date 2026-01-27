@@ -1,0 +1,1122 @@
+{
+  "projectTab": {
+    "settings": "项目设置",
+    "showArchived": "显示已归档",
+    "hideArchived": "隐藏已归档",
+    "showArchivedTasks": "显示已归档任务",
+    "hideArchivedTasks": "隐藏已归档任务",
+    "closeTab": "关闭标签页",
+    "closeTabAriaLabel": "关闭标签页（从应用中移除项目）",
+    "addProjectAriaLabel": "添加项目",
+    "initializeToCreateTasks": "初始化项目以开始创建任务"
+  },
+  "accessibility": {
+    "sidebar": {
+      "autoClaude": "Auto Claude"
+    }
+  },
+  "steps": {
+    "authenticate": "认证",
+    "configure": "配置"
+  },
+  "buttons": {
+    "save": "保存",
+    "cancel": "取消",
+    "skip": "跳过",
+    "next": "下一步",
+    "back": "上一步",
+    "close": "关闭",
+    "initialize": "初始化",
+    "delete": "删除",
+    "confirm": "确认",
+    "retry": "重试",
+    "create": "创建",
+    "createPR": "创建 PR",
+    "openPR": "打开 PR",
+    "open": "打开",
+    "start": "开始",
+    "stop": "停止",
+    "refresh": "刷新",
+    "refreshing": "刷新中...",
+    "merge": "合并",
+    "discard": "丢弃",
+    "switch": "切换",
+    "add": "添加",
+    "gotIt": "明白了",
+    "continue": "继续",
+    "saving": "保存中...",
+    "apply": "应用"
+  },
+  "labels": {
+    "or": "或",
+    "noIdeasToDisplay": "无创意可显示",
+    "itemsSelected": "{{count}} 已选择",
+    "creating": "Creating...",
+    "dismiss": "关闭",
+    "error": "错误",
+    "important": "重要",
+    "initializing": "Initializing...",
+    "loading": "Loading...",
+    "noData": "无数据",
+    "optional": "可选",
+    "required": "必填",
+    "saving": "Saving...",
+    "success": "Success"
+  },
+  "selection": {
+    "select": "选择",
+    "done": "完成",
+    "selected": "已选择 {{count}} 项",
+    "selectAll": "全选",
+    "clearSelection": "清除选择",
+    "deleteSelected": "删除已选",
+    "selectedOfTotal": "已选择 {{selected}} / {{total}}"
+  },
+  "time": {
+    "justNow": "刚刚",
+    "minutesAgo": "{{count}} 分钟前",
+    "hoursAgo": "{{count}} 小时前",
+    "daysAgo": "{{count}} 天前",
+    "recently": "最近"
+  },
+  "errors": {
+    "generic": "发生错误",
+    "unknownError": "发生未知错误",
+    "operationFailed": "操作失败",
+    "networkError": "网络错误",
+    "notFound": "未找到",
+    "unauthorized": "未授权",
+    "bulkDeletePartialFailure": "部分工作树无法删除：",
+    "taskNotFoundForWorktree": "未找到工作树的任务：{{specName}}",
+    "failedToDeleteTaskWorktree": "删除任务工作树失败：{{specName}}",
+    "terminalWorktreeNotFound": "未找到终端工作树：{{name}}",
+    "failedToDeleteTerminalWorktree": "删除终端工作树失败：{{name}}"
+  },
+  "notification": {
+    "accountSwitched": "账号已切换",
+    "swapFrom": "已从",
+    "swapTo": "切换至",
+    "swapReason": "（{{reason}} 切换）"
+  },
+  "rateLimit": {
+    "title": "触发频率限制",
+    "resetsAt": "重置时间 {{time}}",
+    "hitLimit": "{{source}} 已达到使用限额",
+    "clickToManage": "点击管理 →",
+    "modalTitle": "已达到 Claude Code 使用限额",
+    "modalDescription": "您在此时间段内的 Claude Code 使用限额已用完。",
+    "profile": "配置：{{name}}",
+    "autoSwitching": "自动切换至 {{name}}",
+    "autoSwitchingDescription": "Claude 将自动使用您的另一个账号重启",
+    "resetsTime": "重置时间 {{time}}",
+    "usageRestored": "您的限额将在此时恢复",
+    "switchAccount": "切换 Claude 账号",
+    "useAnotherAccount": "使用另一个账号",
+    "recommended": "建议：{{name}} 有更多可用容量。",
+    "otherSubscriptions": "您已配置其他 Claude 订阅。请切换以继续工作：",
+    "selectAccount": "选择账号...",
+    "switching": "切换中...",
+    "addNewAccount": "添加新账号...",
+    "addAnotherSubscription": "添加另一个 Claude 订阅，以便在触发频率限制时自动切换。",
+    "addAnotherAccount": "添加另一个账号：",
+    "connectAccount": "连接 Claude 账号：",
+    "accountNamePlaceholder": "账号名称（如：办公、个人）",
+    "willOpenLogin": "这将打开 Claude 登录页面以验证新账号。",
+    "autoSwitchOnRateLimit": "触发频率限制时自动切换",
+    "upgradeTitle": "升级以获得更多限额",
+    "upgradeDescription": "升级您的 Claude 订阅以获得更高的频率限制。",
+    "upgradeSubscription": "升级订阅",
+    "sources": {
+      "changelog": "变更日志",
+      "task": "任务",
+      "roadmap": "路线图",
+      "ideation": "构思",
+      "titleGenerator": "标题生成器",
+      "claude": "Claude"
+    },
+    "toast": {
+      "authenticating": "正在验证 \"{{profileName}}\"",
+      "checkTerminal": "请查看侧边栏的“Agent 终端”部分以完成 OAuth 登录。",
+      "authStartFailed": "启动验证失败",
+      "addProfileFailed": "添加配置失败",
+      "tryAgain": "请重试。"
+    },
+    "sdk": {
+      "title": "Claude Code 频率限制",
+      "interrupted": "{{source}} 由于限额限制已中断。",
+      "proactiveSwap": "✓ 主动切换",
+      "reactiveSwap": "⚡ 被动切换",
+      "proactiveSwapDesc": "在触及频率限制前，已自动从 {{from}} 切换至 {{to}}。",
+      "reactiveSwapDesc": "{{from}} 已触发频率限制。已自动切换至 {{to}} 并重启。",
+      "continueWithoutInterruption": "您的工作未中断，继续进行。",
+      "rateLimitReached": "达到频率限制",
+      "operationStopped": "操作已停止，因为 {{account}} 已达到其使用限额。",
+      "switchBelow": "请在下方切换到另一个账号以继续。",
+      "addAccountToContinue": "添加另一个 Claude 账号以继续工作。",
+      "upgradeToProButton": "升级到 Pro 以获得更高限额",
+      "resetsLabel": "重置时间 {{time}}",
+      "weeklyLimit": "周限额 - 大约一周后重置",
+      "sessionLimit": "会话限额 - 几小时后重置",
+      "switchAccountRetry": "切换账号并重试",
+      "retrying": "重试中...",
+      "autoSwitchRetryLabel": "触发频率限制时自动切换并重试",
+      "add": "添加",
+      "whatHappened": "发生了什么：",
+      "whatHappenedDesc": "由于您的 Claude 账号 ({{account}}) 达到使用限额，{{source}} 操作已停止。",
+      "switchRetryOrAdd": "您可以切换到另一个账号重试，或在上方添加更多账号。",
+      "addOrWait": "在上方添加另一个 Claude 账号以继续工作，或等待限额重置。",
+      "close": "关闭",
+      "retry": "Retry"
+    }
+  },
+  "prReview": {
+    "reviewing": "评审中",
+    "reviewed": "已评审",
+    "approved": "已批准",
+    "changesRequested": "需修改",
+    "commented": "已评论",
+    "readyForFollowup": "等待跟进",
+    "readyToMerge": "可合并",
+    "pendingPost": "等待发布",
+    "posted": "已发布",
+    "notReviewed": "未评审",
+    "allStatuses": "所有状态",
+    "allContributors": "所有贡献者",
+    "searchPlaceholder": "搜索 PR...",
+    "contributors": "贡献者",
+    "contributorsSelected": "贡献者 ({{count}})",
+    "status": "状态",
+    "filters": "筛选",
+    "clearFilters": "清除",
+    "clearSearch": "清除搜索",
+    "searchContributors": "搜索贡献者...",
+    "selectedCount": "已选择 {{count}} 项",
+    "noResultsFound": "未找到结果",
+    "reset": "重置",
+    "pullRequests": "Pull Requests",
+    "open": "开启",
+    "selectPRToView": "选择一个 Pull Request 以查看详情",
+    "loadingPRs": "加载 Pull Request 中...",
+    "noOpenPRs": "没有开启的 Pull Request",
+    "notConnected": "GitHub 未连接",
+    "connectPrompt": "连接您的 GitHub 账号以查看和评审 Pull Request。",
+    "openSettings": "打开设置",
+    "runAIReview": "运行 AI 评审",
+    "reviewStarted": "评审已开始",
+    "analysisInProgress": "AI 分析进行中...",
+    "analysisComplete": "分析完成（发现 {{count}} 处问题）",
+    "findingsPostedToGitHub": "发现的问题已发布到 GitHub",
+    "newCommits": "{{count}} 个新提交",
+    "newCommit": "{{count}} 个新提交",
+    "runFollowup": "运行跟进",
+    "aiReviewInProgress": "AI 评审进行中",
+    "waitingForChanges": "等待修改",
+    "reviewComplete": "评审完成",
+    "reviewStatus": "评审状态",
+    "files": "文件",
+    "filesChanged": "{{count}} 个文件已更改",
+    "clickToViewFiles": "点击查看更改的文件",
+    "loadingFiles": "加载文件中...",
+    "noFilesAvailable": "文件列表不可用",
+    "posting": "发布中...",
+    "postingApproval": "发布批准中...",
+    "postFindings": "发布 {{count}} 处发现",
+    "postFindings_plural": "发布 {{count}} 处发现",
+    "approve": "批准",
+    "merge": "合并",
+    "mergeViaGitHub": "通过 GitHub CLI 合并。如果分支保护规则需要额外的评审或检查，可能会失败。",
+    "autoApprovePR": "批准 PR",
+    "suggestions": "以及 {{count}} 条建议",
+    "postedFindings": "已发布 {{count}} 处发现",
+    "postedFindings_plural": "已发布 {{count}} 处发现",
+    "resolved": "已解决 {{count}} 处",
+    "resolved_plural": "已解决 {{count}} 处",
+    "stillOpen": "还有 {{count}} 处未关闭",
+    "stillOpen_plural": "还有 {{count}} 处未关闭",
+    "newIssue": "{{count}} 个新问题",
+    "newIssue_plural": "{{count}} 个新问题",
+    "reviewFailed": "评审失败",
+    "description": "描述",
+    "noDescription": "未提供描述。",
+    "followupReviewDetails": "跟进评审详情",
+    "aiAnalysisResults": "AI 分析结果",
+    "cancel": "取消",
+    "previousReview": "上次评审（发现 {{count}} 处问题）",
+    "findingsPosted": "已发布 {{count}} 处",
+    "followupInProgress": "跟进分析进行中...",
+    "severity": {
+      "critical": "阻塞",
+      "high": "必改",
+      "medium": "建议",
+      "low": "提示",
+      "criticalDesc": "必须修复",
+      "highDesc": "应该修复",
+      "mediumDesc": "提升质量",
+      "lowDesc": "可以考虑"
+    },
+    "category": {
+      "security": "安全",
+      "logic": "逻辑",
+      "quality": "质量",
+      "performance": "性能",
+      "style": "风格",
+      "documentation": "文档",
+      "testing": "测试",
+      "other": "其他"
+    },
+    "state": {
+      "open": "开启",
+      "closed": "关闭",
+      "merged": "已合并"
+    },
+    "selectCriticalHigh": "选择 阻塞/必改 ({{count}})",
+    "selectAll": "全选",
+    "clear": "清除",
+    "noIssuesFound": "未发现问题！代码看起来很棒。",
+    "allFindingsPosted": "所有发现已发布到 GitHub",
+    "findingsPostedCount": "{{count}} 处发现已发布到 GitHub",
+    "findingsPostedCount_plural": "{{count}} 处发现已发布到 GitHub",
+    "selectedOfTotal": "已选择 {{selected}} / {{total}}",
+    "suggestedFix": "修复建议：",
+    "runAIReviewDesc": "运行 AI 评审以分析此 PR",
+    "newCommitsSinceFollowup": "自上次跟进后有 {{count}} 个新提交。运行另一次跟进评审。",
+    "newCommitsSinceFollowup_plural": "自上次跟进后有 {{count}} 个新提交。运行另一次跟进评审。",
+    "allIssuesResolved": "所有 {{count}} 个问题已解决。此 PR 可以合并。",
+    "allIssuesResolved_plural": "所有 {{count}} 个问题已解决。此 PR 可以合并。",
+    "nonBlockingSuggestions": "{{resolved}} 处已解决。还剩下 {{suggestions}} 处非阻塞建议。",
+    "nonBlockingSuggestions_plural": "{{resolved}} 处已解决。还剩下 {{suggestions}} 处非阻塞建议。",
+    "blockingIssues": "阻塞性问题",
+    "blockingIssuesDesc": "{{resolved}} 处已解决，还有 {{unresolved}} 处阻塞性问题未关闭。",
+    "blockingIssuesDesc_plural": "{{resolved}} 处已解决，还有 {{unresolved}} 处阻塞性问题未关闭。",
+    "newCommitsSinceReview": "自上次评审后有 {{count}} 个新提交。运行跟进以检查问题是否已解决。",
+    "newCommitsSinceReview_plural": "自上次评审后有 {{count}} 个新提交。运行跟进以检查问题是否已解决。",
+    "noBlockingIssues": "未发现阻塞性问题。此 PR 可以合并。",
+    "findingsPostedWaiting": "已发布 {{count}} 处发现。正在等待贡献者处理问题。",
+    "findingsPostedWaiting_plural": "已发布 {{count}} 处发现。正在等待贡献者处理问题。",
+    "findingsPostedNoBlockers": "已发布 {{count}} 处发现。没有剩余的阻塞性问题。",
+    "findingsPostedNoBlockers_plural": "已发布 {{count}} 处发现。没有剩余的阻塞性问题。",
+    "needsAttention": "需要关注",
+    "findingsNeedPosting": "有 {{count}} 处发现需要发布到 GitHub。",
+    "findingsNeedPosting_plural": "有 {{count}} 处发现需要发布到 GitHub。",
+    "findingsFoundSelectPost": "发现 {{count}} 处问题。请选择并发布到 GitHub。",
+    "findingsFoundSelectPost_plural": "发现 {{count}} 处问题。请选择并发布到 GitHub。",
+    "reviewLogs": "评审日志",
+    "followup": "跟进",
+    "initial": "初始",
+    "rerunFollowup": "重新运行跟进评审",
+    "rerunReview": "重新运行评审",
+    "updateBranch": "更新分支",
+    "updatingBranch": "更新中...",
+    "branchUpdated": "分支已更新",
+    "branchUpdateFailed": "更新分支失败",
+    "loadingMore": "加载更多 PR...",
+    "scrollForMore": "滚动加载更多",
+    "allPRsLoaded": "所有 PR 已加载",
+    "workflowsAwaitingApproval": "{{count}} 个工作流等待批准",
+    "workflowsAwaitingApproval_plural": "{{count}} 个工作流等待批准",
+    "blockedByWorkflows": "已阻塞",
+    "workflowsAwaitingDescription": "此 PR 来自 fork 的分支，在运行 CI 检查之前需要批准工作流。请批准工作流以继续。",
+    "viewOnGitHub": "查看",
+    "approveWorkflow": "批准",
+    "approveAllWorkflows": "批准所有工作流",
+    "postCleanReview": "发布通过评审",
+    "postingCleanReview": "发布中...",
+    "cleanReviewPosted": "已发布通过评审",
+    "cleanReviewMessageTitle": "## ✅ Auto Claude PR 评审 - 通过",
+    "cleanReviewMessageStatus": "**状态：** 代码精良",
+    "cleanReviewMessageFooter": "*此次自动评审未发现任何问题。由 Auto Claude 生成。*",
+    "failedPostCleanReview": "发布通过评审失败",
+    "viewErrorDetails": "查看详情",
+    "hideErrorDetails": "隐藏详情",
+    "postBlockedStatus": "发布状态",
+    "postingBlockedStatus": "发布中...",
+    "blockedStatusPosted": "状态已发布到 PR",
+    "blockedStatusMessageTitle": "## 🤖 Auto Claude PR 评审",
+    "blockedStatusMessageFooter": "*此次评审发现了一些必须在合并前解决的阻塞问题。由 Auto Claude 生成。*",
+    "failedPostBlockedStatus": "发布状态失败",
+    "branchSynced": "分支已同步（距基准分支 {{count}} 个提交）",
+    "branchSynced_plural": "分支已同步（距基准分支 {{count}} 个提交）",
+    "newCommitsOverlap": "{{count}} 个新提交（修改了 {{files}} 个发现的文件）",
+    "newCommitsOverlap_plural": "{{count}} 个新提交（修改了 {{files}} 个发现的文件）",
+    "newCommitsNoOverlap": "{{count}} 个新提交（与发现文件无重叠）",
+    "newCommitsNoOverlap_plural": "{{count}} 个新提交（与发现文件无重叠）",
+    "verifyChanges": "验证更改",
+    "verifyAnyway": "验证",
+    "runFollowupAnyway": "即使没有文件重叠也运行跟进验证",
+    "logs": {
+      "agentActivity": "Agent 活动",
+      "showMore": "显示更多 ({{count}})",
+      "hideMore": "隐藏更多 ({{count}})"
+    },
+    "maxPRsShown": "Showing first 100 PRs"
+  },
+  "downloads": {
+    "toggleExpand": "展开/折叠下载详情",
+    "downloading": "正在下载 {{count}} 个模型",
+    "downloading_plural": "正在下载 {{count}} 个模型",
+    "complete": "{{count}} 个下载已完成",
+    "complete_plural": "{{count}} 个下载已完成",
+    "failed": "{{count}} 个下载失败",
+    "failed_plural": "{{count}} 个下载失败",
+    "clearAll": "清除所有已完成的下载",
+    "done": "完成",
+    "failedLabel": "失败",
+    "starting": "开始中..."
+  },
+  "issues": {
+    "loadingMore": "正在加载更多...",
+    "scrollForMore": "滚动查看更多",
+    "allLoaded": "所有问题已加载"
+  },
+  "usage": {
+    "dataUnavailable": "使用情况数据不可用",
+    "dataUnavailableDescription": "此提供程序的监控端点不可用或不支持。",
+    "activeAccount": "激活账号",
+    "usageAlert": "使用警报",
+    "accountExceedsThreshold": "账号使用量超过 90% 阈值",
+    "authentication": "身份验证",
+    "authenticationAriaLabel": "身份验证：{{provider}}",
+    "authenticationDetails": "身份验证详情",
+    "apiProfile": "API 配置",
+    "oauth": "OAuth",
+    "provider": "提供商",
+    "providerAnthropic": "Anthropic",
+    "providerZai": "z.ai",
+    "providerZhipu": "智谱 AI",
+    "providerUnknown": "未知",
+    "profile": "配置",
+    "id": "ID",
+    "created": "创建时间",
+    "apiEndpoint": "API 端点",
+    "sessionQuota": "会话额度",
+    "notAvailable": "不适用",
+    "usageStatusAriaLabel": "使用状态",
+    "usageBreakdown": "使用明细",
+    "used": "已使用",
+    "loading": "加载中...",
+    "sessionDefault": "会话",
+    "weeklyDefault": "周度",
+    "resetsInHours": "{{hours}} 小时 {{minutes}} 分钟后重置",
+    "resetsInDays": "{{days}} 天 {{hours}} 小时后重置",
+    "window5Hour": "5 小时窗口",
+    "window7Day": "7 天窗口",
+    "window5HoursQuota": "5 小时额度",
+    "windowMonthlyToolsQuota": "月度工具额度",
+    "otherAccounts": "其他账号",
+    "next": "下一步",
+    "weeklyLimitReached": "已达到周限额",
+    "sessionLimitReached": "已达到会话限额",
+    "notAuthenticated": "未验证",
+    "sessionShort": "5 小时会话使用量",
+    "weeklyShort": "7 天周度使用量",
+    "swap": "交换",
+    "apiKey": "API Key",
+    "claudeCode": "Claude Code",
+    "claudeCodeSubscription": "Claude Code subscription",
+    "clickToOpenSettings": "Click to open Settings →",
+    "needsReauth": "Needs re-auth",
+    "reauthButton": "Re-authenticate",
+    "reauthRequired": "Re-authentication required",
+    "reauthRequiredDescription": "Your session has expired. Re-authenticate to view usage and continue using this account.",
+    "subscription": "Subscription"
+  },
+  "oauth": {
+    "enterCode": "手动输入代码 (回退方案)",
+    "enterCodeDescription": "仅在浏览器未自动重定向时需要此对话框。如果您的浏览器中已完成身份验证，可以关闭此对话框。",
+    "fallbackNote": "仅当您在浏览器中看到“将此内容粘贴到 Claude Code”页面时才使用此选项。",
+    "step1": "在浏览器中完成授权",
+    "step2": "如果您看到一个代码页面，请复制显示的代码",
+    "step3": "在下方粘贴代码并点击提交",
+    "codeLabel": "授权码",
+    "codePlaceholder": "在此粘贴您的代码（仅在需要时）...",
+    "codeHint": "代码是仅在自动重定向失败时显示的冗长字符串",
+    "submit": "提交",
+    "submitting": "提交中...",
+    "codeSubmitted": "代码已提交",
+    "codeSubmittedDescription": "身份验证应很快完成。请查看终端确认。",
+    "codeSubmitFailed": "提交代码失败",
+    "codeSubmitFailedDescription": "请重试或手动将代码复制到终端。",
+    "authenticateTitle": "验证 Claude 身份",
+    "authenticateDescription": "Auto Claude 需要验证 Claude AI 身份以启用各种 AI 功能，如计划生成、任务自动化和构思。",
+    "authenticateTerminalInfo": "这将打开一个集成 Claude CLI 的终端供您进行验证。您的凭据将被安全存储且有效期为 1 年。",
+    "completeAuthTitle": "完成身份验证",
+    "terminalOpened": "包含 Claude CLI 的终端窗口已打开。",
+    "completeStepsTitle": "在终端中完成以下步骤：",
+    "stepTypeLogin": "输入 <code>/login</code> 并按回车",
+    "stepBrowserOpen": "您的浏览器将打开以进行 Claude 身份验证",
+    "stepCompleteOAuth": "在浏览器中完成 OAuth 流程",
+    "stepReturnAndVerify": "返回此处并点击 <strong>验证身份</strong>",
+    "verifyAuth": "验证身份",
+    "verifyingAuth": "正在验证身份...",
+    "checkingCredentials": "正在检查您的 Claude 凭据。",
+    "successTitle": "身份验证成功！",
+    "connectedAs": "已连接账号：{{email}}",
+    "credentialsSaved": "您的 Claude 凭据已保存",
+    "canUseFeatures": "您现在可以使用 Auto Claude 的所有 AI 功能",
+    "authFailed": "身份验证失败",
+    "skipForNow": "暂时跳过",
+    "manualTokenEntry": "手动输入 Token",
+    "tokenCommandHint": "运行 <code>claude setup-token</code> 以获取您的 Token",
+    "emailOptionalPlaceholder": "邮箱（可选，仅用于显示）",
+    "saveToken": "保存 Token",
+    "accountNamePlaceholder": "账号名称（如：办公、个人）",
+    "hasAuthenticatedAccount": "您至少有一个已验证的 Claude 账号。您可以继续下一步。",
+    "authNotDetected": "未检测到身份验证。请先在终端中完成 /login。",
+    "noProfileSelected": "未选择要验证的配置",
+    "alerts": {
+      "profileCreatedAuthFailed": "配置已创建，但启动身份验证失败：{{error}}",
+      "authPrepareFailed": "准备身份验证失败：{{error}}",
+      "authStartFailedMessage": "启动身份验证失败。请重试。"
+    },
+    "badges": {
+      "default": "默认",
+      "active": "激活",
+      "authenticated": "已验证",
+      "needsAuth": "待验证"
+    },
+    "buttons": {
+      "authenticate": "验证",
+      "setActive": "设为激活",
+      "back": "返回",
+      "skip": "跳过",
+      "continue": "继续"
+    },
+    "toast": {
+      "tokenSaved": "Token 已保存",
+      "tokenSavedDescription": "您的 Claude Token 已安全保存。",
+      "tokenSaveFailed": "保存 Token 失败",
+      "addProfileFailed": "添加配置失败",
+      "tryAgain": "请重试。"
+    },
+    "configureTitle": "配置 Claude 账号",
+    "addAccountsDesc": "添加并验证您的 Claude 账号以使用 AI 功能。",
+    "multiAccountInfo": "您可以添加多个 Claude 账号。激活的账号将用于 AI 功能。您可以随时切换账号。",
+    "keychainTitle": "安全存储",
+    "keychainDescription": "您的身份验证 Token 已安全存储在系统钥匙串（macOS Keychain / Windows Credential Manager）中。",
+    "noAccountsYet": "尚未添加任何账号。请在下方添加您的第一个 Claude 账号。"
+  },
+  "authTerminal": {
+    "failedToCreate": "创建终端失败",
+    "unknownError": "未知错误",
+    "instructionTitle": "Claude 身份验证",
+    "step1": "按回车键开始身份验证",
+    "step2": "在浏览器中完成身份验证",
+    "step3": "返回此处 - 将自动检测身份验证",
+    "authFailed": "身份验证失败",
+    "connecting": "连接中...",
+    "authenticate": "验证：{{profileName}}",
+    "completeSetup": "完成设置：{{profileName}}",
+    "authenticatedAs": "已验证为 {{email}}",
+    "authenticated": "已验证！",
+    "authError": "身份验证错误",
+    "onboardingMessage": "已收到 Token！请在下方完成 Claude Code 的初始设置 - 完成后此窗口将自动关闭。",
+    "successMessage": "身份验证成功！正在关闭..."
+  },
+  "profileCreated": {
+    "title": "配置 \"{{profileName}}\" 已创建。",
+    "instructions": "如何验证此配置：",
+    "step1": "前往 设置 > 集成",
+    "step2": "在 Claude 账号 部分找到该配置",
+    "step3": "点击“验证”以完成登录",
+    "footer": "完成身份验证后，该账号将变为可用状态。"
+  },
+  "auth": {
+    "reAuthenticationRequired": "需要重新认证",
+    "sessionExpired": "您的会话已过期。请重新认证以查看用量并继续使用此账号。",
+    "clickToOpenSettings": "点击打开设置 ",
+    "reAuthenticate": "重新认证",
+    "setupOAuth": "设置 OAuth",
+    "claudeAuthentication": "Claude 认证",
+    "authenticatedViaOAuth": "已通过 OAuth 认证",
+    "notAuthenticated": "未认证",
+    "oauthToken": "OAuth 令牌",
+    "override": "(覆盖)",
+    "usingGlobalToken": "使用全局令牌",
+    "usingTokenFromAppSettings": "使用应用设置中的令牌。在下方输入项目专用令牌以覆盖。",
+    "pasteTokenHint": "从 claude setup-token 粘贴令牌",
+    "enterToOverride": "输入以覆盖全局令牌...",
+    "tokenPlaceholder": "您的 OAuth 令牌"
+  },
+  "insights": {
+    "title": "Insights",
+    "subtitle": "针对您的代码库进行提问",
+    "newChat": "新对话",
+    "startConversation": "开始对话",
+    "description": "询问关于代码库的问题、获取改进建议，或讨论您想要实现的功能。",
+    "inputPlaceholder": "询问关于代码库的问题...",
+    "inputHint": "按 Enter 发送，Shift+Enter 换行",
+    "you": "您",
+    "assistant": "助手",
+    "thinking": "思考中...",
+    "suggestedTask": "建议任务",
+    "taskCreated": "任务已创建",
+    "createTask": "创建任务",
+    "toolsUsed": "个工具已使用",
+    "toolsUsed_plural": "个工具已使用",
+    "hideSidebar": "隐藏侧边栏",
+    "showSidebar": "显示侧边栏",
+    "suggestions": {
+      "architecture": "这个项目的架构是什么？",
+      "quality": "建议如何改进代码质量",
+      "nextFeatures": "接下来可以添加哪些功能？",
+      "security": "是否存在任何安全隐患？"
+    },
+    "tools": {
+      "read": "正在读取文件",
+      "glob": "正在搜索文件",
+      "grep": "正在搜索代码"
+    }
+  },
+  "roadmap": {
+    "empty": {
+      "title": "暂无路线图",
+      "description": "生成基于 AI 的路线图，深入了解项目的目标受众并创建战略性功能计划。",
+      "generate": "生成路线图"
+    },
+    "priority": {
+      "must": "必须",
+      "should": "应该",
+      "could": "可以",
+      "wont": "不会"
+    },
+    "complexity": {
+      "low": "低",
+      "medium": "中",
+      "high": "高"
+    },
+    "impact": {
+      "low": "低",
+      "medium": "中",
+      "high": "高"
+    },
+    "status": {
+      "planned": "计划中",
+      "in_progress": "进行中",
+      "done": "已完成",
+      "active": "活跃",
+      "completed": "已完成"
+    },
+    "severity": {
+      "low": "低",
+      "medium": "中",
+      "high": "高"
+    },
+    "dialogs": {
+      "competitor": {
+        "title": "启用竞品分析？",
+        "description": "通过竞品分析获取见解，优化您的路线图",
+        "whatItDoes": "竞品分析的作用：",
+        "identifyCompetitors": "根据项目类型识别 3-5 个主要竞品",
+        "searchFeedback": "搜索应用商店、论坛和社交媒体，获取用户反馈和痛点",
+        "suggestFeatures": "建议解决竞品差距的功能",
+        "privacyTitle": "将进行网络搜索",
+        "privacyDescription": "此功能将通过网络搜索收集竞品信息。您的项目名称和类型将用于搜索查询。不会共享代码或敏感数据。",
+        "optionalInfo": "如果您愿意，可以在不进行竞品分析的情况下生成路线图。路线图仍将基于您的项目结构和最佳实践。",
+        "skip": "不，跳过分析",
+        "enable": "是，启用分析"
+      },
+      "existing": {
+        "title": "竞品分析选项",
+        "existingFound": "此项目已有来自 {{date}} 的竞品分析",
+        "useExisting": "使用现有分析",
+        "recommended": "（推荐）",
+        "useExistingDesc": "重用您已有的竞品见解。速度更快，且无需额外的网络搜索。",
+        "runNew": "运行新分析",
+        "runNewDesc": "进行全新的网络搜索以获取更新的竞品信息。耗时较长。",
+        "skipTitle": "跳过竞品分析",
+        "skipDesc": "生成不带任何竞品见解的路线图。"
+      }
+    },
+    "generation": {
+      "stopping": "正在停止...",
+      "stop": "停止",
+      "stopTooltip": "停止生成",
+      "progress": "进度",
+      "phases": {
+        "analyzing": {
+          "label": "分析中",
+          "description": "正在分析项目结构和代码库...",
+          "step": "分析"
+        },
+        "discovering": {
+          "label": "探索中",
+          "description": "正在发现目标受众和用户需求...",
+          "step": "探索"
+        },
+        "generating": {
+          "label": "生成中",
+          "description": "正在生成功能路线图...",
+          "step": "生成"
+        },
+        "complete": {
+          "label": "完成",
+          "description": "路线图生成完成！"
+        },
+        "error": {
+          "label": "错误",
+          "description": "生成失败"
+        }
+      }
+    }
+  },
+  "ideation": {
+    "converting": "转换中...",
+    "convertToTask": "转换为自动构建任务",
+    "dismissIdea": "忽略想法",
+    "description": "描述",
+    "rationale": "原由",
+    "goToTask": "跳转到任务",
+    "conversionFailed": "转换失败",
+    "conversionFailedDescription": "无法将想法转换为任务",
+    "conversionError": "转换错误",
+    "conversionErrorDescription": "转换想法时发生错误",
+    "header": {
+      "title": "构思",
+      "ideas": "创意",
+      "subtitle": "为您的项目生成的 AI 创意",
+      "selected": "已选择"
+    },
+    "empty": {
+      "title": "暂无创意",
+      "description": "根据项目背景、现有模式和目标受众，生成基于 AI 的功能构思。",
+      "generate": "生成创意",
+      "enabledTypes": "已启用的构思类型",
+      "tokenWarning": "未配置 Claude 令牌。生成时将提示您输入。"
+    },
+    "types": {
+      "code_improvements": "代码改进",
+      "ui_ux_improvements": "UI/UX 改进",
+      "documentation_gaps": "文档缺失",
+      "security_hardening": "安全加固",
+      "performance_optimizations": "性能优化",
+      "code_quality": "代码质量"
+    },
+    "descriptions": {
+      "code_improvements": "识别重构机会、潜在错误和逻辑简化。",
+      "ui_ux_improvements": "建议改进用户界面、交互流动和视觉设计。",
+      "documentation_gaps": "识别缺失或不足的文档，并建议如何修复。",
+      "security_hardening": "查找潜在的安全漏洞、不安全的代码模式和硬编码凭据。",
+      "performance_optimizations": "识别性能瓶颈、内存泄漏和效率低下的算法。",
+      "code_quality": "建议遵循最佳实践、风格指南和提高一致性。"
+    },
+    "dialogs": {
+      "configTitle": "构思配置",
+      "configDescription": "配置要生成的创意类型",
+      "typesTitle": "构思类型",
+      "contextTitle": "上下文来源",
+      "roadmapContext": "包含路线图上下文",
+      "kanbanContext": "包含看板上下文",
+      "addMoreTitle": "添加更多创意",
+      "addMoreDescription": "选择要生成的其他构思类型。您现有的创意将被保留。",
+      "allGenerated": "您已经生成了所有构思类型！",
+      "regenerateTip": "使用「重新生成」以刷新现有创意。",
+      "generateWithCount": "生成 {{count}} 个类型"
+    },
+    "auth": {
+      "title": "需要 Claude 身份验证",
+      "description": "需要 Claude Code OAuth 令牌才能生成 AI 驱动的功能创意。",
+      "tokenConfigured": "令牌配置成功",
+      "tokenConfiguredDesc": "您现在可以使用 AI 功能，如构思和路线图生成。",
+      "useExistingAccount": "使用现有账户",
+      "accountCount": "您有 {{count}} 个经过身份验证的 Claude 账户。请选择一个使用：",
+      "selectAccount": "选择账户",
+      "default": "默认",
+      "useThisAccount": "使用此账户",
+      "authenticateWithBrowser": "使用浏览器验证",
+      "authenticateNewAccount": "验证新账户",
+      "authNewAccountDesc": "通过浏览器登录添加新的 Claude 账户。",
+      "authBrowserDesc": "点击下方打开浏览器并登录您的 Claude 账户。",
+      "waitingForAuth": "等待验证...",
+      "browserInstructions": "浏览器窗口应已打开。请在那里完成验证，然后返回此处。",
+      "enterTokenManually": "手动输入令牌",
+      "stepsTitle": "步骤：",
+      "step1": "安装 Claude Code CLI（如果尚未安装）",
+      "step2": "运行 {{command}}",
+      "step3": "复制令牌并粘贴到下方",
+      "viewDocs": "查看文档",
+      "oauthTokenLabel": "Claude Code OAuth 令牌",
+      "tokenPlaceholder": "输入您的令牌...",
+      "tokenSavePath": "令牌将保存至 {{path}}",
+      "hideToken": "隐藏令牌",
+      "showToken": "显示令牌",
+      "tokenAlreadyConfigured": "已配置令牌。",
+      "replaceTokenManual": "在上方输入新令牌以替换。",
+      "replaceTokenAuth": "再次验证以替换。",
+      "saveToken": "保存令牌",
+      "errors": {
+        "noProject": "未选择项目。请先选择一个项目。",
+        "tokenRequired": "请输入令牌",
+        "invalidToken": "所选配置没有有效的令牌",
+        "saveFailed": "保存令牌失败",
+        "authStartFailed": "启动身份验证失败",
+        "checkTokenFailed": "检查令牌状态失败"
+      }
+    }
+  },
+  "terminal": {
+    "empty": {
+      "title": "Agent 终端",
+      "description": "开启多个终端并行运行 Claude Agent。使用 <1>Ctrl+T</1> 创建新终端。",
+      "newTerminal": "新建终端"
+    }
+  },
+  "projectIndex": {
+    "title": "项目结构",
+    "subtitle": "AI 发现的代码库知识",
+    "refresh": "刷新",
+    "reAnalyze": "重新分析项目结构",
+    "noIndexFound": "未找到项目索引",
+    "noIndexDescription": "点击刷新按钮分析项目结构并创建索引。",
+    "analyzeProject": "分析项目",
+    "overview": "概览",
+    "services": "服务",
+    "infrastructure": "基础设施",
+    "conventions": "规范",
+    "failedToLoad": "加载项目索引失败",
+    "serviceCount": "{{count}} 个服务",
+    "dockerCompose": "Docker Compose",
+    "ciCd": "CI/CD",
+    "deployment": "部署",
+    "dockerServices": "Docker 服务",
+    "pythonLinting": "Python Linting",
+    "jsLinting": "JS Linting",
+    "formatting": "格式化",
+    "gitHooks": "Git Hooks",
+    "typescript": "TypeScript",
+    "enabled": "已启用"
+  },
+  "changelog": {
+    "title": "更新日志",
+    "step1": "第 1 步：选择变更",
+    "step2": "配置与预览",
+    "step3": "完成并发布",
+    "select": "选择",
+    "generate": "生成",
+    "release": "发布",
+    "refresh": "刷新",
+    "noProjectSelected": "未选择项目",
+    "selectProjectDescription": "在侧边栏选择一个项目以生成更新日志。",
+    "backToSelection": "返回选择",
+    "summaryCount": "包含 {{count}} 个 {{label}}",
+    "releaseInfo": "发布信息",
+    "version": "版本号",
+    "date": "日期",
+    "outputStyle": "输出样式",
+    "format": "格式",
+    "audience": "受众",
+    "emojis": "表情",
+    "advancedOptions": "高级选项",
+    "customInstructions": "自定义指令",
+    "customInstructionsPlaceholder": "为 AI 添加任何特殊指令...",
+    "customInstructionsHelp": "可选。引导 AI 的语气、需要包含的具体细节等。",
+    "generating": "正在生成...",
+    "generateButton": "生成更新日志",
+    "preview": "预览",
+    "markdown": "Markdown",
+    "saveToChangelog": "保存到 CHANGELOG.md",
+    "loadingImage": "正在加载图片...",
+    "imageNotFound": "未找到图片",
+    "dropImages": "将图片拖放到此处以添加到更新日志",
+    "pasteImagesHelp": "将图片粘贴到描述中以将其保存到更新日志",
+    "placeholder": "生成的更新日志将显示在这里...",
+    "clickGenerateHelp": "点击“生成更新日志”以创建版本说明。",
+    "savedSuccess": "更新日志已保存！",
+    "savedDescription": "版本 {{tag}} 已添加到 CHANGELOG.md",
+    "tasksSelectedOfTotal": "已选择 {{selected}} / {{total}} 个任务",
+    "noCompletedTasks": "没有已完成的任务",
+    "noCompletedTasksHelp": "在看板中完成任务并将其标记为“完成”以将其包含在更新日志中。",
+    "commitsFound": "找到 {{count}} 条提交",
+    "loadingCommits": "正在加载提交...",
+    "noCommitsFound": "未找到提交",
+    "noCommitsFoundHelpHistory": "配置历史选项并点击“加载提交”进行预览。",
+    "noCommitsFoundHelpDiff": "选择两个分支并点击“加载提交”以查看变更。",
+    "sourceLabel": "更新日志源",
+    "gitOptions": "Git 历史选项",
+    "historyType": "历史类型",
+    "sinceVersion": "自版本以来",
+    "recentCommits": "最近的提交",
+    "sinceDate": "自日期以来",
+    "tagRange": "标签范围",
+    "numCommits": "提交数量",
+    "fromTag": "起始标签",
+    "toTag": "截止标签",
+    "lastVersion": "上一版本",
+    "includeMergeCommits": "包含合并提交",
+    "loadCommits": "加载提交",
+    "branchComparison": "分支对比",
+    "baseBranch": "基准分支",
+    "compareBranch": "对比分支",
+    "baseBranchHelp": "您要合并到的分支",
+    "compareBranchHelp": "包含您变更的分支",
+    "branchesMustBeDifferent": "两个分支必须不同",
+    "sourceModes": {
+      "tasks": "从已完成任务生成",
+      "gitHistory": "从 Git 历史生成",
+      "branchDiff": "从分支对比生成"
+    },
+    "sourceModeDescriptions": {
+      "tasks": "包含来自看板的已完成 spec 任务。",
+      "gitHistory": "包含来自最近提交或标签范围的变更。",
+      "branchDiff": "包含两个分支之间的所有差异。"
+    }
+  },
+  "worktrees": {
+    "title": "工作树",
+    "description": "为您的 Auto Claude 任务管理隔离的工作区",
+    "taskWorktrees": "任务工作树",
+    "terminalWorktrees": "终端工作树",
+    "filesChanged": "{{count}} 个文件已更改",
+    "commitsAhead": "领先 {{count}} 条提交",
+    "mergeTo": "合并到 {{branch}}",
+    "copyPath": "复制路径",
+    "noWorktrees": "无可用的工作树",
+    "emptyDescription": "当 Auto Claude 构建功能时会自动创建控制树。您也可以从“代理终端”选项卡创建终端工作树。",
+    "mergeTitle": "合并工作树",
+    "mergeDescription": "将此工作树的更改合并到基准分支。",
+    "sourceBranch": "源分支",
+    "targetBranch": "目标分支",
+    "changesSummary": "{{commits}} 条提交, {{files}} 个文件"
+  },
+  "context": {
+    "tabs": {
+      "projectIndex": "项目索引",
+      "memories": "记忆"
+    },
+    "memory": {
+      "graphStatus": "图记忆状态",
+      "connected": "已连接",
+      "notAvailable": "不可用",
+      "database": "数据库",
+      "path": "路径",
+      "graphitiNotConfigured": "Graphiti 记忆未配置",
+      "enableGraphMemory": "要启用图记忆，请在项目设置中设置 {{code}} 为 true。",
+      "searchMemories": "搜索记忆",
+      "searchPlaceholder": "搜索模式、洞见、注意事项...",
+      "memoryBrowser": "记忆浏览器",
+      "ofMemories": "{{filtered}} / {{total}} 条记忆",
+      "resultsFound": "找到 {{count}} 条结果",
+      "score": "得分",
+      "noMemoriesYet": "暂无记忆。记忆在 AI 代理会话和 PR 审查期间创建。",
+      "noMemoriesMatch": "没有记忆匹配所选过滤器。",
+      "showAllMemories": "显示所有记忆"
+    },
+    "stats": {
+      "total": "总计",
+      "prReviews": "PR 审查",
+      "sessions": "会话",
+      "codebase": "代码库",
+      "patterns": "模式",
+      "gotchas": "注意事项"
+    },
+    "filters": {
+      "all": "全部",
+      "prReviews": "PR 审查",
+      "sessions": "会话",
+      "codebase": "代码库",
+      "patterns": "模式",
+      "gotchas": "注意事项"
+    }
+  },
+  "actions": {
+    "apply": "应用",
+    "delete": "删除",
+    "save": "保存",
+    "settings": "设置"
+  },
+  "os": {
+    "linux": "Linux",
+    "macos": "macOS",
+    "unknown": "您的操作系统",
+    "windows": "Windows"
+  },
+  "roadmapGeneration": {
+    "elapsed": "Elapsed: {{time}}",
+    "phases": {
+      "analyzing": {
+        "description": "Analyzing project structure and codebase...",
+        "label": "Analyzing"
+      },
+      "complete": {
+        "description": "Roadmap generation complete!",
+        "label": "Complete"
+      },
+      "discovering": {
+        "description": "Discovering target audience and user needs...",
+        "label": "Discovering"
+      },
+      "error": {
+        "description": "Generation failed",
+        "label": "错误"
+      },
+      "generating": {
+        "description": "Generating feature roadmap...",
+        "label": "Generating"
+      }
+    },
+    "progress": "Progress",
+    "steps": {
+      "analyze": "Analyze",
+      "discover": "Discover",
+      "generate": "Generate"
+    },
+    "stillWorking": "Still working...",
+    "stop": "Stop",
+    "stopTooltip": "Stop generation",
+    "stopping": "Stopping..."
+  },
+  "roadmapProgress": {
+    "elapsedTime": "Elapsed",
+    "lastActivity": "Last activity",
+    "lastActivityPrefix": "last activity",
+    "lastProgressUpdateTooltip": "Last progress update received",
+    "phases": {
+      "analyzing": {
+        "description": "Analyzing project structure and codebase...",
+        "label": "Analyzing"
+      },
+      "complete": {
+        "description": "Roadmap generation complete!",
+        "label": "Complete"
+      },
+      "discovering": {
+        "description": "Discovering target audience and user needs...",
+        "label": "Discovering"
+      },
+      "error": {
+        "description": "Generation failed",
+        "label": "错误"
+      },
+      "generating": {
+        "description": "Generating feature roadmap...",
+        "label": "Generating"
+      }
+    },
+    "processActiveTooltip": "Process is actively running",
+    "processing": "Processing",
+    "progress": "Progress",
+    "staleWarning": "No activity for a while",
+    "staleWarningTooltip": "This task has had no activity for {{minutes}} minutes",
+    "steps": {
+      "analyze": "Analyze",
+      "discover": "Discover",
+      "generate": "Generate"
+    },
+    "stopGeneration": "Stop generation",
+    "stopping": "Stopping..."
+  },
+  "githubIssues": {
+    "title": "GitHub Issues",
+    "open": "个开启",
+    "closed": "已关闭",
+    "all": "全部",
+    "searchPlaceholder": "搜索 Issues...",
+    "analyzeAndGroup": "分析并分组 Issues",
+    "analyzeTooltip": "分析最多 200 个开启的 Issues，将相似的分组，并在创建任务前审查建议的批次。",
+    "autoFixNew": "自动修复新 Issue",
+    "autoFixTooltip": "自动修复新提交的 Issue。",
+    "processing": "正在处理 {{count}} 个 Issue...",
+    "selectIssueToView": "选择一个 Issue 以查看详情",
+    "notConnected": "GitHub 未连接",
+    "connectPrompt": "连接您的 GitHub 账号以查看和管理 Issues。",
+    "openSettings": "打开设置",
+    "investigate": "调查",
+    "createTask": "创建任务",
+    "viewTask": "查看任务",
+    "loading": "加载 Issues 中...",
+    "noOpenIssues": "没有开启的 Issues",
+    "loadMore": "加载更多",
+    "accessAvailable": "从侧边栏访问 GitHub Issues 以查看、调查并从 Issues 创建任务。",
+    "enableGitHubIssues": "启用 GitHub Issues",
+    "noMatchingIssues": "没有匹配的 Issues"
+  },
+  "dates": {
+    "today": "今天",
+    "yesterday": "昨天",
+    "daysAgo": "{{count}} 天前"
+  },
+  "status": {
+    "connected": "已连接",
+    "notConnected": "未连接",
+    "checking": "检查中...",
+    "loadingConfiguration": "加载配置中...",
+    "unknown": "状态未知"
+  },
+  "agents": {
+    "spec_gatherer": {
+      "label": "需求收集器",
+      "description": "从用户收集初始需求"
+    },
+    "spec_researcher": {
+      "label": "需求研究员",
+      "description": "验证外部集成和 API"
+    },
+    "spec_writer": {
+      "label": "需求编写器",
+      "description": "创建 spec.md 文档"
+    },
+    "spec_critic": {
+      "label": "需求评审员",
+      "description": "使用深度分析进行自我评审"
+    },
+    "spec_discovery": {
+      "label": "需求发现器",
+      "description": "初始项目发现和分析"
+    },
+    "spec_context": {
+      "label": "需求上下文",
+      "description": "从现有代码库构建上下文"
+    },
+    "spec_validation": {
+      "label": "需求验证器",
+      "description": "验证需求的完整性和质量"
+    },
+    "planner": {
+      "label": "规划器",
+      "description": "创建包含子任务的实施计划"
+    },
+    "coder": {
+      "label": "编码器",
+      "description": "实现各个子任务"
+    },
+    "qa_reviewer": {
+      "label": "QA 审核员",
+      "description": "验证验收标准"
+    },
+    "qa_fixer": {
+      "label": "QA 修复器",
+      "description": "修复 QA 报告的问题"
+    },
+    "pr_reviewer": {
+      "label": "PR 审核员",
+      "description": "审核 GitHub Pull Request"
+    },
+    "commit_message": {
+      "label": "提交信息生成器",
+      "description": "生成提交信息"
+    },
+    "merge_resolver": {
+      "label": "合并冲突解决器",
+      "description": "解决合并冲突"
+    },
+    "insights": {
+      "label": "代码洞察",
+      "description": "提取代码洞察"
+    },
+    "analysis": {
+      "label": "代码分析",
+      "description": "带上下文查找的代码库分析"
+    },
+    "batch_analysis": {
+      "label": "批量分析",
+      "description": "批量处理 Issue 或其他项目"
+    },
+    "ideation": {
+      "label": "创意生成器",
+      "description": "生成功能创意"
+    },
+    "roadmap_discovery": {
+      "label": "路线图发现器",
+      "description": "发现路线图项目"
+    }
+  }
+}

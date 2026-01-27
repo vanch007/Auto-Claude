@@ -34,6 +34,7 @@ import { registerMcpHandlers } from './mcp-handlers';
 import { registerProfileHandlers } from './profile-handlers';
 import { registerScreenshotHandlers } from './screenshot-handlers';
 import { registerTerminalWorktreeIpcHandlers } from './terminal';
+import { registerPromptSettingsHandlers } from './prompt-settings-handlers';
 import { notificationService } from '../notification-service';
 
 /**
@@ -121,6 +122,9 @@ export function setupIpcHandlers(
 
   // Screenshot capture handlers
   registerScreenshotHandlers();
+
+  // Custom prompt settings handlers
+  registerPromptSettingsHandlers();
 
   console.warn('[IPC] All handler modules registered successfully');
 }

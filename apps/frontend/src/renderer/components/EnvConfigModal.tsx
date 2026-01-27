@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   AlertCircle,
   Key,
@@ -46,10 +47,11 @@ export function EnvConfigModal({
   open,
   onOpenChange,
   onConfigured,
-  title = 'Claude Authentication Required',
-  description = 'A Claude Code OAuth token is required to use AI features like Ideation and Roadmap generation.',
+  title,
+  description,
   projectId
 }: EnvConfigModalProps) {
+  const { t, i18n } = useTranslation(['common']);
   const [token, setToken] = useState('');
   const [showToken, setShowToken] = useState(false);
   const [showManualEntry, setShowManualEntry] = useState(false);
@@ -97,7 +99,7 @@ export function EnvConfigModal({
             setSuccess(true);
           }
         } else {
-          setError(tokenResult.error || 'Failed to check token status');
+          setError(tokenResult.error || t('common:ideation.auth.errors.checkTokenFailed'));
         }
 
         // Handle Claude profiles
@@ -113,7 +115,7 @@ export function EnvConfigModal({
           }
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Unknown error');
+        setError(err instanceof Error ? err.message : t('common:errors.unknownError'));
       } finally {
         setIsChecking(false);
         setIsLoadingProfiles(false);
@@ -156,7 +158,7 @@ export function EnvConfigModal({
       // Get the selected profile's token
       const profile = claudeProfiles.find(p => p.id === selectedProfileId);
       if (!profile?.oauthToken) {
-        setError('Selected profile does not have a valid token');
+        setError(t('common:ideation.auth.errors.invalidToken'));
         setIsSaving(false);
         return;
       }
@@ -176,7 +178,7 @@ export function EnvConfigModal({
           onOpenChange(false);
         }, 1500);
       } else {
-        setError(result.error || 'Failed to save token');
+        setError(result.error || t('common:ideation.auth.errors.saveFailed'));
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
@@ -187,7 +189,7 @@ export function EnvConfigModal({
 
   const handleAuthenticateWithBrowser = async () => {
     if (!projectId) {
-      setError('No project selected. Please select a project first.');
+      setError(t('common:ideation.auth.errors.noProject'));
       return;
     }
 
@@ -199,19 +201,20 @@ export function EnvConfigModal({
       const result = await window.electronAPI.invokeClaudeSetup(projectId);
 
       if (!result.success) {
-        setError(result.error || 'Failed to start authentication');
+        setError(result.error || t('common:ideation.auth.errors.authStartFailed'));
         setIsAuthenticating(false);
       }
       // Keep isAuthenticating true - will be cleared when token is received
+      // Keep isAuthenticating true - will be cleared when token is received
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to start authentication');
+      setError(err instanceof Error ? err.message : t('common:ideation.auth.errors.authStartFailed'));
       setIsAuthenticating(false);
     }
   };
 
   const handleSave = async () => {
     if (!token.trim()) {
-      setError('Please enter a token');
+      setError(t('common:ideation.auth.errors.tokenRequired'));
       return;
     }
 
@@ -234,7 +237,7 @@ export function EnvConfigModal({
           onOpenChange(false);
         }, 1500);
       } else {
-        setError(result.error || 'Failed to save token');
+        setError(result.error || t('common:ideation.auth.errors.saveFailed'));
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unknown error');
@@ -267,9 +270,11 @@ export function EnvConfigModal({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-foreground">
             <Key className="h-5 w-5" />
-            {title}
+            {title || t('common:ideation.auth.title')}
           </DialogTitle>
-          <DialogDescription>{description}</DialogDescription>
+          <DialogDescription>
+            {description || t('common:ideation.auth.description')}
+          </DialogDescription>
         </DialogHeader>
 
         {/* Loading state */}
@@ -286,10 +291,10 @@ export function EnvConfigModal({
               <CheckCircle2 className="h-5 w-5 text-success shrink-0" />
               <div className="flex-1">
                 <p className="text-sm font-medium text-success">
-                  Token configured successfully
+                  {t('common:ideation.auth.tokenConfigured')}
                 </p>
                 <p className="text-xs text-success/80 mt-1">
-                  You can now use AI features like Ideation and Roadmap generation.
+                  {t('common:ideation.auth.tokenConfiguredDesc')}
                 </p>
               </div>
             </div>
@@ -315,10 +320,10 @@ export function EnvConfigModal({
                     <CheckCircle2 className="h-5 w-5 text-success shrink-0 mt-0.5" />
                     <div className="flex-1">
                       <p className="text-sm text-foreground font-medium mb-1">
-                        Use Existing Account
+                        {t('common:ideation.auth.useExistingAccount')}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        You have {claudeProfiles.length} authenticated Claude account{claudeProfiles.length > 1 ? 's' : ''}. Select one to use:
+                        {t('common:ideation.auth.accountCount', { count: claudeProfiles.length, plural: claudeProfiles.length > 1 ? 's' : '' })}
                       </p>
                     </div>
                   </div>
@@ -327,7 +332,7 @@ export function EnvConfigModal({
                 {/* Profile selector */}
                 <div className="space-y-2">
                   <Label className="text-sm font-medium text-foreground">
-                    Select Account
+                    {t('common:ideation.auth.selectAccount')}
                   </Label>
                   <div className="space-y-2">
                     {claudeProfiles.map((profile) => (
@@ -355,7 +360,7 @@ export function EnvConfigModal({
                           <p className="text-sm font-medium text-foreground">
                             {profile.name}
                             {profile.isDefault && (
-                              <span className="ml-2 text-xs text-muted-foreground">(Default)</span>
+                              <span className="ml-2 text-xs text-muted-foreground">({t('common:ideation.auth.default')})</span>
                             )}
                           </p>
                           {profile.email && (
@@ -382,12 +387,12 @@ export function EnvConfigModal({
                   {isSaving ? (
                     <>
                       <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Saving...
+                      {t('common:buttons.saving')}
                     </>
                   ) : (
                     <>
                       <Key className="mr-2 h-5 w-5" />
-                      Use This Account
+                      {t('common:ideation.auth.useThisAccount')}
                     </>
                   )}
                 </Button>
@@ -398,7 +403,7 @@ export function EnvConfigModal({
                     <div className="w-full border-t border-border"></div>
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-background px-2 text-muted-foreground">or</span>
+                    <span className="bg-background px-2 text-muted-foreground">{t('common:labels.or')}</span>
                   </div>
                 </div>
               </div>
@@ -412,12 +417,12 @@ export function EnvConfigModal({
                     <Info className="h-5 w-5 text-info shrink-0 mt-0.5" />
                     <div className="flex-1">
                       <p className="text-sm text-foreground font-medium mb-1">
-                        {claudeProfiles.length > 0 ? 'Or Authenticate New Account' : 'Authenticate with Browser'}
+                        {claudeProfiles.length > 0 ? t('common:ideation.auth.authenticateNewAccount') : t('common:ideation.auth.authenticateWithBrowser')}
                       </p>
                       <p className="text-xs text-muted-foreground">
                         {claudeProfiles.length > 0
-                          ? 'Add a new Claude account by logging in with your browser.'
-                          : 'Click below to open your browser and log in with your Claude account.'
+                          ? t('common:ideation.auth.authNewAccountDesc')
+                          : t('common:ideation.auth.authBrowserDesc')
                         }
                       </p>
                     </div>
@@ -434,19 +439,19 @@ export function EnvConfigModal({
                   {isAuthenticating ? (
                     <>
                       <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                      Waiting for authentication...
+                      {t('common:ideation.auth.waitingForAuth')}
                     </>
                   ) : (
                     <>
                       <LogIn className="mr-2 h-5 w-5" />
-                      {claudeProfiles.length > 0 ? 'Authenticate New Account' : 'Authenticate with Browser'}
+                      {claudeProfiles.length > 0 ? t('common:ideation.auth.authenticateNewAccount') : t('common:ideation.auth.authenticateWithBrowser')}
                     </>
                   )}
                 </Button>
 
                 {isAuthenticating && (
                   <p className="text-xs text-muted-foreground text-center">
-                    A browser window should open. Complete the authentication there, then return here.
+                    {t('common:ideation.auth.browserInstructions')}
                   </p>
                 )}
               </div>
@@ -459,7 +464,7 @@ export function EnvConfigModal({
                   <div className="w-full border-t border-border"></div>
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-background px-2 text-muted-foreground">or</span>
+                  <span className="bg-background px-2 text-muted-foreground">{t('common:labels.or')}</span>
                 </div>
               </div>
             )}
@@ -470,7 +475,7 @@ export function EnvConfigModal({
                 onClick={() => setShowManualEntry(!showManualEntry)}
                 className="w-full flex items-center justify-between text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <span>Enter token manually</span>
+                <span>{t('common:ideation.auth.enterTokenManually')}</span>
                 {showManualEntry ? (
                   <ChevronDown className="h-4 w-4" />
                 ) : (
@@ -482,14 +487,11 @@ export function EnvConfigModal({
                 <div className="space-y-3 pl-4 border-l-2 border-border">
                   {/* Manual token instructions */}
                   <div className="text-xs text-muted-foreground space-y-1">
-                    <p className="font-medium text-foreground">Steps:</p>
+                    <p className="font-medium text-foreground">{t('common:ideation.auth.stepsTitle')}</p>
                     <ol className="list-decimal list-inside space-y-1">
-                      <li>Install Claude Code CLI if you haven't already</li>
+                      <li>{t('common:ideation.auth.step1')}</li>
                       <li>
-                        Run{' '}
-                        <code className="px-1 py-0.5 bg-muted rounded font-mono">
-                          claude setup-token
-                        </code>
+                        {t('common:ideation.auth.step2', { command: 'claude setup-token' })}
                         {' '}
                         <button
                           onClick={handleCopyCommand}
@@ -498,21 +500,21 @@ export function EnvConfigModal({
                           <Copy className="h-3 w-3 ml-1" />
                         </button>
                       </li>
-                      <li>Copy the token and paste it below</li>
+                      <li>{t('common:ideation.auth.step3')}</li>
                     </ol>
                     <button
                       onClick={handleOpenDocs}
                       className="text-info hover:text-info/80 flex items-center gap-1 mt-2"
                     >
                       <ExternalLink className="h-3 w-3" />
-                      View documentation
+                      {t('common:ideation.auth.viewDocs')}
                     </button>
                   </div>
 
                   {/* Token input */}
                   <div className="space-y-2">
                     <Label htmlFor="token" className="text-sm font-medium text-foreground">
-                      Claude Code OAuth Token
+                      {t('common:ideation.auth.oauthTokenLabel')}
                     </Label>
                     <div className="relative">
                       <Input
@@ -520,7 +522,7 @@ export function EnvConfigModal({
                         type={showToken ? 'text' : 'password'}
                         value={token}
                         onChange={(e) => setToken(e.target.value)}
-                        placeholder="Enter your token..."
+                        placeholder={t('common:ideation.auth.tokenPlaceholder')}
                         className="pr-10 font-mono text-sm"
                         disabled={isSaving || isAuthenticating}
                       />
@@ -539,15 +541,12 @@ export function EnvConfigModal({
                           </button>
                         </TooltipTrigger>
                         <TooltipContent>
-                          {showToken ? 'Hide token' : 'Show token'}
+                          {showToken ? t('common:ideation.auth.hideToken') : t('common:ideation.auth.showToken')}
                         </TooltipContent>
                       </Tooltip>
                     </div>
                     <p className="text-xs text-muted-foreground">
-                      The token will be saved to{' '}
-                      <code className="px-1 py-0.5 bg-muted rounded font-mono">
-                        {sourcePath ? `${sourcePath}/.env` : 'auto-claude/.env'}
-                      </code>
+                      {t('common:ideation.auth.tokenSavePath', { path: sourcePath ? `${sourcePath}/.env` : 'auto-claude/.env' })}
                     </p>
                   </div>
                 </div>
@@ -558,7 +557,7 @@ export function EnvConfigModal({
             {hasExistingToken && (
               <div className="rounded-lg bg-muted/50 p-3">
                 <p className="text-sm text-muted-foreground">
-                  A token is already configured. {showManualEntry ? 'Enter a new token above to replace it.' : 'Authenticate again to replace it.'}
+                  {t('common:ideation.auth.tokenAlreadyConfigured')} {showManualEntry ? t('common:ideation.auth.replaceTokenManual') : t('common:ideation.auth.replaceTokenAuth')}
                 </p>
               </div>
             )}
@@ -567,19 +566,19 @@ export function EnvConfigModal({
 
         <DialogFooter>
           <Button variant="outline" onClick={handleClose} disabled={isSaving || isAuthenticating}>
-            {success ? 'Close' : 'Cancel'}
+            {success ? t('common:buttons.close') : t('common:buttons.cancel')}
           </Button>
           {!success && showManualEntry && token.trim() && (
             <Button onClick={handleSave} disabled={isSaving || isAuthenticating}>
               {isSaving ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Saving...
+                  {t('common:buttons.saving')}
                 </>
               ) : (
                 <>
                   <Key className="mr-2 h-4 w-4" />
-                  Save Token
+                  {t('common:ideation.auth.saveToken')}
                 </>
               )}
             </Button>

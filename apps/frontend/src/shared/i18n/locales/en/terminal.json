@@ -41,5 +41,13 @@
     "deleteTitle": "Delete Worktree?",
     "deleteDescription": "This will permanently delete the worktree and its branch. Any uncommitted changes will be lost.",
     "detached": "(detached)"
-  }
+  },
+  "history": "History",
+  "restoreSessionsFrom": "Restore sessions from...",
+  "sessions": "sessions",
+  "session": "session",
+  "invokeClaudeAll": "Invoke Claude All",
+  "newTerminal": "New Terminal",
+  "files": "Files",
+  "terminalsCount": "{{count}} / 12 terminals"
 }

@@ -89,11 +89,11 @@ export function ChatHistorySidebar({
     const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
     if (diffDays === 0) {
-      return 'Today';
+      return t('dates.today');
     } else if (diffDays === 1) {
-      return 'Yesterday';
+      return t('dates.yesterday');
     } else if (diffDays < 7) {
-      return `${diffDays} days ago`;
+      return t('dates.daysAgo', { count: diffDays });
     } else {
       return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
     }
