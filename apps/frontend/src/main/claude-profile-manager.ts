@@ -43,6 +43,7 @@ import {
   shouldProactivelySwitch as shouldProactivelySwitchImpl,
   getProfilesSortedByAvailability as getProfilesSortedByAvailabilityImpl
 } from './claude-profile/profile-scorer';
+import { getCredentialsFromKeychain, normalizeWindowsPath } from './claude-profile/credential-utils';
 import {
   CLAUDE_PROFILES_DIR,
   generateProfileId as generateProfileIdImpl,
@@ -328,9 +329,7 @@ export class ClaudeProfileManager {
   }
 
   /**
-   * Delete a profile
-   * Now allows deleting any profile including default and last profile.
-   * When all OAuth profiles are deleted, the app will use API Profile for authentication.
+   * Delete a profile (cannot delete default or last profile)
    */
   deleteProfile(profileId: string): boolean {
     const profile = this.getProfile(profileId);
@@ -338,18 +337,23 @@ export class ClaudeProfileManager {
       return false;
     }
 
+    // Cannot delete default profile
+    if (profile.isDefault) {
+      return false;
+    }
+
+    // Cannot delete if it's the only profile
+    if (this.data.profiles.length <= 1) {
+      return false;
+    }
+
     // Remove the profile
     this.data.profiles = this.data.profiles.filter(p => p.id !== profileId);
 
-    // If we deleted the active profile, switch to another if available
+    // If we deleted the active profile, switch to default
     if (this.data.activeProfileId === profileId) {
-      if (this.data.profiles.length > 0) {
-        const defaultProfile = this.data.profiles.find(p => p.isDefault);
-        this.data.activeProfileId = defaultProfile?.id || this.data.profiles[0].id;
-      } else {
-        // No more OAuth profiles, clear active profile ID
-        this.data.activeProfileId = '';
-      }
+      const defaultProfile = this.data.profiles.find(p => p.isDefault);
+      this.data.activeProfileId = defaultProfile?.id || this.data.profiles[0].id;
     }
 
     this.save();
@@ -494,9 +498,12 @@ export class ClaudeProfileManager {
     // This prevents interference with external Claude Code CLI usage
     if (profile?.configDir) {
       // Expand ~ to home directory for the environment variable
-      const expandedConfigDir = profile.configDir.startsWith('~')
-        ? profile.configDir.replace(/^~/, homedir())
-        : profile.configDir;
+      const expandedConfigDir = normalizeWindowsPath(
+        profile.configDir.startsWith('~')
+          ? profile.configDir.replace(/^~/, homedir())
+          : profile.configDir
+      );
+
       env.CLAUDE_CONFIG_DIR = expandedConfigDir;
       if (process.env.DEBUG === 'true') {
         console.warn('[ClaudeProfileManager] Using CLAUDE_CONFIG_DIR for profile:', profile.name, expandedConfigDir);
@@ -715,9 +722,11 @@ export class ClaudeProfileManager {
     }
 
     // Expand ~ to home directory for the environment variable
-    const expandedConfigDir = profile.configDir.startsWith('~')
-      ? profile.configDir.replace(/^~/, require('os').homedir())
-      : profile.configDir;
+    const expandedConfigDir = normalizeWindowsPath(
+      profile.configDir.startsWith('~')
+        ? profile.configDir.replace(/^~/, require('os').homedir())
+        : profile.configDir
+    );
 
     if (process.env.DEBUG === 'true') {
       console.warn('[ClaudeProfileManager] getProfileEnv:', {
@@ -729,9 +738,27 @@ export class ClaudeProfileManager {
       });
     }
 
-    return {
+    // Retrieve OAuth token from Keychain and pass it to subprocess
+    // This ensures the backend Python agent can authenticate even when
+    // there's no .credentials.json file in the profile directory
+    const env: Record<string, string> = {
       CLAUDE_CONFIG_DIR: expandedConfigDir
     };
+
+    try {
+      const credentials = getCredentialsFromKeychain(expandedConfigDir);
+      if (credentials.token) {
+        env.CLAUDE_CODE_OAUTH_TOKEN = credentials.token;
+        if (process.env.DEBUG === 'true') {
+          console.warn('[ClaudeProfileManager] Retrieved OAuth token from Keychain for profile:', profile.name);
+        }
+      }
+    } catch (error) {
+      console.error('[ClaudeProfileManager] Failed to retrieve credentials from Keychain:', error);
+      // Continue without token - backend will fall back to other auth methods
+    }
+
+    return env;
   }
 
   /**

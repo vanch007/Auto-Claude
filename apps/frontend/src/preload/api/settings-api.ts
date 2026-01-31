@@ -8,22 +8,10 @@ import type {
   ToolDetectionResult
 } from '../../shared/types';
 
-export interface CustomPrompts {
-  systemPromptExtension: string;
-  coderPromptExtension: string;
-  plannerPromptExtension: string;
-  qaPromptExtension: string;
-  enabled: boolean;
-}
-
 export interface SettingsAPI {
   // App Settings
   getSettings: () => Promise<IPCResult<AppSettings>>;
   saveSettings: (settings: Partial<AppSettings>) => Promise<IPCResult>;
-
-  // Custom Prompts
-  loadCustomPrompts: () => Promise<CustomPrompts>;
-  saveCustomPrompts: (prompts: CustomPrompts) => Promise<{ success: boolean; error?: string }>;
 
   // CLI Tools Detection
   getCliToolsInfo: () => Promise<IPCResult<{
@@ -48,6 +36,9 @@ export interface SettingsAPI {
   notifySentryStateChanged: (enabled: boolean) => void;
   getSentryDsn: () => Promise<string>;
   getSentryConfig: () => Promise<{ dsn: string; tracesSampleRate: number; profilesSampleRate: number }>;
+
+  // Spell check
+  setSpellCheckLanguages: (language: string) => Promise<IPCResult<{ success: boolean }>>;
 }
 
 export const createSettingsAPI = (): SettingsAPI => ({
@@ -57,13 +48,6 @@ export const createSettingsAPI = (): SettingsAPI => ({
 
   saveSettings: (settings: Partial<AppSettings>): Promise<IPCResult> =>
     ipcRenderer.invoke(IPC_CHANNELS.SETTINGS_SAVE, settings),
-
-  // Custom Prompts
-  loadCustomPrompts: (): Promise<CustomPrompts> =>
-    ipcRenderer.invoke('CUSTOM_PROMPTS_LOAD'),
-
-  saveCustomPrompts: (prompts: CustomPrompts): Promise<{ success: boolean; error?: string }> =>
-    ipcRenderer.invoke('CUSTOM_PROMPTS_SAVE', prompts),
 
   // CLI Tools Detection
   getCliToolsInfo: (): Promise<IPCResult<{
@@ -102,5 +86,9 @@ export const createSettingsAPI = (): SettingsAPI => ({
 
   // Get full Sentry config from main process (DSN + sample rates)
   getSentryConfig: (): Promise<{ dsn: string; tracesSampleRate: number; profilesSampleRate: number }> =>
-    ipcRenderer.invoke(IPC_CHANNELS.GET_SENTRY_CONFIG)
+    ipcRenderer.invoke(IPC_CHANNELS.GET_SENTRY_CONFIG),
+
+  // Spell check - sync spell checker language with app language
+  setSpellCheckLanguages: (language: string): Promise<IPCResult<{ success: boolean }>> =>
+    ipcRenderer.invoke(IPC_CHANNELS.SPELLCHECK_SET_LANGUAGES, language)
 });

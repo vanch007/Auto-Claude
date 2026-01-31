@@ -10,12 +10,37 @@ import type { TerminalProcess, WindowGetter, WindowsShellType } from './types';
 import { isWindows, getWindowsShellPaths } from '../platform';
 import { IPC_CHANNELS } from '../../shared/constants';
 import { getClaudeProfileManager } from '../claude-profile-manager';
-import { getAPIProfileEnv } from '../services/profile';
 import { readSettingsFile } from '../settings-utils';
 import { debugLog, debugError } from '../../shared/utils/debug-logger';
 import type { SupportedTerminal } from '../../shared/types/settings';
 
 // Windows shell paths are now imported from the platform module via getWindowsShellPaths()
+
+/**
+ * Shutdown flag to prevent PTY handlers from accessing destroyed resources
+ * (e.g., BrowserWindow.webContents) during app shutdown.
+ * Follows the same pattern as isShuttingDown in pty-daemon-client.ts.
+ *
+ * Part of the shutdown guard pattern for GitHub issue #1469: without this flag,
+ * PTY onData/onExit callbacks can fire after BrowserWindow is destroyed,
+ * causing pty.node's native ThreadSafeFunction to SIGABRT.
+ */
+let isShuttingDown = false;
+
+/**
+ * Set the shutting down flag. Call this during app quit/before-quit
+ * to prevent PTY handlers from accessing destroyed resources.
+ */
+export function setShuttingDown(value: boolean): void {
+  isShuttingDown = value;
+}
+
+/**
+ * Check if the PTY manager is in shutting down state.
+ */
+export function getIsShuttingDown(): boolean {
+  return isShuttingDown;
+}
 
 /**
  * Result of spawning a PTY process
@@ -185,6 +210,10 @@ export function setupPtyHandlers(
 
   // Handle data from terminal
   ptyProcess.onData((data) => {
+    // Shutdown guard (GitHub #1469): skip processing to avoid accessing
+    // destroyed BrowserWindow.webContents, which triggers pty.node SIGABRT
+    if (isShuttingDown) return;
+
     // Append to output buffer (limit to 100KB)
     terminal.outputBuffer = (terminal.outputBuffer + data).slice(-100000);
 
@@ -202,13 +231,18 @@ export function setupPtyHandlers(
   ptyProcess.onExit(({ exitCode }) => {
     debugLog('[PtyManager] Terminal exited:', id, 'code:', exitCode);
 
-    // Resolve any pending exit promise FIRST (before other cleanup)
+    // Always resolve pending exit promises, even during shutdown
+    // (needed for waitForPtyExit callers to complete)
     const pendingExit = pendingExitPromises.get(id);
     if (pendingExit) {
       clearTimeout(pendingExit.timeoutId);
       pendingExitPromises.delete(id);
       pendingExit.resolve();
     }
+
+    // Shutdown guard (GitHub #1469): skip accessing win.webContents and callbacks
+    // to avoid pty.node SIGABRT from destroyed BrowserWindow resources
+    if (isShuttingDown) return;
 
     const win = getWindow();
     if (win) {
@@ -356,21 +390,9 @@ export function killPty(terminal: TerminalProcess, waitForExit?: boolean): Promi
 }
 
 /**
- * Get the active Claude profile environment variables.
- * Uses EXCLUSIVE logic: if API Profile is active, use ONLY API Profile env vars.
- * Otherwise, use OAuth Profile env vars.
- * This allows users to switch between OAuth and API modes by activating the appropriate profile.
+ * Get the active Claude profile environment variables
  */
-export async function getActiveProfileEnv(): Promise<Record<string, string>> {
-  // First, check if an API Profile is active
-  const apiProfileEnv = await getAPIProfileEnv();
-
-  // If API Profile returned env vars, use them exclusively (API mode)
-  if (Object.keys(apiProfileEnv).length > 0) {
-    return apiProfileEnv;
-  }
-
-  // No API Profile active, fall back to OAuth Profile (OAuth mode)
+export function getActiveProfileEnv(): Record<string, string> {
   const profileManager = getClaudeProfileManager();
   return profileManager.getActiveProfileEnv();
 }

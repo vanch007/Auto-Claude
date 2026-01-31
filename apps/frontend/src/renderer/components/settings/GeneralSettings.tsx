@@ -41,7 +41,7 @@ function ToolDetectionDisplay({ info, isLoading, t }: ToolDetectionDisplayProps)
   if (isLoading) {
     return (
       <div className="text-xs text-muted-foreground mt-1">
-        {t('devtools.detecting')}
+        Detecting...
       </div>
     );
   }
@@ -96,6 +96,7 @@ export function GeneralSettings({ settings, onSettingsChange, section }: General
     python: ToolDetectionResult;
     git: ToolDetectionResult;
     gh: ToolDetectionResult;
+    glab: ToolDetectionResult;
     claude: ToolDetectionResult;
   } | null>(null);
   const [isLoadingTools, setIsLoadingTools] = useState(false);
@@ -106,7 +107,7 @@ export function GeneralSettings({ settings, onSettingsChange, section }: General
       setIsLoadingTools(true);
       window.electronAPI
         .getCliToolsInfo()
-        .then((result: { success: boolean; data?: { python: ToolDetectionResult; git: ToolDetectionResult; gh: ToolDetectionResult; claude: ToolDetectionResult } }) => {
+        .then((result: { success: boolean; data?: { python: ToolDetectionResult; git: ToolDetectionResult; gh: ToolDetectionResult; glab: ToolDetectionResult; claude: ToolDetectionResult } }) => {
           if (result.success && result.data) {
             setToolsInfo(result.data);
           }
@@ -182,10 +183,10 @@ export function GeneralSettings({ settings, onSettingsChange, section }: General
                   <div key={feature} className="space-y-2">
                     <div className="flex items-center justify-between">
                       <Label className="text-sm font-medium text-foreground">
-                        {t(FEATURE_LABELS[feature].label)}
+                        {FEATURE_LABELS[feature].label}
                       </Label>
                       <span className="text-xs text-muted-foreground">
-                        {t(FEATURE_LABELS[feature].description)}
+                        {FEATURE_LABELS[feature].description}
                       </span>
                     </div>
                     <div className="grid grid-cols-2 gap-3 max-w-md">
@@ -205,7 +206,7 @@ export function GeneralSettings({ settings, onSettingsChange, section }: General
                           <SelectContent>
                             {AVAILABLE_MODELS.map((m) => (
                               <SelectItem key={m.value} value={m.value}>
-                                {t(m.label)}
+                                {m.label}
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -227,7 +228,7 @@ export function GeneralSettings({ settings, onSettingsChange, section }: General
                           <SelectContent>
                             {THINKING_LEVELS.map((level) => (
                               <SelectItem key={level.value} value={level.value}>
-                                {t(level.label)}
+                                {level.label}
                               </SelectItem>
                             ))}
                           </SelectContent>
@@ -300,6 +301,24 @@ export function GeneralSettings({ settings, onSettingsChange, section }: General
           {!settings.githubCLIPath && (
             <ToolDetectionDisplay
               info={toolsInfo?.gh || null}
+              isLoading={isLoadingTools}
+              t={t}
+            />
+          )}
+        </div>
+        <div className="space-y-3">
+          <Label htmlFor="gitlabCLIPath" className="text-sm font-medium text-foreground">{t('general.gitlabCLIPath')}</Label>
+          <p className="text-sm text-muted-foreground">{t('general.gitlabCLIPathDescription')}</p>
+          <Input
+            id="gitlabCLIPath"
+            placeholder={t('general.gitlabCLIPathPlaceholder')}
+            className="w-full max-w-lg"
+            value={settings.gitlabCLIPath || ''}
+            onChange={(e) => onSettingsChange({ ...settings, gitlabCLIPath: e.target.value })}
+          />
+          {!settings.gitlabCLIPath && (
+            <ToolDetectionDisplay
+              info={toolsInfo?.glab || null}
               isLoading={isLoadingTools}
               t={t}
             />

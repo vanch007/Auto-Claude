@@ -48,31 +48,7 @@
     "terminal-fonts": {
       "title": "Terminal Fonts",
       "description": "Customize terminal font appearance"
-    },
-    "prompts": {
-      "title": "Prompt Settings",
-      "description": "Customize AI system prompts"
     }
-  },
-  "prompts": {
-    "enableCustomPrompts": "Enable Custom Prompts",
-    "enableCustomPromptsDescription": "Apply your custom prompts to AI interactions",
-    "infoText": "Custom prompts are appended to the system prompt. Use this to add project-specific instructions, coding style preferences, or language requirements.",
-    "systemPrompt": "System Prompt Extension",
-    "systemPromptDescription": "This content will be appended to the base system prompt for all agents.",
-    "systemPromptPlaceholder": "Example: Always use TypeScript strict mode. Follow functional programming patterns. Add comprehensive error handling.",
-    "agentSpecificPrompts": "Agent-Specific Prompts (Advanced)",
-    "coderPrompt": "Coder Agent Extension",
-    "coderPromptDescription": "Additional instructions for the coding agent.",
-    "coderPromptPlaceholder": "Example: Use async/await over callbacks. Prefer composition over inheritance.",
-    "plannerPrompt": "Planner Agent Extension",
-    "plannerPromptDescription": "Additional instructions for the planning agent.",
-    "plannerPromptPlaceholder": "Example: Break tasks into smaller subtasks. Consider edge cases.",
-    "qaPrompt": "QA Agent Extension",
-    "qaPromptDescription": "Additional instructions for the QA reviewer agent.",
-    "qaPromptPlaceholder": "Example: Check for security vulnerabilities. Verify error handling.",
-    "saved": "Saved",
-    "reset": "Reset to Default"
   },
   "apiProfiles": {
     "title": "API Profiles",
@@ -232,6 +208,9 @@
     "githubCLIPath": "GitHub CLI Path",
     "githubCLIPathDescription": "Path to GitHub CLI (gh) executable (leave empty for auto-detection)",
     "githubCLIPathPlaceholder": "gh (default)",
+    "gitlabCLIPath": "GitLab CLI Path",
+    "gitlabCLIPathDescription": "Path to GitLab CLI (glab) executable (leave empty for auto-detection)",
+    "gitlabCLIPathPlaceholder": "glab (default)",
     "claudePath": "Claude CLI Path",
     "claudePathDescription": "Path to Claude CLI executable (leave empty for auto-detection)",
     "claudePathPlaceholder": "claude (default)",
@@ -255,52 +234,13 @@
   "theme": {
     "title": "Appearance",
     "description": "Customize how Auto Claude looks",
-    "mode": {
-      "system": "System",
-      "light": "Light",
-      "dark": "Dark"
-    },
+    "mode": "Mode",
     "modeDescription": "Choose between light and dark themes",
     "light": "Light",
     "dark": "Dark",
     "system": "System",
     "colorTheme": "Color Theme",
-    "colorThemeDescription": "Choose your preferred color palette",
-    "appearanceMode": "Appearance Mode",
-    "appearanceModeDesc": "Choose light, dark, or system preference",
-    "colorThemeDesc": "Select a color palette for the interface",
-    "backgroundColor": "Background color",
-    "accentColor": "Accent color",
-    "themes": {
-      "default": {
-        "name": "Default",
-        "description": "Oscura-inspired with pale yellow accent"
-      },
-      "dusk": {
-        "name": "Dusk",
-        "description": "Warmer variant with slightly lighter dark mode"
-      },
-      "lime": {
-        "name": "Lime",
-        "description": "Fresh, energetic lime with purple accents"
-      },
-      "ocean": {
-        "name": "Ocean",
-        "description": "Calm, professional blue tones"
-      },
-      "retro": {
-        "name": "Retro",
-        "description": "Warm, nostalgic amber vibes"
-      },
-      "neo": {
-        "name": "Neo",
-        "description": "Modern cyberpunk pink/magenta"
-      },
-      "forest": {
-        "name": "Forest",
-        "description": "Natural, earthy green tones"
-      }
-    }
+    "colorThemeDescription": "Choose your preferred color palette"
   },
   "devtools": {
     "title": "Developer Tools",
@@ -384,7 +324,7 @@
   "projectSections": {
     "general": {
       "title": "General",
-      "description": "Configure Auto-Build, agent model, and notifications for {{project}}",
+      "description": "Auto-Build and agent config",
       "useClaudeMd": "Use CLAUDE.md",
       "useClaudeMdDescription": "Include CLAUDE.md instructions in agent context"
     },
@@ -404,47 +344,7 @@
       "description": "GitHub issues sync",
       "integrationTitle": "GitHub Integration",
       "integrationDescription": "Connect to GitHub for issue tracking",
-      "syncDescription": "Sync with GitHub Issues",
-      "enableIssues": "Enable GitHub Issues",
-      "enableIssuesDescription": "View and manage GitHub issues from the sidebar",
-      "pat": "Personal Access Token",
-      "patHelp": "Create a token with repo scope from ",
-      "useOAuth": "Use GitHub CLI",
-      "useManual": "Use Manual Token",
-      "connectedTo": "Connected via {{repo}}",
-      "authenticatedAs": "Authenticated as {{username}}",
-      "connectionStatus": "Connection Status",
-      "checking": "Checking...",
-      "connectedToRepo": "Connected to {{repo}}",
-      "notConnected": "Not connected",
-      "issuesAvailable": "Issues Available",
-      "issuesAvailableDesc": "Access GitHub Issues from the sidebar to view, investigate, and create tasks from issues.",
-      "autoSync": "Auto-Sync on Load",
-      "autoSyncDesc": "Automatically fetch issues when the project loads",
-      "defaultBranch": "Default Branch",
-      "defaultBranchDesc": "Base branch for creating task worktrees",
-      "selectBranch": "Select branch...",
-      "searchBranches": "Search branches...",
-      "noBranches": "No branches found",
-      "selectFromList": "Select from list",
-      "manualEntry": "or enter manually",
-      "loadingRepos": "Loading repositories...",
-      "errorLoadingRepos": "Error loading repos",
-      "yourRepos": "Your Repositories",
-      "privateRepo": "Private",
-      "publicRepo": "Public",
-      "selected": "Selected:",
-      "repository": "Repository",
-      "repoFormat": "Format: owner/repo (e.g., facebook/react)",
-      "refreshBranches": "Refresh branches",
-      "githubSettings": "GitHub Settings",
-      "selectRepo": "Select a repository...",
-      "searchRepos": "Search repositories...",
-      "noMatchingRepos": "No matching repositories",
-      "noReposFound": "No repositories found",
-      "autoDetect": "Auto-detect (main/master)",
-      "enterManually": "Enter Manually",
-      "noMatchingBranches": "No matching branches"
+      "syncDescription": "Sync with GitHub Issues"
     },
     "gitlab": {
       "title": "GitLab",
@@ -726,94 +626,7 @@
     "noProjectSelected": {
       "title": "No Project Selected",
       "description": "Select a project from the sidebar to configure its settings."
-    },
-    "memory": {
-      "sectionTitle": "Memory",
-      "enableMemory": "Enable Memory",
-      "enableMemoryDesc": "Persistent cross-session memory using embedded graph database",
-      "fileBasedMemory": "Using file-based memory. Session insights are stored locally in JSON files. Enable Memory for persistent cross-session context with semantic search.",
-      "agentMemoryAccess": "Enable Agent Memory Access",
-      "agentMemoryAccessDesc": "Allow agents to search and add to the knowledge graph via MCP",
-      "mcpServerUrl": "Graphiti MCP Server URL",
-      "mcpServerUrlDesc": "URL of the Graphiti MCP server",
-      "embeddingProvider": "Embedding Provider",
-      "embeddingProviderDesc": "Provider for semantic search (optional - keyword search works without)",
-      "selectEmbeddingProvider": "Select embedding provider",
-      "openaiApiKey": "OpenAI API Key",
-      "usingGlobalKey": "Using global key",
-      "usingKeyFromApp": "Using key from App Settings. Enter a project-specific key below to override.",
-      "requiredForOpenai": "Required for OpenAI embeddings",
-      "voyageApiKey": "Voyage AI API Key",
-      "requiredForVoyage": "Required for Voyage AI embeddings",
-      "embeddingModel": "Embedding Model",
-      "googleApiKey": "Google AI API Key",
-      "requiredForGoogle": "Required for Google AI embeddings",
-      "azureConfig": "Azure OpenAI Configuration",
-      "apiKey": "API Key",
-      "baseUrl": "Base URL",
-      "embeddingDeployment": "Embedding Deployment Name",
-      "ollamaConfig": "Ollama Configuration",
-      "checking": "Checking...",
-      "connected": "Connected",
-      "notRunning": "Not running",
-      "selectEmbeddingModel": "Select embedding model",
-      "recommendedOllama": "Recommended: qwen3-embedding:4b (balanced), :8b (quality), :0.6b (fast)",
-      "embeddingDimension": "Embedding Dimension",
-      "requiredOllamaDim": "Required for Ollama embeddings (e.g., 768 for nomic-embed-text)",
-      "databaseName": "Database Name",
-      "databaseNameDesc": "Name for the memory database (stored in ~/.auto-claude/memories/)",
-      "databasePath": "Database Path (Optional)",
-      "databasePathDesc": "Custom storage location. Default: ~/.auto-claude/memories/",
-      "enabled": "Enabled",
-      "disabled": "Disabled"
-    },
-    "linear": {
-      "sectionTitle": "Linear Integration",
-      "enableSync": "Enable Linear Sync",
-      "enableSyncDesc": "Create and update Linear issues automatically",
-      "apiKey": "API Key",
-      "apiKeyDesc": "Get your API key from",
-      "linearSettings": "Linear Settings",
-      "connectionStatus": "Connection Status",
-      "connectedTo": "Connected to {{team}}",
-      "tasksAvailable": "{{count}}+ tasks available to import",
-      "notConnected": "Not connected",
-      "importTasks": "Import Existing Tasks",
-      "selectIssuesDesc": "Select which Linear issues to import into AutoBuild as tasks.",
-      "importFromLinear": "Import Tasks from Linear",
-      "realtimeSync": "Real-time Sync",
-      "realtimeSyncDesc": "Automatically import new tasks created in Linear",
-      "realtimeSyncWarning": "When enabled, new Linear issues will be automatically imported into AutoBuild. Make sure to configure your team/project filters below to control which issues are imported.",
-      "teamId": "Team ID (Optional)",
-      "autoDetected": "Auto-detected",
-      "projectId": "Project ID (Optional)",
-      "autoCreated": "Auto-created"
-    },
-    "github": {
-      "sectionTitle": "GitHub Integration",
-      "projectSpecific": "Project-Specific Configuration",
-      "projectSpecificDesc": "This GitHub repository is configured only for {{project}}. Each project can have its own GitHub repository.",
-      "enableIssues": "Enable GitHub Issues",
-      "enableIssuesDesc": "Sync issues from GitHub and create tasks automatically",
-      "authentication": "GitHub Authentication",
-      "useManualToken": "Use Manual Token",
-      "authenticatedViaOAuth": "Authenticated via GitHub OAuth (gh CLI)",
-      "personalAccessToken": "Personal Access Token",
-      "useOAuth": "Use OAuth Instead",
-      "createTokenDesc": "Create a token with repo scope from",
-      "githubSettings": "GitHub Settings",
-      "repository": "Repository",
-      "repositoryDesc": "Format: owner/repo (e.g., facebook/react)",
-      "connectionStatus": "Connection Status",
-      "connectedTo": "Connected to {{repo}}",
-      "notConnected": "Not connected",
-      "issuesAvailable": "Issues Available",
-      "issuesAvailableDesc": "Access GitHub Issues from the sidebar to view, investigate, and create tasks from issues.",
-      "autoSync": "Auto-Sync on Load",
-      "autoSyncDesc": "Automatically fetch issues when the project loads"
-    },
-    "general": "General",
-    "connectionStatus": "Connection Status"
+    }
   },
   "mcp": {
     "title": "MCP Server Overview",
@@ -916,7 +729,7 @@
   },
   "terminalFonts": {
     "title": "Terminal Fonts",
-    "description": "Customize terminal font appearance, cursor behavior, and performance settings. Changes apply immediately to all active terminals.",
+    "description": "Customize terminal font appearance and behavior",
     "configActions": "Configuration:",
     "export": "Export JSON",
     "import": "Import JSON",
@@ -932,8 +745,8 @@
       "fontChain": "Font chain:",
       "fontSize": "Font Size",
       "fontSizeDescription": "Base font size in pixels (10-24px)",
-      "decreaseFontSize": "Decrease font size by {{step}}",
-      "increaseFontSize": "Increase font size by {{step}}",
+      "decreaseFontSize": "Decrease font size by {{step}}px",
+      "increaseFontSize": "Increase font size by {{step}}px",
       "pixels": "pixels",
       "fontWeight": "Font Weight",
       "fontWeightDescription": "Font weight from 100 (thin) to 900 (black), in steps of 100",
@@ -964,7 +777,7 @@
       "enabled": "Enabled",
       "disabled": "Disabled",
       "cursorAccentColor": "Cursor Accent Color",
-      "cursorAccentColorDescription": "Color of the cursor when visible (affects contrast and visibility)",
+      "cursorAccentColorDescription": "Choose the color of the terminal cursor",
       "cursorColorLabel": "Cursor accent color",
       "cursorColorDescription": "Current color: {{color}}",
       "pickColor": "Click to pick a color",
@@ -978,7 +791,7 @@
       "presets": "Quick Presets",
       "presetsDescription": "Common scrollback limits for different use cases",
       "scrollback": "Scrollback Limit",
-      "scrollbackDescription": "Maximum number of lines to keep in terminal history (1K-100K)",
+      "scrollbackDescription": "Maximum number of lines to keep in terminal history",
       "scrollbackPresets": "Quick Presets",
       "presetMinimal": "Minimal",
       "presetMinimalDescription": "Minimal history (1K lines)",
@@ -996,7 +809,7 @@
     },
     "presets": {
       "title": "Quick Presets",
-      "description": "Apply pre-configured presets from popular IDEs and terminals",
+      "description": "Apply pre-configured terminal font settings or save your own",
       "builtin": "Built-in Presets",
       "builtinDescription": "Click to apply a pre-configured preset",
       "vscode": "Consolas 14px, block cursor",
@@ -1019,31 +832,25 @@
       "deletePreset": "Delete this preset",
       "noCustomPresets": "No custom presets yet. Save your current configuration to get started.",
       "duplicateName": "A preset with this name already exists",
-      "saved": "Preset \"{{name}}\" saved successfully",
+      "saved": "Preset \"{{name}}\" saved",
       "deleted": "Preset \"{{name}}\" deleted",
       "unknownFont": "Unknown",
       "applyFailed": "Failed to apply preset \"{{name}}\"",
       "presetNameLabel": "Preset name",
-      "summary": "{{font}}, {{size}}px, {{cursor}} cursor",
-      "builtinDesc": "Click to apply a pre-configured preset",
-      "customDesc": "Save your current configuration as a custom preset",
-      "resetDesc": "Restore the default settings for your operating system",
-      "presetDetails": "{{font}}, {{size}}px, {{cursor}} cursor",
-      "namePlaceholder": "Preset name...",
-      "nameLabel": "Preset name"
+      "summary": "{{font}}, {{size}}px, {{cursor}} cursor"
     },
     "preview": {
       "title": "Live Preview",
       "description": "Preview your terminal settings in real-time (updates within 300ms)",
-      "ariaLabel": "Terminal preview showing sample output with current font settings",
-      "infoText": "Preview updates within 300ms of setting changes. This is a read-only terminal for demonstration purposes."
+      "ariaLabel": "Terminal font preview",
+      "infoText": "This preview updates within 300ms of any change to show how your settings will look in actual terminals."
     },
     "importExport": {
       "exportSuccess": "Settings exported successfully",
       "exportFailed": "Failed to export settings",
       "importSuccess": "Settings imported successfully",
       "importFailed": "Failed to import settings: Invalid JSON format",
-      "importFailedRange": "Values must be within valid ranges",
+      "importFailedRange": "Failed to import settings: Values out of valid range",
       "copySuccess": "Settings copied to clipboard",
       "copyFailed": "Failed to copy to clipboard",
       "fileTooLarge": "Import file too large (max 10KB)",
@@ -1055,22 +862,10 @@
       "currentValue": "Current value: {{value}}"
     }
   },
-  "display": {
-    "resetToDefault": "Reset to default (100%)",
-    "decreaseScale": "Decrease scale by {{step}}%",
-    "increaseScale": "Increase scale by {{step}}%",
-    "applyScaleChanges": "Apply scale changes",
-    "backgroundColor": "Background color",
-    "accentColor": "Accent color"
-  },
-  "common": {
-    "actions": {
-      "apply": "Apply"
+  "agents": {
+    "pr_template_filler": {
+      "label": "PR Template Filler",
+      "description": "AI-fills GitHub PR templates from code changes"
     }
-  },
-  "projectSelector": {
-    "selectProject": "Select a project...",
-    "noProjects": "No projects yet",
-    "addProject": "Add Project..."
   }
 }

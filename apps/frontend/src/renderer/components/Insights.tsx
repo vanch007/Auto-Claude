@@ -105,10 +105,36 @@ export function Insights({ projectId }: InsightsProps) {
   const [creatingTask, setCreatingTask] = useState<string | null>(null);
   const [taskCreated, setTaskCreated] = useState<Set<string>>(new Set());
   const [showSidebar, setShowSidebar] = useState(true);
+  const [isUserAtBottom, setIsUserAtBottom] = useState(true);
+  const [viewportEl, setViewportEl] = useState<HTMLElement | null>(null);
 
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
-  const scrollAreaViewportRef = useRef<HTMLDivElement | null>(null);
+
+  // Scroll threshold in pixels - user is considered "at bottom" if within this distance
+  const SCROLL_BOTTOM_THRESHOLD = 100;
+
+  // Check if user is near the bottom of scroll area
+  const checkIfAtBottom = useCallback((viewport: HTMLElement) => {
+    const { scrollTop, scrollHeight, clientHeight } = viewport;
+    return scrollHeight - scrollTop - clientHeight <= SCROLL_BOTTOM_THRESHOLD;
+  }, []);
+
+  // Handle scroll events to track user position
+  const handleScroll = useCallback(() => {
+    if (viewportEl) {
+      setIsUserAtBottom(checkIfAtBottom(viewportEl));
+    }
+  }, [viewportEl, checkIfAtBottom]);
+
+  // Set up scroll listener and check initial position when viewport becomes available
+  useEffect(() => {
+    if (viewportEl) {
+      // Check initial scroll position
+      setIsUserAtBottom(checkIfAtBottom(viewportEl));
+      viewportEl.addEventListener('scroll', handleScroll, { passive: true });
+      return () => viewportEl.removeEventListener('scroll', handleScroll);
+    }
+  }, [viewportEl, handleScroll, checkIfAtBottom]);
 
   // Load session and set up listeners on mount
   useEffect(() => {
@@ -117,47 +143,14 @@ export function Insights({ projectId }: InsightsProps) {
     return cleanup;
   }, [projectId]);
 
-  // Auto-scroll to bottom when messages change
-  // Uses requestAnimationFrame to ensure DOM layout is complete before scrolling
-  // and direct scrollTop manipulation for more predictable behavior than scrollIntoView
+  // Smart auto-scroll: only scroll if user is already at bottom
+  // This allows users to scroll up to read previous messages without being
+  // yanked back down during streaming responses
   useEffect(() => {
-    const scrollToBottom = () => {
-      const viewport = scrollAreaViewportRef.current;
-      if (viewport) {
-        // Use direct scrollTop manipulation for immediate, predictable scrolling
-        // This avoids race conditions with smooth scrolling animation on macOS
-        viewport.scrollTop = viewport.scrollHeight;
-      } else {
-        // Fallback to scrollIntoView for the sentinel element
-        messagesEndRef.current?.scrollIntoView({ block: 'end' });
-      }
-    };
-
-    // During streaming, use requestAnimationFrame to ensure DOM is updated
-    // After streaming completes, scroll immediately without animation
-    const isStreaming = !!streamingContent;
-    let rafId: number | undefined;
-    if (isStreaming) {
-      rafId = requestAnimationFrame(scrollToBottom);
-    } else {
-      // Small delay for non-streaming updates to allow layout to settle
-      const timeoutId = setTimeout(() => {
-        rafId = requestAnimationFrame(scrollToBottom);
-      }, 10);
-      return () => {
-        clearTimeout(timeoutId);
-        if (rafId !== undefined) {
-          cancelAnimationFrame(rafId);
-        }
-      };
+    if (isUserAtBottom && viewportEl) {
+      viewportEl.scrollTop = viewportEl.scrollHeight;
     }
-
-    return () => {
-      if (rafId !== undefined) {
-        cancelAnimationFrame(rafId);
-      }
-    };
-  }, [session?.messages, streamingContent]);
+  }, [session?.messages, streamingContent, isUserAtBottom, viewportEl]);
 
   // Focus textarea on mount
   useEffect(() => {
@@ -169,17 +162,13 @@ export function Insights({ projectId }: InsightsProps) {
     setTaskCreated(new Set());
   }, [session?.id]);
 
-  // Stable callback for viewport ref to avoid creating new function on each render
-  const handleViewportRef = useCallback((ref: HTMLDivElement | null) => {
-    scrollAreaViewportRef.current = ref;
-  }, []);
-
   const handleSend = () => {
     const message = inputValue.trim();
     if (!message || status.phase === 'thinking' || status.phase === 'streaming') return;
 
     setInputValue('');
     sendMessage(projectId, message);
+    setIsUserAtBottom(true); // Resume auto-scroll when user sends a message
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -266,7 +255,7 @@ export function Insights({ projectId }: InsightsProps) {
               size="icon"
               className="h-8 w-8"
               onClick={() => setShowSidebar(!showSidebar)}
-              title={showSidebar ? t('insights.hideSidebar') : t('insights.showSidebar')}
+              title={showSidebar ? 'Hide sidebar' : 'Show sidebar'}
             >
               {showSidebar ? (
                 <PanelLeftClose className="h-4 w-4" />
@@ -277,29 +266,34 @@ export function Insights({ projectId }: InsightsProps) {
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
               <Sparkles className="h-5 w-5 text-primary" />
             </div>
+            <div>
+              <h2 className="font-semibold text-foreground">Insights</h2>
+              <p className="text-sm text-muted-foreground">
+                Ask questions about your codebase
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <InsightsModelSelector
+              currentConfig={session?.modelConfig}
+              onConfigChange={handleModelConfigChange}
+              disabled={isLoading}
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleNewSession}
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              New Chat
+            </Button>
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <InsightsModelSelector
-            currentConfig={session?.modelConfig}
-            onConfigChange={handleModelConfigChange}
-            disabled={isLoading}
-          />
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleNewSession}
-          >
-            <Plus className="mr-2 h-4 w-4" />
-            {t('insights.newChat')}
-          </Button>
-        </div>
-      </div>
 
       {/* Messages */}
       <ScrollArea
         className="flex-1 px-6 py-4"
-        onViewportRef={handleViewportRef}
+        onViewportRef={setViewportEl}
       >
         {messages.length === 0 && !streamingContent ? (
           <div className="flex h-full flex-col items-center justify-center text-center">
@@ -307,29 +301,30 @@ export function Insights({ projectId }: InsightsProps) {
               <MessageSquare className="h-8 w-8 text-muted-foreground" />
             </div>
             <h3 className="mb-2 text-lg font-medium text-foreground">
-              {t('insights.startConversation')}
+              Start a Conversation
             </h3>
             <p className="max-w-md text-sm text-muted-foreground">
-              {t('insights.description')}
+              Ask questions about your codebase, get suggestions for improvements,
+              or discuss features you'd like to implement.
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-2">
               {[
-                { key: 'insights.suggestions.architecture', text: 'What is the architecture of this project?' },
-                { key: 'insights.suggestions.quality', text: 'Suggest improvements for code quality' },
-                { key: 'insights.suggestions.nextFeatures', text: 'What features could I add next?' },
-                { key: 'insights.suggestions.security', text: 'Are there any security concerns?' }
+                'What is the architecture of this project?',
+                'Suggest improvements for code quality',
+                'What features could I add next?',
+                'Are there any security concerns?'
               ].map((suggestion) => (
                 <Button
-                  key={suggestion.key}
+                  key={suggestion}
                   variant="outline"
                   size="sm"
                   className="text-xs"
                   onClick={() => {
-                    setInputValue(t(suggestion.key));
+                    setInputValue(suggestion);
                     textareaRef.current?.focus();
                   }}
                 >
-                  {t(suggestion.key)}
+                  {suggestion}
                 </Button>
               ))}
             </div>
@@ -344,7 +339,6 @@ export function Insights({ projectId }: InsightsProps) {
                 onCreateTask={() => handleCreateTask(message)}
                 isCreatingTask={creatingTask === message.id}
                 taskCreated={taskCreated.has(message.id)}
-                t={t}
               />
             ))}
 
@@ -356,7 +350,7 @@ export function Insights({ projectId }: InsightsProps) {
                 </div>
                 <div className="flex-1">
                   <div className="mb-1 text-sm font-medium text-foreground">
-                    {t('insights.assistant')}
+                    Assistant
                   </div>
                   {streamingContent && (
                     <div className="prose prose-sm dark:prose-invert max-w-none">
@@ -367,7 +361,7 @@ export function Insights({ projectId }: InsightsProps) {
                   )}
                   {/* Tool usage indicator */}
                   {currentTool && (
-                    <ToolIndicator name={currentTool.name} input={currentTool.input} t={t} />
+                    <ToolIndicator name={currentTool.name} input={currentTool.input} />
                   )}
                 </div>
               </div>
@@ -381,7 +375,7 @@ export function Insights({ projectId }: InsightsProps) {
                 </div>
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  {t('insights.thinking')}
+                  Thinking...
                 </div>
               </div>
             )}
@@ -394,7 +388,6 @@ export function Insights({ projectId }: InsightsProps) {
               </div>
             )}
 
-            <div ref={messagesEndRef} />
           </div>
         )}
       </ScrollArea>
@@ -407,7 +400,7 @@ export function Insights({ projectId }: InsightsProps) {
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={t('insights.inputPlaceholder')}
+            placeholder="Ask about your codebase..."
             className="min-h-[80px] resize-none"
             disabled={isLoading}
           />
@@ -424,8 +417,9 @@ export function Insights({ projectId }: InsightsProps) {
           </Button>
         </div>
         <p className="mt-2 text-xs text-muted-foreground">
-          {t('insights.inputHint')}
+          Press Enter to send, Shift+Enter for new line
         </p>
+      </div>
       </div>
     </div>
   );
@@ -444,9 +438,8 @@ function MessageBubble({
   markdownComponents,
   onCreateTask,
   isCreatingTask,
-  taskCreated,
-  t
-}: MessageBubbleProps & { t: any }) {
+  taskCreated
+}: MessageBubbleProps) {
   const isUser = message.role === 'user';
 
   return (
@@ -465,7 +458,7 @@ function MessageBubble({
       </div>
       <div className="flex-1 space-y-2">
         <div className="text-sm font-medium text-foreground">
-          {isUser ? t('insights.you') : t('insights.assistant')}
+          {isUser ? 'You' : 'Assistant'}
         </div>
         <div className="prose prose-sm dark:prose-invert max-w-none">
           <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
@@ -475,7 +468,7 @@ function MessageBubble({
 
         {/* Tool usage history for assistant messages */}
         {!isUser && message.toolsUsed && message.toolsUsed.length > 0 && (
-          <ToolUsageHistory tools={message.toolsUsed} t={t} />
+          <ToolUsageHistory tools={message.toolsUsed} />
         )}
 
         {/* Task suggestion card */}
@@ -485,7 +478,7 @@ function MessageBubble({
               <div className="mb-2 flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-primary" />
                 <span className="text-sm font-medium text-primary">
-                  {t('insights.suggestedTask')}
+                  Suggested Task
                 </span>
               </div>
               <h4 className="mb-2 font-medium text-foreground">
@@ -530,17 +523,17 @@ function MessageBubble({
                 {isCreatingTask ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    {t('labels.creating')}
+                    Creating...
                   </>
                 ) : taskCreated ? (
                   <>
                     <CheckCircle2 className="mr-2 h-4 w-4" />
-                    {t('insights.taskCreated')}
+                    Task Created
                   </>
                 ) : (
                   <>
                     <Plus className="mr-2 h-4 w-4" />
-                    {t('insights.createTask')}
+                    Create Task
                   </>
                 )}
               </Button>
@@ -559,10 +552,9 @@ interface ToolUsageHistoryProps {
     input?: string;
     timestamp: Date;
   }>;
-  t: any;
 }
 
-function ToolUsageHistory({ tools, t }: ToolUsageHistoryProps) {
+function ToolUsageHistory({ tools }: ToolUsageHistoryProps) {
   const [expanded, setExpanded] = useState(false);
 
   if (tools.length === 0) return null;
@@ -616,7 +608,7 @@ function ToolUsageHistory({ tools, t }: ToolUsageHistoryProps) {
             );
           })}
         </span>
-        <span>{tools.length} {t('insights.toolsUsed', { count: tools.length })}</span>
+        <span>{tools.length} tool{tools.length !== 1 ? 's' : ''} used</span>
         <span className="text-[10px]">{expanded ? '▲' : '▼'}</span>
       </button>
 
@@ -649,29 +641,28 @@ function ToolUsageHistory({ tools, t }: ToolUsageHistoryProps) {
 interface ToolIndicatorProps {
   name: string;
   input?: string;
-  t: any;
 }
 
-function ToolIndicator({ name, input, t }: ToolIndicatorProps) {
+function ToolIndicator({ name, input }: ToolIndicatorProps) {
   // Get friendly name and icon for each tool
   const getToolInfo = (toolName: string) => {
     switch (toolName) {
       case 'Read':
         return {
           icon: FileText,
-          label: t('insights.tools.read'),
+          label: 'Reading file',
           color: 'text-blue-500 bg-blue-500/10'
         };
       case 'Glob':
         return {
           icon: FolderSearch,
-          label: t('insights.tools.glob'),
+          label: 'Searching files',
           color: 'text-amber-500 bg-amber-500/10'
         };
       case 'Grep':
         return {
           icon: Search,
-          label: t('insights.tools.grep'),
+          label: 'Searching code',
           color: 'text-green-500 bg-green-500/10'
         };
       default:

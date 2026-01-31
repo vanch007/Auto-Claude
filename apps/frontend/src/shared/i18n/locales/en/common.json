@@ -10,9 +10,49 @@
     "addProjectAriaLabel": "Add project"
   },
   "accessibility": {
-    "sidebar": {
-      "autoClaude": "Auto Claude"
-    }
+    "deleteFeatureAriaLabel": "Delete feature",
+    "closeFeatureDetailsAriaLabel": "Close feature details",
+    "regenerateRoadmapAriaLabel": "Regenerate Roadmap",
+    "repositoryOwnerAriaLabel": "Repository owner",
+    "repositoryVisibilityAriaLabel": "Repository visibility",
+    "opensInNewWindow": "opens in new window",
+    "visitExternalLink": "Visit {{name}} (opens in new window)",
+    "upgradeSubscriptionAriaLabel": "Upgrade subscription (opens in new window)",
+    "learnMoreAriaLabel": "Learn more (opens in new window)",
+    "toggleFolder": "Toggle {{name}} folder",
+    "expandFolder": "Expand {{name}} folder",
+    "collapseFolder": "Collapse {{name}} folder",
+    "newConversationAriaLabel": "New conversation",
+    "saveEditAriaLabel": "Save",
+    "cancelEditAriaLabel": "Cancel",
+    "moreOptionsAriaLabel": "More options",
+    "closePanelAriaLabel": "Close panel",
+    "openOnGitHubAriaLabel": "Open on GitHub (opens in new window)",
+    "openOnGitLabAriaLabel": "Open on GitLab (opens in new window)",
+    "toggleShowArchivedAriaLabel": "Toggle show archived tasks",
+    "clearSelectionAriaLabel": "Clear selection",
+    "selectAllAriaLabel": "Select all",
+    "showDismissedAriaLabel": "Show dismissed",
+    "hideDismissedAriaLabel": "Hide dismissed",
+    "configureAriaLabel": "Configure",
+    "addMoreAriaLabel": "Add more",
+    "dismissAllAriaLabel": "Dismiss all ideas",
+    "regenerateIdeasAriaLabel": "Regenerate ideas",
+    "dismissAriaLabel": "Dismiss",
+    "browseFilesAriaLabel": "Browse files",
+    "renameAriaLabel": "Rename",
+    "deleteAriaLabel": "Delete",
+    "refreshAriaLabel": "Refresh",
+    "expandAriaLabel": "Expand",
+    "collapseAriaLabel": "Collapse",
+    "selectIdeaAriaLabel": "Select idea: {{title}}",
+    "convertToTaskAriaLabel": "Convert to task",
+    "goToTaskAriaLabel": "Go to task",
+    "reAuthenticateProfileAriaLabel": "Re-authenticate profile",
+    "hideTokenEntryAriaLabel": "Hide token entry",
+    "enterTokenManuallyAriaLabel": "Enter token manually",
+    "renameProfileAriaLabel": "Rename profile",
+    "deleteProfileAriaLabel": "Delete profile"
   },
   "buttons": {
     "save": "Save",
@@ -40,7 +80,8 @@
     "apply": "Apply",
     "gotIt": "Got it",
     "continue": "Continue",
-    "saving": "Saving..."
+    "saving": "Saving...",
+    "deleting": "Deleting..."
   },
   "actions": {
     "save": "Save",
@@ -65,7 +106,8 @@
     "optional": "Optional",
     "required": "Required",
     "dismiss": "Dismiss",
-    "important": "Important"
+    "important": "Important",
+    "orphaned": "(orphaned)"
   },
   "selection": {
     "select": "Select",
@@ -94,6 +136,11 @@
     "failedToDeleteTaskWorktree": "Failed to delete task worktree: {{specName}}",
     "terminalWorktreeNotFound": "Terminal worktree not found: {{name}}",
     "failedToDeleteTerminalWorktree": "Failed to delete terminal worktree: {{name}}"
+  },
+  "worktrees": {
+    "deleteSuccess": "Worktree '{{branch}}' deleted successfully",
+    "bulkDeleteSuccess": "{{count}} worktree deleted successfully",
+    "bulkDeleteSuccess_plural": "{{count}} worktrees deleted successfully"
   },
   "notification": {
     "accountSwitched": "Account Switched",
@@ -431,7 +478,8 @@
     "clickToOpenSettings": "Click to open Settings →",
     "sessionShort": "5-hour session usage",
     "weeklyShort": "7-day weekly usage",
-    "swap": "Swap"
+    "swap": "Swap",
+    "account": "Account"
   },
   "oauth": {
     "enterCode": "Manual Code Entry (Fallback)",
@@ -569,21 +617,19 @@
     }
   },
   "auth": {
-    "reAuthenticationRequired": "Re-authentication required",
-    "sessionExpired": "Your session has expired. Re-authenticate to view usage and continue using this account.",
-    "clickToOpenSettings": "Click to open Settings ",
-    "reAuthenticate": "Re-authenticate",
-    "setupOAuth": "Setup OAuth",
-    "claudeAuthentication": "Claude Authentication",
-    "authenticatedViaOAuth": "Authenticated via OAuth",
-    "notAuthenticated": "Not authenticated",
-    "oauthToken": "OAuth Token",
-    "override": "(Override)",
-    "usingGlobalToken": "Using global token",
-    "usingTokenFromAppSettings": "Using token from App Settings. Enter a project-specific token below to override.",
-    "pasteTokenHint": "Paste a token from claude setup-token",
-    "enterToOverride": "Enter to override global token...",
-    "tokenPlaceholder": "your-oauth-token-here"
+    "failure": {
+      "title": "Authentication Required",
+      "profileLabel": "Profile",
+      "unknownProfile": "Unknown Profile",
+      "tokenExpired": "Your authentication token has expired.",
+      "tokenInvalid": "Your authentication token is invalid.",
+      "tokenMissing": "No authentication token found.",
+      "authFailed": "Authentication failed.",
+      "description": "Please re-authenticate your Claude profile to continue using Auto Claude.",
+      "taskAffected": "Task affected",
+      "technicalDetails": "Technical details",
+      "goToSettings": "Go to Settings"
+    }
   },
   "roadmapProgress": {
     "elapsedTime": "Elapsed",
@@ -624,196 +670,5 @@
     "progress": "Progress",
     "lastActivityPrefix": "last activity",
     "lastProgressUpdateTooltip": "Last progress update received"
-  },
-  "githubIssues": {
-    "title": "GitHub Issues",
-    "open": "open",
-    "closed": "closed",
-    "all": "All",
-    "searchPlaceholder": "Search issues...",
-    "analyzeAndGroup": "Analyze & Group Issues",
-    "analyzeTooltip": "Analyze up to 200 open issues, group similar ones, and review proposed batches before creating tasks.",
-    "autoFixNew": "Auto-Fix New",
-    "autoFixTooltip": "Automatically fix new issues as they come in.",
-    "processing": "Processing {{count}} issue(s)...",
-    "selectIssueToView": "Select an issue to view details",
-    "notConnected": "GitHub Not Connected",
-    "connectPrompt": "Connect your GitHub account to view and manage issues.",
-    "openSettings": "Open Settings",
-    "investigate": "Investigate",
-    "createTask": "Create Task",
-    "viewTask": "View Task",
-    "loading": "Loading issues...",
-    "noOpenIssues": "No open issues",
-    "loadMore": "Load More",
-    "accessAvailable": "Access GitHub Issues from the sidebar to view, investigate, and create tasks from issues.",
-    "enableGitHubIssues": "Enable GitHub Issues",
-    "noMatchingIssues": "No issues match your search"
-  },
-  "dates": {
-    "today": "Today",
-    "yesterday": "Yesterday",
-    "daysAgo": "{{count}} days ago"
-  },
-  "status": {
-    "connected": "Connected",
-    "notConnected": "Not Connected",
-    "checking": "Checking...",
-    "loadingConfiguration": "Loading configuration...",
-    "unknown": "Status unknown"
-  },
-  "agents": {
-    "spec_gatherer": {
-      "label": "Spec Gatherer",
-      "description": "Collects initial requirements from user"
-    },
-    "spec_researcher": {
-      "label": "Spec Researcher",
-      "description": "Validates external integrations and APIs"
-    },
-    "spec_writer": {
-      "label": "Spec Writer",
-      "description": "Creates the spec.md document"
-    },
-    "spec_critic": {
-      "label": "Spec Critic",
-      "description": "Self-critique using deep analysis"
-    },
-    "spec_discovery": {
-      "label": "Spec Discovery",
-      "description": "Initial project discovery and analysis"
-    },
-    "spec_context": {
-      "label": "Spec Context",
-      "description": "Builds context from existing codebase"
-    },
-    "spec_validation": {
-      "label": "Spec Validation",
-      "description": "Validates spec completeness and quality"
-    },
-    "planner": {
-      "label": "Planner",
-      "description": "Creates implementation plan with subtasks"
-    },
-    "coder": {
-      "label": "Coder",
-      "description": "Implements individual subtasks"
-    },
-    "qa_reviewer": {
-      "label": "QA Reviewer",
-      "description": "Validates acceptance criteria"
-    },
-    "qa_fixer": {
-      "label": "QA Fixer",
-      "description": "Fixes QA-reported issues"
-    },
-    "pr_reviewer": {
-      "label": "PR Reviewer",
-      "description": "Reviews GitHub pull requests"
-    },
-    "commit_message": {
-      "label": "Commit Message",
-      "description": "Generates commit messages"
-    },
-    "merge_resolver": {
-      "label": "Merge Resolver",
-      "description": "Resolves merge conflicts"
-    },
-    "insights": {
-      "label": "Insights",
-      "description": "Extracts code insights"
-    },
-    "analysis": {
-      "label": "Analysis",
-      "description": "Codebase analysis with context lookup"
-    },
-    "batch_analysis": {
-      "label": "Batch Analysis",
-      "description": "Batch processing of issues or items"
-    },
-    "ideation": {
-      "label": "Ideation",
-      "description": "Generates feature ideas"
-    },
-    "roadmap_discovery": {
-      "label": "Roadmap Discovery",
-      "description": "Discovers roadmap items"
-    }
-  },
-  "roadmap": {
-    "priority": {
-      "must": "Must Have",
-      "should": "Should Have",
-      "could": "Could Have",
-      "wont": "Won't Have"
-    },
-    "complexity": {
-      "low": "Low",
-      "medium": "Medium",
-      "high": "High"
-    },
-    "impact": {
-      "low": "Low",
-      "medium": "Medium",
-      "high": "High"
-    },
-    "feature": {
-      "impact": "Impact",
-      "insight": "Insight",
-      "addressesPoints": "Addresses competitor pain points",
-      "goToTask": "Go to Task",
-      "build": "Build",
-      "description": "Description",
-      "rationale": "Rationale",
-      "userStories": "User Stories",
-      "acceptanceCriteria": "Acceptance Criteria",
-      "competitorInsightsTitle": "Competitor Insights",
-      "severity": "Severity",
-      "complexity": "Complexity",
-      "dependencies": "Dependencies"
-    }
-  },
-  "form": {
-    "classification": {
-      "values": {
-        "category": {
-          "security": "Security",
-          "feature": "Feature",
-          "bugfix": "Bug Fix",
-          "enhancement": "Enhancement",
-          "documentation": "Documentation",
-          "refactor": "Refactor"
-        },
-        "priority": {
-          "low": "Low",
-          "medium": "Medium",
-          "high": "High",
-          "critical": "Critical"
-        },
-        "impact": {
-          "low": "Low",
-          "medium": "Medium",
-          "high": "High"
-        }
-      }
-    }
-  },
-  "taskDetail": {
-    "overview": "Overview",
-    "subtasks": "Subtasks",
-    "logs": "Logs",
-    "files": "Files",
-    "buildReadyForReview": "Build Ready for Review",
-    "checkForConflicts": "Check for Conflicts",
-    "requestChanges": "Request Changes",
-    "requestChangesDescription": "Found issues? Describe what needs to be fixed and the AI will continue working on it",
-    "describeIssues": "Describe the issues or changes needed...",
-    "rationale": "Rationale",
-    "openIn": "Open in",
-    "openInTerminal": "Open in Terminal",
-    "view": "View",
-    "commits": "commits",
-    "additions": "additions",
-    "deletions": "deletions"
   }
 }

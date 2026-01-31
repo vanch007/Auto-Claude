@@ -20,15 +20,8 @@ export const settingsMock = {
   getSentryDsn: async () => '',  // No DSN in browser mode
   getSentryConfig: async () => ({ dsn: '', tracesSampleRate: 0, profilesSampleRate: 0 }),
 
-  // Custom Prompts
-  loadCustomPrompts: async () => ({
-    systemPromptExtension: '',
-    coderPromptExtension: '',
-    plannerPromptExtension: '',
-    qaPromptExtension: '',
-    enabled: false
-  }),
-  saveCustomPrompts: async () => ({ success: true }),
+  // Spell check (no-op in browser mode)
+  setSpellCheckLanguages: async () => ({ success: true, data: { success: true } }),
 
   getCliToolsInfo: async () => ({
     success: true,
@@ -36,6 +29,7 @@ export const settingsMock = {
       python: { found: false, source: 'fallback' as const, message: 'Not available in browser mode' },
       git: { found: false, source: 'fallback' as const, message: 'Not available in browser mode' },
       gh: { found: false, source: 'fallback' as const, message: 'Not available in browser mode' },
+      glab: { found: false, source: 'fallback' as const, message: 'Not available in browser mode' },
       claude: { found: false, source: 'fallback' as const, message: 'Not available in browser mode' }
     }
   }),
@@ -57,8 +51,8 @@ export const settingsMock = {
   getDownloadedAppUpdate: async () => ({ success: true, data: null }),
 
   // App Update Event Listeners (no-op in browser mode)
-  onAppUpdateAvailable: () => () => { },
-  onAppUpdateDownloaded: () => () => { },
-  onAppUpdateProgress: () => () => { },
-  onAppUpdateStableDowngrade: () => () => { }
+  onAppUpdateAvailable: () => () => {},
+  onAppUpdateDownloaded: () => () => {},
+  onAppUpdateProgress: () => () => {},
+  onAppUpdateStableDowngrade: () => () => {}
 };

@@ -54,25 +54,18 @@ export async function createTerminal(
 
   try {
     // For auth terminals, don't inject existing OAuth token - we want a fresh login
-    const profileEnv = skipOAuthToken ? {} : await PtyManager.getActiveProfileEnv();
+    const profileEnv = skipOAuthToken ? {} : PtyManager.getActiveProfileEnv();
 
     // Merge custom environment variables (e.g., CLAUDE_CONFIG_DIR for auth terminals)
     const mergedEnv = customEnv ? { ...profileEnv, ...customEnv } : profileEnv;
 
-    // Log which authentication mode is being used
-    if (mergedEnv.ANTHROPIC_BASE_URL) {
-      // API Profile is active
-      debugLog('[TerminalLifecycle] 🔌 Using API Profile mode');
-      debugLog('[TerminalLifecycle]   ANTHROPIC_BASE_URL:', mergedEnv.ANTHROPIC_BASE_URL);
-      if (mergedEnv.ANTHROPIC_AUTH_TOKEN) {
-        debugLog('[TerminalLifecycle]   ANTHROPIC_AUTH_TOKEN: [SET]');
-      }
-    } else if (mergedEnv.CLAUDE_CONFIG_DIR) {
-      // OAuth Profile is active
-      debugLog('[TerminalLifecycle] 🔐 Using OAuth Profile mode');
-      debugLog('[TerminalLifecycle]   CLAUDE_CONFIG_DIR:', mergedEnv.CLAUDE_CONFIG_DIR);
+    if (mergedEnv.CLAUDE_CODE_OAUTH_TOKEN) {
+      debugLog('[TerminalLifecycle] Injecting OAuth token from active profile');
     } else if (skipOAuthToken) {
       debugLog('[TerminalLifecycle] Skipping OAuth token injection (auth terminal)');
+    }
+    if (mergedEnv.CLAUDE_CONFIG_DIR) {
+      debugLog('[TerminalLifecycle] Setting CLAUDE_CONFIG_DIR:', mergedEnv.CLAUDE_CONFIG_DIR);
     }
 
     // Validate cwd exists - if the directory doesn't exist (e.g., worktree removed),
@@ -301,12 +294,27 @@ export async function destroyTerminal(
 }
 
 /**
- * Kill all terminal processes
+ * Global timeout for destroyAllTerminals to prevent shutdown from hanging (ms).
+ */
+const DESTROY_ALL_TIMEOUT = 3000;
+
+/**
+ * Kill all terminal processes.
+ * Sets the shutdown flag first to prevent PTY handlers from accessing destroyed
+ * resources, then waits for all PTY processes to exit (with a global timeout).
+ *
+ * This is the core fix for GitHub issue #1469: by setting the shutdown flag and
+ * awaiting PTY exit before returning, we ensure pty.node's native callbacks
+ * don't fire after the JS environment tears down (which causes SIGABRT).
  */
 export async function destroyAllTerminals(
   terminals: Map<string, TerminalProcess>,
   saveTimer: NodeJS.Timeout | null
 ): Promise<NodeJS.Timeout | null> {
+  // Set shutdown flag first — prevents PTY onData/onExit from accessing
+  // destroyed BrowserWindow.webContents (GitHub #1469 shutdown guard pattern)
+  PtyManager.setShuttingDown(true);
+
   await SessionHandler.persistAllSessionsAsync(terminals);
 
   if (saveTimer) {
@@ -314,25 +322,24 @@ export async function destroyAllTerminals(
     saveTimer = null;
   }
 
-  const promises: Promise<void>[] = [];
+  // Kill all terminals and wait for PTY exit to avoid pty.node SIGABRT on shutdown (GitHub #1469)
+  const killPromises: Promise<void>[] = [];
 
   terminals.forEach((terminal) => {
-    promises.push(
-      new Promise((resolve) => {
-        try {
-          // Note: We intentionally don't wait for PTY exit here (unlike destroyTerminal)
-          // because this function is only called during app shutdown when no terminals
-          // will be recreated. Waiting would only delay shutdown unnecessarily.
-          PtyManager.killPty(terminal);
-        } catch {
-          // Ignore errors during cleanup
-        }
-        resolve();
+    killPromises.push(
+      PtyManager.killPty(terminal, true).catch((error) => {
+        console.warn('[TerminalLifecycle] Error during PTY cleanup:', error);
       })
     );
   });
 
-  await Promise.all(promises);
+  // Wait for all PTY processes to exit, but cap with a global timeout
+  // so shutdown never hangs indefinitely
+  await Promise.race([
+    Promise.all(killPromises),
+    new Promise<void>((resolve) => setTimeout(resolve, DESTROY_ALL_TIMEOUT))
+  ]);
+
   terminals.clear();
 
   return saveTimer;
