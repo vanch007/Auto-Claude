@@ -328,7 +328,9 @@ export class ClaudeProfileManager {
   }
 
   /**
-   * Delete a profile (cannot delete default or last profile)
+   * Delete a profile
+   * Now allows deleting any profile including default and last profile.
+   * When all OAuth profiles are deleted, the app will use API Profile for authentication.
    */
   deleteProfile(profileId: string): boolean {
     const profile = this.getProfile(profileId);
@@ -336,23 +338,18 @@ export class ClaudeProfileManager {
       return false;
     }
 
-    // Cannot delete default profile
-    if (profile.isDefault) {
-      return false;
-    }
-
-    // Cannot delete if it's the only profile
-    if (this.data.profiles.length <= 1) {
-      return false;
-    }
-
     // Remove the profile
     this.data.profiles = this.data.profiles.filter(p => p.id !== profileId);
 
-    // If we deleted the active profile, switch to default
+    // If we deleted the active profile, switch to another if available
     if (this.data.activeProfileId === profileId) {
-      const defaultProfile = this.data.profiles.find(p => p.isDefault);
-      this.data.activeProfileId = defaultProfile?.id || this.data.profiles[0].id;
+      if (this.data.profiles.length > 0) {
+        const defaultProfile = this.data.profiles.find(p => p.isDefault);
+        this.data.activeProfileId = defaultProfile?.id || this.data.profiles[0].id;
+      } else {
+        // No more OAuth profiles, clear active profile ID
+        this.data.activeProfileId = '';
+      }
     }
 
     this.save();

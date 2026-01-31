@@ -657,6 +657,21 @@
           "description": "生成失败"
         }
       }
+    },
+    "feature": {
+      "impact": "影响",
+      "insight": "洞察",
+      "addressesPoints": "解决竞品痛点",
+      "goToTask": "查看任务",
+      "build": "开始构建",
+      "description": "描述",
+      "rationale": "理由",
+      "userStories": "用户故事",
+      "acceptanceCriteria": "验收标准",
+      "competitorInsightsTitle": "竞品洞察",
+      "severity": "严重程度",
+      "complexity": "复杂度",
+      "dependencies": "依赖项"
     }
   },
   "ideation": {
@@ -1118,5 +1133,51 @@
       "label": "路线图发现器",
       "description": "发现路线图项目"
     }
+  },
+  "form": {
+    "classification": {
+      "values": {
+        "category": {
+          "security": "安全",
+          "feature": "功能",
+          "bugfix": "修复",
+          "enhancement": "增强",
+          "documentation": "文档",
+          "refactor": "重构",
+          "refactoring": "重构",
+          "code_quality": "代码质量",
+          "performance": "性能"
+        },
+        "priority": {
+          "low": "低",
+          "medium": "中",
+          "high": "高",
+          "critical": "紧急"
+        },
+        "impact": {
+          "low": "低",
+          "medium": "中",
+          "high": "高"
+        }
+      }
+    }
+  },
+  "taskDetail": {
+    "overview": "概览",
+    "subtasks": "子任务",
+    "logs": "日志",
+    "files": "文件",
+    "buildReadyForReview": "构建已准备就绪",
+    "checkForConflicts": "检查冲突",
+    "requestChanges": "请求修改",
+    "requestChangesDescription": "发现问题？描述需要修复的内容，AI 将继续处理",
+    "describeIssues": "描述问题或需要的修改...",
+    "rationale": "理由",
+    "openIn": "打开",
+    "openInTerminal": "在终端中打开",
+    "view": "查看",
+    "commits": "提交",
+    "additions": "新增",
+    "deletions": "删除"
   }
 }

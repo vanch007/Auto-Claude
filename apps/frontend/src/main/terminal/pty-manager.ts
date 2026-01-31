@@ -10,6 +10,7 @@ import type { TerminalProcess, WindowGetter, WindowsShellType } from './types';
 import { isWindows, getWindowsShellPaths } from '../platform';
 import { IPC_CHANNELS } from '../../shared/constants';
 import { getClaudeProfileManager } from '../claude-profile-manager';
+import { getAPIProfileEnv } from '../services/profile';
 import { readSettingsFile } from '../settings-utils';
 import { debugLog, debugError } from '../../shared/utils/debug-logger';
 import type { SupportedTerminal } from '../../shared/types/settings';
@@ -355,9 +356,21 @@ export function killPty(terminal: TerminalProcess, waitForExit?: boolean): Promi
 }
 
 /**
- * Get the active Claude profile environment variables
+ * Get the active Claude profile environment variables.
+ * Uses EXCLUSIVE logic: if API Profile is active, use ONLY API Profile env vars.
+ * Otherwise, use OAuth Profile env vars.
+ * This allows users to switch between OAuth and API modes by activating the appropriate profile.
  */
-export function getActiveProfileEnv(): Record<string, string> {
+export async function getActiveProfileEnv(): Promise<Record<string, string>> {
+  // First, check if an API Profile is active
+  const apiProfileEnv = await getAPIProfileEnv();
+
+  // If API Profile returned env vars, use them exclusively (API mode)
+  if (Object.keys(apiProfileEnv).length > 0) {
+    return apiProfileEnv;
+  }
+
+  // No API Profile active, fall back to OAuth Profile (OAuth mode)
   const profileManager = getClaudeProfileManager();
   return profileManager.getActiveProfileEnv();
 }

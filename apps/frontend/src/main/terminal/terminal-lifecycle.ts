@@ -54,18 +54,25 @@ export async function createTerminal(
 
   try {
     // For auth terminals, don't inject existing OAuth token - we want a fresh login
-    const profileEnv = skipOAuthToken ? {} : PtyManager.getActiveProfileEnv();
+    const profileEnv = skipOAuthToken ? {} : await PtyManager.getActiveProfileEnv();
 
     // Merge custom environment variables (e.g., CLAUDE_CONFIG_DIR for auth terminals)
     const mergedEnv = customEnv ? { ...profileEnv, ...customEnv } : profileEnv;
 
-    if (mergedEnv.CLAUDE_CODE_OAUTH_TOKEN) {
-      debugLog('[TerminalLifecycle] Injecting OAuth token from active profile');
+    // Log which authentication mode is being used
+    if (mergedEnv.ANTHROPIC_BASE_URL) {
+      // API Profile is active
+      debugLog('[TerminalLifecycle] 🔌 Using API Profile mode');
+      debugLog('[TerminalLifecycle]   ANTHROPIC_BASE_URL:', mergedEnv.ANTHROPIC_BASE_URL);
+      if (mergedEnv.ANTHROPIC_AUTH_TOKEN) {
+        debugLog('[TerminalLifecycle]   ANTHROPIC_AUTH_TOKEN: [SET]');
+      }
+    } else if (mergedEnv.CLAUDE_CONFIG_DIR) {
+      // OAuth Profile is active
+      debugLog('[TerminalLifecycle] 🔐 Using OAuth Profile mode');
+      debugLog('[TerminalLifecycle]   CLAUDE_CONFIG_DIR:', mergedEnv.CLAUDE_CONFIG_DIR);
     } else if (skipOAuthToken) {
       debugLog('[TerminalLifecycle] Skipping OAuth token injection (auth terminal)');
-    }
-    if (mergedEnv.CLAUDE_CONFIG_DIR) {
-      debugLog('[TerminalLifecycle] Setting CLAUDE_CONFIG_DIR:', mergedEnv.CLAUDE_CONFIG_DIR);
     }
 
     // Validate cwd exists - if the directory doesn't exist (e.g., worktree removed),

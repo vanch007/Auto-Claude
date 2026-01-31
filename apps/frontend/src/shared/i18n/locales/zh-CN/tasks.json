@@ -205,15 +205,59 @@
     }
   },
   "feedback": {
+    "requestChanges": "请求修改",
+    "description": "发现问题？描述需要修复的内容，AI 将继续处理。",
+    "placeholder": "描述问题或需要的修改...",
     "dragDropHint": "拖放图片或粘贴截图",
-    "imageAdded": "图片添加成功",
-    "maxImagesError": "最多允许 {{count}} 张图片",
-    "invalidTypeError": "无效的图片类型。允许：{{types}}",
-    "removeImage": "移除图片",
-    "processingError": "处理图片失败"
+    "imageAdded": "图片添加成功！",
+    "submitting": "提交中...",
+    "maxImagesError": "最多只能添加 {{count}} 张图片",
+    "invalidTypeError": "不支持的图片类型。支持的格式：{{types}}",
+    "processingError": "处理图片失败",
+    "removeImage": "移除图片"
   },
   "review": {
     "mergeTooltip": "将任务的工作树分支更改合并回您的基准分支。AI 将解决任何冲突。然后您可以选择保留或删除该工作树。"
+  },
+  "detail": {
+    "tabs": {
+      "overview": "概览",
+      "subtasks": "子任务",
+      "subtasksWithCount": "子任务 ({{count}})",
+      "logs": "日志",
+      "files": "文件"
+    },
+    "buttons": {
+      "startTask": "开始任务",
+      "stopTask": "停止任务",
+      "recoverTask": "恢复任务",
+      "resumeTask": "继续任务",
+      "deleteTask": "删除任务",
+      "close": "关闭",
+      "recovering": "恢复中...",
+      "loadingPlan": "加载计划中..."
+    },
+    "status": {
+      "stuck": "卡住了",
+      "incomplete": "未完成",
+      "completed": "已完成",
+      "hasErrors": "有错误",
+      "approvePlan": "批准计划",
+      "qaIssues": "QA 问题"
+    },
+    "subtasksCount": "{{completed}}/{{total}} 子任务",
+    "delete": {
+      "title": "删除任务",
+      "confirmMessage": "确定要删除 <strong>\"{{title}}\"</strong> 吗？",
+      "warning": "此操作无法撤销。所有任务文件（包括规范、实施计划和任何已生成的代码）都将从项目中永久删除。",
+      "deleting": "删除中...",
+      "deletePermanently": "永久删除",
+      "cancel": "取消"
+    },
+    "notifications": {
+      "cannotResume": "无法继续任务",
+      "loadPlanFailed": "加载实施计划失败。请重试或检查任务文件。"
+    }
   },
   "edit": {
     "title": "编辑任务",
@@ -385,10 +429,32 @@
     "description": "添加视觉参考（如截图或设计图）帮助 AI 理解您的需求。"
   },
   "imagePreview": {
-    "close": "Close preview",
-    "description": "Preview of {{filename}}",
-    "doubleClickHint": "Double-click to enlarge",
-    "lowResolution": "Low resolution preview",
-    "unavailable": "Image unavailable"
+    "close": "关闭预览",
+    "description": "预览 {{filename}}",
+    "doubleClickHint": "双击放大",
+    "lowResolution": "低分辨率预览",
+    "unavailable": "图片不可用"
+  },
+  "workspace": {
+    "buildReady": "构建已准备就绪",
+    "view": "查看",
+    "files": "个文件",
+    "commits": "次提交",
+    "openIn": "在 {{app}} 中打开",
+    "checkForConflicts": "检查冲突",
+    "checkingConflicts": "正在检查冲突...",
+    "readyToMerge": "准备合并",
+    "branchDiverged": "分支已分叉",
+    "aiWillResolve": "AI 将解决",
+    "filesRenamed": "文件已重命名",
+    "branchBehind": "分支落后",
+    "conflict": "{{count}} 个冲突",
+    "conflicts": "{{count}} 个冲突",
+    "details": "详情",
+    "uncommittedChanges": "{{count}} 个未提交的更改",
+    "uncommittedChangesWarning": "在主项目中有 {{count}} 个未提交的更改",
+    "stashFirst": "在合并之前请先提交或暂存它们",
+    "stageOnly": "仅暂存（在提交前在 IDE 中审查）",
+    "discardBuild": "丢弃构建"
   }
 }
