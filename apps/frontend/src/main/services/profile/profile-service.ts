@@ -13,7 +13,9 @@ import Anthropic, {
   APIConnectionTimeoutError
 } from '@anthropic-ai/sdk';
 
-import { loadProfilesFile, generateProfileId, atomicModifyProfiles } from './profile-manager';
+import { readFileSync } from 'fs';
+import { loadProfilesFile, generateProfileId, atomicModifyProfiles, getProfilesFilePath } from './profile-manager';
+import type { ProfilesFile } from '@shared/types/profile';
 import type { APIProfile, TestConnectionResult, ModelInfo, DiscoverModelsResult } from '@shared/types/profile';
 
 /**
@@ -234,6 +236,81 @@ export async function updateProfile(input: UpdateProfileInput): Promise<APIProfi
   // Find and return the updated profile
   const updatedProfile = modifiedFile.profiles.find((p) => p.id === input.id)!;
   return updatedProfile;
+}
+
+/**
+ * Load profiles file synchronously (for use in sync functions)
+ * Returns default empty profiles file if file doesn't exist or is corrupted
+ */
+function loadProfilesFileSync(): ProfilesFile {
+  const filePath = getProfilesFilePath();
+  try {
+    const content = readFileSync(filePath, 'utf-8');
+    const data = JSON.parse(content);
+    // Basic validation
+    if (data && Array.isArray(data.profiles) && typeof data.version === 'number') {
+      return data as ProfilesFile;
+    }
+    return { profiles: [], activeProfileId: null, version: 1 };
+  } catch {
+    return { profiles: [], activeProfileId: null, version: 1 };
+  }
+}
+
+/**
+ * Get environment variables for the active API profile (SYNC version)
+ *
+ * Synchronous version for use in invokeClaude() which is a sync function.
+ * Maps the active API profile to SDK environment variables for injection.
+ * Returns empty object when no profile is active (OAuth mode).
+ *
+ * @returns Record<string, string> Environment variables for active profile
+ */
+export function getAPIProfileEnvSync(): Record<string, string> {
+  const file = loadProfilesFileSync();
+
+  console.log('[Profile Service] getAPIProfileEnvSync called:', {
+    hasActiveProfileId: !!file.activeProfileId,
+    activeProfileId: file.activeProfileId,
+    profileCount: file.profiles.length
+  });
+
+  if (!file.activeProfileId || file.activeProfileId === '') {
+    console.log('[Profile Service] No active profile ID, returning empty env (sync)');
+    return {};
+  }
+
+  const profile = file.profiles.find((p) => p.id === file.activeProfileId);
+
+  if (!profile) {
+    console.log('[Profile Service] Active profile not found (sync):', file.activeProfileId);
+    return {};
+  }
+
+  console.log('[Profile Service] Active profile found (sync):', {
+    name: profile.name,
+    baseUrl: profile.baseUrl,
+    hasApiKey: !!profile.apiKey
+  });
+
+  const envVars: Record<string, string> = {
+    ANTHROPIC_BASE_URL: profile.baseUrl || '',
+    ANTHROPIC_API_KEY: profile.apiKey || '',
+    ANTHROPIC_MODEL: profile.models?.default || '',
+    ANTHROPIC_DEFAULT_HAIKU_MODEL: profile.models?.haiku || '',
+    ANTHROPIC_DEFAULT_SONNET_MODEL: profile.models?.sonnet || '',
+    ANTHROPIC_DEFAULT_OPUS_MODEL: profile.models?.opus || '',
+  };
+
+  const filteredEnvVars: Record<string, string> = {};
+  for (const [key, value] of Object.entries(envVars)) {
+    const trimmedValue = value?.trim();
+    if (trimmedValue && trimmedValue !== '') {
+      filteredEnvVars[key] = trimmedValue;
+    }
+  }
+
+  return filteredEnvVars;
 }
 
 /**

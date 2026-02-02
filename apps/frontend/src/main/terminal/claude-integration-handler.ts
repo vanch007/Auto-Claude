@@ -11,6 +11,7 @@ import * as crypto from 'crypto';
 import { IPC_CHANNELS } from '../../shared/constants';
 import { getClaudeProfileManager, initializeClaudeProfileManager } from '../claude-profile-manager';
 import { getCredentialsFromKeychain, clearKeychainCache } from '../claude-profile/credential-utils';
+import { getAPIProfileEnv, getAPIProfileEnvSync } from '../services/profile';
 import { getUsageMonitor } from '../claude-profile/usage-monitor';
 import { getEmailFromConfigDir } from '../claude-profile/profile-utils';
 import * as OutputParser from './output-parser';
@@ -217,7 +218,8 @@ const YOLO_MODE_FLAG = ' --dangerously-skip-permissions';
 type ClaudeCommandConfig =
   | { method: 'default' }
   | { method: 'temp-file'; tempFile: string }
-  | { method: 'config-dir'; configDir: string };
+  | { method: 'config-dir'; configDir: string }
+  | { method: 'api-profile'; envVars: Record<string, string> };
 
 /**
  * Build the shell command for invoking Claude CLI.
@@ -297,6 +299,23 @@ export function buildClaudeShellCommand(
         // Unix/macOS: Use bash with config dir and history-safe prefixes
         const escapedConfigDir = escapeShellArg(config.configDir);
         return `clear && ${cwdCommand}HISTFILE= HISTCONTROL=ignorespace CLAUDE_CONFIG_DIR=${escapedConfigDir} ${pathPrefix}bash -c "exec ${fullCmd}"\r`;
+      }
+
+    case 'api-profile':
+      // API Profile method: Set ANTHROPIC_* environment variables for custom endpoints
+      // This allows Claude CLI to use custom API endpoints instead of OAuth
+      if (isWin) {
+        // Windows: Build set commands for each env var
+        const setCommands = Object.entries(config.envVars)
+          .map(([key, value]) => `set "${key}=${escapeForWindowsDoubleQuote(value)}"`)
+          .join(' && ');
+        return `cls && ${cwdCommand}${setCommands} && ${pathPrefix}${fullCmd}\r`;
+      } else {
+        // Unix/macOS: Build inline env vars with history-safe prefixes
+        const envString = Object.entries(config.envVars)
+          .map(([key, value]) => `${key}=${escapeShellArg(value)}`)
+          .join(' ');
+        return `clear && ${cwdCommand}HISTFILE= HISTCONTROL=ignorespace ${envString} ${pathPrefix}bash -c "exec ${fullCmd}"\r`;
       }
 
     default:
@@ -1110,6 +1129,43 @@ export function invokeClaude(
       needsEnvOverride
     });
 
+    // ============================================================================
+    // API PROFILE CHECK - Priority over OAuth profiles
+    // If user has an active API Profile (custom endpoint), use it instead of OAuth
+    // ============================================================================
+    let apiProfileEnv: Record<string, string> = {};
+    try {
+      apiProfileEnv = getAPIProfileEnvSync();
+      debugLog('[ClaudeIntegration:invokeClaude] API Profile env check:', {
+        hasApiProfile: Object.keys(apiProfileEnv).length > 0,
+        envKeys: Object.keys(apiProfileEnv)
+      });
+    } catch (error) {
+      debugError('[ClaudeIntegration:invokeClaude] Failed to get API profile env:', error);
+      // Continue with OAuth flow if API profile check fails
+    }
+
+    // If API Profile is active (has ANTHROPIC_* vars), use api-profile method
+    if (Object.keys(apiProfileEnv).length > 0) {
+      debugLog('[ClaudeIntegration:invokeClaude] Using API Profile method (custom endpoint)');
+      const command = buildClaudeShellCommand(
+        cwdCommand,
+        pathPrefix,
+        escapedClaudeCmd,
+        { method: 'api-profile', envVars: apiProfileEnv },
+        extraFlags
+      );
+      debugLog('[ClaudeIntegration:invokeClaude] Executing command (api-profile method)');
+      PtyManager.writeToPty(terminal, command);
+      finalizeClaudeInvoke(terminal, undefined, projectPath, startTime, getWindow, onSessionCapture);
+      debugLog('[ClaudeIntegration:invokeClaude] ========== INVOKE CLAUDE COMPLETE (api-profile) ==========');
+      return;
+    }
+
+    // ============================================================================
+    // OAUTH PROFILE FLOW - Fallback when no API Profile is active
+    // ============================================================================
+
     // Try to execute using profile-specific method (configDir or temp-file)
     const executed = executeProfileCommand({
       needsEnvOverride,
@@ -1313,6 +1369,43 @@ export async function invokeClaudeAsync(
       previousProfileId,
       needsEnvOverride
     });
+
+    // ============================================================================
+    // API PROFILE CHECK - Priority over OAuth profiles
+    // If user has an active API Profile (custom endpoint), use it instead of OAuth
+    // ============================================================================
+    let apiProfileEnv: Record<string, string> = {};
+    try {
+      apiProfileEnv = await getAPIProfileEnv();
+      debugLog('[ClaudeIntegration:invokeClaudeAsync] API Profile env check:', {
+        hasApiProfile: Object.keys(apiProfileEnv).length > 0,
+        envKeys: Object.keys(apiProfileEnv)
+      });
+    } catch (error) {
+      debugError('[ClaudeIntegration:invokeClaudeAsync] Failed to get API profile env:', error);
+      // Continue with OAuth flow if API profile check fails
+    }
+
+    // If API Profile is active (has ANTHROPIC_* vars), use api-profile method
+    if (Object.keys(apiProfileEnv).length > 0) {
+      debugLog('[ClaudeIntegration:invokeClaudeAsync] Using API Profile method (custom endpoint)');
+      const command = buildClaudeShellCommand(
+        cwdCommand,
+        pathPrefix,
+        escapedClaudeCmd,
+        { method: 'api-profile', envVars: apiProfileEnv },
+        extraFlags
+      );
+      debugLog('[ClaudeIntegration:invokeClaudeAsync] Executing command (api-profile method)');
+      PtyManager.writeToPty(terminal, command);
+      finalizeClaudeInvoke(terminal, undefined, projectPath, startTime, getWindow, onSessionCapture);
+      debugLog('[ClaudeIntegration:invokeClaudeAsync] ========== INVOKE CLAUDE COMPLETE (api-profile) ==========');
+      return;
+    }
+
+    // ============================================================================
+    // OAUTH PROFILE FLOW - Fallback when no API Profile is active
+    // ============================================================================
 
     // Try to execute using profile-specific method (configDir or temp-file) with async file operations
     const executed = await executeProfileCommandAsync({

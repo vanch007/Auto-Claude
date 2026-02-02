@@ -194,6 +194,9 @@
       "gatekeeperAssess": false,
       "entitlements": "resources/entitlements.mac.plist",
       "entitlementsInherit": "resources/entitlements.mac.plist",
+      "signIgnore": [
+        "python"
+      ],
       "target": [
         "dmg",
         "zip"
