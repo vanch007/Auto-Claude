@@ -329,17 +329,41 @@ export class AgentQueueManager {
     // Get active API profile environment variables first
     const apiProfileEnv = await getAPIProfileEnv();
 
+    // ============ DEBUG LOGGING ============
+    console.log('[Agent Queue] ========== ENVIRONMENT SETUP DEBUG ==========');
+    console.log('[Agent Queue] API Profile Env:', {
+      hasKeys: Object.keys(apiProfileEnv).length > 0,
+      keys: Object.keys(apiProfileEnv),
+      ANTHROPIC_BASE_URL: apiProfileEnv.ANTHROPIC_BASE_URL || 'NOT SET',
+      ANTHROPIC_API_KEY: apiProfileEnv.ANTHROPIC_API_KEY ? 'SET (masked)' : 'NOT SET'
+    });
+    // ============ END DEBUG ============
+
     // Get best available Claude profile environment (automatically handles rate limits)
     // Only use OAuth profile if no API profile is active
     let profileEnv: Record<string, string> = {};
     if (Object.keys(apiProfileEnv).length === 0) {
       // No API profile active, use OAuth profile
+      console.log('[Agent Queue] No API profile active, using OAuth profile');
       const profileResult = getBestAvailableProfileEnv();
       profileEnv = profileResult.env;
+    } else {
+      console.log('[Agent Queue] API profile is active, SKIPPING OAuth profile');
     }
 
     // Get OAuth mode clearing vars (clears stale ANTHROPIC_* vars when in OAuth mode)
     const oauthModeClearVars = getOAuthModeClearVars(apiProfileEnv);
+
+    // ============ DEBUG LOGGING ============
+    console.log('[Agent Queue] OAuth Clear Vars:', {
+      isEmpty: Object.keys(oauthModeClearVars).length === 0,
+      keys: Object.keys(oauthModeClearVars)
+    });
+    console.log('[Agent Queue] Profile Env (OAuth):', {
+      hasToken: !!profileEnv['CLAUDE_CODE_OAUTH_TOKEN'],
+      keys: Object.keys(profileEnv)
+    });
+    // ============ END DEBUG ============
 
     // Get Python path from process manager (uses venv if configured)
     const pythonPath = this.processManager.getPythonPath();
@@ -662,17 +686,41 @@ export class AgentQueueManager {
     // Get active API profile environment variables first
     const apiProfileEnv = await getAPIProfileEnv();
 
+    // ============ DEBUG LOGGING ============
+    console.log('[Agent Queue] ========== ENVIRONMENT SETUP DEBUG ==========');
+    console.log('[Agent Queue] API Profile Env:', {
+      hasKeys: Object.keys(apiProfileEnv).length > 0,
+      keys: Object.keys(apiProfileEnv),
+      ANTHROPIC_BASE_URL: apiProfileEnv.ANTHROPIC_BASE_URL || 'NOT SET',
+      ANTHROPIC_API_KEY: apiProfileEnv.ANTHROPIC_API_KEY ? 'SET (masked)' : 'NOT SET'
+    });
+    // ============ END DEBUG ============
+
     // Get best available Claude profile environment (automatically handles rate limits)
     // Only use OAuth profile if no API profile is active
     let profileEnv: Record<string, string> = {};
     if (Object.keys(apiProfileEnv).length === 0) {
       // No API profile active, use OAuth profile
+      console.log('[Agent Queue] No API profile active, using OAuth profile');
       const profileResult = getBestAvailableProfileEnv();
       profileEnv = profileResult.env;
+    } else {
+      console.log('[Agent Queue] API profile is active, SKIPPING OAuth profile');
     }
 
     // Get OAuth mode clearing vars (clears stale ANTHROPIC_* vars when in OAuth mode)
     const oauthModeClearVars = getOAuthModeClearVars(apiProfileEnv);
+
+    // ============ DEBUG LOGGING ============
+    console.log('[Agent Queue] OAuth Clear Vars:', {
+      isEmpty: Object.keys(oauthModeClearVars).length === 0,
+      keys: Object.keys(oauthModeClearVars)
+    });
+    console.log('[Agent Queue] Profile Env (OAuth):', {
+      hasToken: !!profileEnv['CLAUDE_CODE_OAUTH_TOKEN'],
+      keys: Object.keys(profileEnv)
+    });
+    // ============ END DEBUG ============
 
     // Get Python path from process manager (uses venv if configured)
     const pythonPath = this.processManager.getPythonPath();

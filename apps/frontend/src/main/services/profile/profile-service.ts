@@ -259,8 +259,17 @@ export async function getAPIProfileEnv(): Promise<Record<string, string>> {
   // Load profiles.json
   const file = await loadProfilesFile();
 
+  // ============ DEBUG LOGGING ============
+  console.log('[Profile Service] getAPIProfileEnv called:', {
+    hasActiveProfileId: !!file.activeProfileId,
+    activeProfileId: file.activeProfileId,
+    profileCount: file.profiles.length
+  });
+  // ============ END DEBUG ============
+
   // If no active profile (null/empty), return empty object (OAuth mode)
   if (!file.activeProfileId || file.activeProfileId === '') {
+    console.log('[Profile Service] No active profile ID, returning empty env');
     return {};
   }
 
@@ -269,8 +278,15 @@ export async function getAPIProfileEnv(): Promise<Record<string, string>> {
 
   // If profile not found, return empty object (shouldn't happen with valid data)
   if (!profile) {
+    console.log('[Profile Service] Active profile not found:', file.activeProfileId);
     return {};
   }
+
+  console.log('[Profile Service] Active profile found:', {
+    name: profile.name,
+    baseUrl: profile.baseUrl,
+    hasApiKey: !!profile.apiKey
+  });
 
   // Map profile fields to SDK env vars
   const envVars: Record<string, string> = {
