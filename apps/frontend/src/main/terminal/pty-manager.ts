@@ -402,14 +402,14 @@ export function getActiveProfileEnv(): Record<string, string> {
  * Returns empty object if no API profile is active.
  *
  * When an API profile is active, this returns:
- * - ANTHROPIC_API_KEY: The API key for the custom endpoint
+ * - ANTHROPIC_AUTH_TOKEN: The API key for the custom endpoint
  * - ANTHROPIC_BASE_URL: The base URL for the custom endpoint
  * - AUTO_CLAUDE_USE_API_PROFILE: Flag indicating custom endpoint usage
  */
 export async function getActiveApiProfileEnv(): Promise<Record<string, string>> {
   try {
     // Dynamically import to avoid circular dependencies
-    const { loadProfilesFile } = await import('../services/profile/profile-service');
+    const { loadProfilesFile } = await import('../services/profile');
     const profilesData = await loadProfilesFile();
 
     // Check if an API profile is active
@@ -428,7 +428,7 @@ export async function getActiveApiProfileEnv(): Promise<Record<string, string>> 
 
     // Return environment variables for backend to use
     return {
-      ANTHROPIC_API_KEY: activeProfile.apiKey,
+      ANTHROPIC_AUTH_TOKEN: activeProfile.apiKey,
       ANTHROPIC_BASE_URL: activeProfile.baseUrl,
       AUTO_CLAUDE_USE_API_PROFILE: 'true', // Flag to indicate custom endpoint
     };
