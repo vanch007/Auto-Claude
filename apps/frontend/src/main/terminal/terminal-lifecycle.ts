@@ -56,8 +56,13 @@ export async function createTerminal(
     // For auth terminals, don't inject existing OAuth token - we want a fresh login
     const profileEnv = skipOAuthToken ? {} : PtyManager.getActiveProfileEnv();
 
+    // Check for active API profile (custom endpoints) and merge its environment variables
+    // API profile takes precedence over OAuth profile when both are present
+    const apiProfileEnv = await PtyManager.getActiveApiProfileEnv();
+    const combinedEnv = { ...profileEnv, ...apiProfileEnv };
+
     // Merge custom environment variables (e.g., CLAUDE_CONFIG_DIR for auth terminals)
-    const mergedEnv = customEnv ? { ...profileEnv, ...customEnv } : profileEnv;
+    const mergedEnv = customEnv ? { ...combinedEnv, ...customEnv } : combinedEnv;
 
     if (mergedEnv.CLAUDE_CODE_OAUTH_TOKEN) {
       debugLog('[TerminalLifecycle] Injecting OAuth token from active profile');

@@ -396,3 +396,44 @@ export function getActiveProfileEnv(): Record<string, string> {
   const profileManager = getClaudeProfileManager();
   return profileManager.getActiveProfileEnv();
 }
+
+/**
+ * Get environment variables for active API profile (custom endpoints).
+ * Returns empty object if no API profile is active.
+ *
+ * When an API profile is active, this returns:
+ * - ANTHROPIC_API_KEY: The API key for the custom endpoint
+ * - ANTHROPIC_BASE_URL: The base URL for the custom endpoint
+ * - AUTO_CLAUDE_USE_API_PROFILE: Flag indicating custom endpoint usage
+ */
+export async function getActiveApiProfileEnv(): Promise<Record<string, string>> {
+  try {
+    // Dynamically import to avoid circular dependencies
+    const { loadProfilesFile } = await import('../services/profile/profile-service');
+    const profilesData = await loadProfilesFile();
+
+    // Check if an API profile is active
+    if (!profilesData.activeProfileId) {
+      debugLog('[PtyManager] No API profile active');
+      return {};
+    }
+
+    const activeProfile = profilesData.profiles.find(p => p.id === profilesData.activeProfileId);
+    if (!activeProfile) {
+      debugLog('[PtyManager] API profile not found:', profilesData.activeProfileId);
+      return {};
+    }
+
+    debugLog('[PtyManager] Using API profile:', activeProfile.name, 'URL:', activeProfile.baseUrl);
+
+    // Return environment variables for backend to use
+    return {
+      ANTHROPIC_API_KEY: activeProfile.apiKey,
+      ANTHROPIC_BASE_URL: activeProfile.baseUrl,
+      AUTO_CLAUDE_USE_API_PROFILE: 'true', // Flag to indicate custom endpoint
+    };
+  } catch (error) {
+    debugError('[PtyManager] Failed to get API profile env:', error);
+    return {};
+  }
+}
