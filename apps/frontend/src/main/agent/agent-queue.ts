@@ -326,12 +326,17 @@ export class AgentQueueManager {
     // Get combined environment variables
     const combinedEnv = this.processManager.getCombinedEnv(projectPath);
 
-    // Get best available Claude profile environment (automatically handles rate limits)
-    const profileResult = getBestAvailableProfileEnv();
-    const profileEnv = profileResult.env;
-
-    // Get active API profile environment variables
+    // Get active API profile environment variables first
     const apiProfileEnv = await getAPIProfileEnv();
+
+    // Get best available Claude profile environment (automatically handles rate limits)
+    // Only use OAuth profile if no API profile is active
+    let profileEnv: Record<string, string> = {};
+    if (Object.keys(apiProfileEnv).length === 0) {
+      // No API profile active, use OAuth profile
+      const profileResult = getBestAvailableProfileEnv();
+      profileEnv = profileResult.env;
+    }
 
     // Get OAuth mode clearing vars (clears stale ANTHROPIC_* vars when in OAuth mode)
     const oauthModeClearVars = getOAuthModeClearVars(apiProfileEnv);
@@ -654,12 +659,17 @@ export class AgentQueueManager {
     // Get combined environment variables
     const combinedEnv = this.processManager.getCombinedEnv(projectPath);
 
-    // Get best available Claude profile environment (automatically handles rate limits)
-    const profileResult = getBestAvailableProfileEnv();
-    const profileEnv = profileResult.env;
-
-    // Get active API profile environment variables
+    // Get active API profile environment variables first
     const apiProfileEnv = await getAPIProfileEnv();
+
+    // Get best available Claude profile environment (automatically handles rate limits)
+    // Only use OAuth profile if no API profile is active
+    let profileEnv: Record<string, string> = {};
+    if (Object.keys(apiProfileEnv).length === 0) {
+      // No API profile active, use OAuth profile
+      const profileResult = getBestAvailableProfileEnv();
+      profileEnv = profileResult.env;
+    }
 
     // Get OAuth mode clearing vars (clears stale ANTHROPIC_* vars when in OAuth mode)
     const oauthModeClearVars = getOAuthModeClearVars(apiProfileEnv);
