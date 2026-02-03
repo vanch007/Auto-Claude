@@ -23,6 +23,16 @@ export const settingsMock = {
   // Spell check (no-op in browser mode)
   setSpellCheckLanguages: async () => ({ success: true, data: { success: true } }),
 
+  // Custom Prompts (mock implementation)
+  loadCustomPrompts: async () => ({
+    systemPromptExtension: '',
+    coderPromptExtension: '',
+    plannerPromptExtension: '',
+    qaPromptExtension: '',
+    enabled: true
+  }),
+  saveCustomPrompts: async () => ({ success: true }),
+
   getCliToolsInfo: async () => ({
     success: true,
     data: {

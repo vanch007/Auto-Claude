@@ -8,6 +8,14 @@ import type {
   ToolDetectionResult
 } from '../../shared/types';
 
+export interface CustomPrompts {
+  systemPromptExtension: string;
+  coderPromptExtension: string;
+  plannerPromptExtension: string;
+  qaPromptExtension: string;
+  enabled: boolean;
+}
+
 export interface SettingsAPI {
   // App Settings
   getSettings: () => Promise<IPCResult<AppSettings>>;
@@ -39,6 +47,10 @@ export interface SettingsAPI {
 
   // Spell check
   setSpellCheckLanguages: (language: string) => Promise<IPCResult<{ success: boolean }>>;
+
+  // Custom Prompts
+  loadCustomPrompts: () => Promise<CustomPrompts>;
+  saveCustomPrompts: (prompts: CustomPrompts) => Promise<{ success: boolean; error?: string }>;
 }
 
 export const createSettingsAPI = (): SettingsAPI => ({
@@ -90,5 +102,12 @@ export const createSettingsAPI = (): SettingsAPI => ({
 
   // Spell check - sync spell checker language with app language
   setSpellCheckLanguages: (language: string): Promise<IPCResult<{ success: boolean }>> =>
-    ipcRenderer.invoke(IPC_CHANNELS.SPELLCHECK_SET_LANGUAGES, language)
+    ipcRenderer.invoke(IPC_CHANNELS.SPELLCHECK_SET_LANGUAGES, language),
+
+  // Custom Prompts
+  loadCustomPrompts: (): Promise<CustomPrompts> =>
+    ipcRenderer.invoke('CUSTOM_PROMPTS_LOAD'),
+
+  saveCustomPrompts: (prompts: CustomPrompts): Promise<{ success: boolean; error?: string }> =>
+    ipcRenderer.invoke('CUSTOM_PROMPTS_SAVE', prompts)
 });

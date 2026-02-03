@@ -347,6 +347,22 @@ export interface ElectronAPI {
   // Spell check
   setSpellCheckLanguages: (language: string) => Promise<IPCResult<{ success: boolean }>>;
 
+  // Custom Prompts
+  loadCustomPrompts: () => Promise<{
+    systemPromptExtension: string;
+    coderPromptExtension: string;
+    plannerPromptExtension: string;
+    qaPromptExtension: string;
+    enabled: boolean;
+  }>;
+  saveCustomPrompts: (prompts: {
+    systemPromptExtension: string;
+    coderPromptExtension: string;
+    plannerPromptExtension: string;
+    qaPromptExtension: string;
+    enabled: boolean;
+  }) => Promise<{ success: boolean; error?: string }>;
+
   // Sentry error reporting
   notifySentryStateChanged: (enabled: boolean) => void;
   getSentryDsn: () => Promise<string>;
