@@ -10,6 +10,10 @@
     "addProjectAriaLabel": "Ajouter un projet"
   },
   "accessibility": {
+    "sidebar": {
+      "autoClaude": "Auto Claude",
+      "projects": "Projets"
+    },
     "deleteFeatureAriaLabel": "Supprimer la fonctionnalité",
     "closeFeatureDetailsAriaLabel": "Fermer les détails de la fonctionnalité",
     "regenerateRoadmapAriaLabel": "Régénérer la feuille de route",

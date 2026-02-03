@@ -199,7 +199,11 @@ class RoadmapOrchestrator:
             return
 
         with open(roadmap_file, encoding="utf-8") as f:
-            roadmap = json.load(f)
+            content = f.read()
+        # Sanitize Chinese quotes that break JSON parsing
+        content = content.replace('"', '"').replace('"', '"')
+        content = content.replace(''', "'").replace(''', "'")
+        roadmap = json.loads(content)
 
         features = roadmap.get("features", [])
         phases = roadmap.get("phases", [])

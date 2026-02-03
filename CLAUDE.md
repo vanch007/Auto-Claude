@@ -6,6 +6,14 @@ Auto Claude is an autonomous multi-agent coding framework that plans, builds, an
 
 > **Deep-dive reference:** [ARCHITECTURE.md](shared_docs/ARCHITECTURE.md) | **Frontend contributing:** [apps/frontend/CONTRIBUTING.md](apps/frontend/CONTRIBUTING.md)
 
+## Prerequisites
+
+- **Node.js** >= 24.0.0
+- **npm** >= 10.0.0
+- **Python** 3.11+ (backend)
+- **uv** package manager (backend - `pip install uv` or `brew install uv`)
+- **Git** repository (project must be initialized as a git repo)
+
 ## Product Overview
 
 Auto Claude is a desktop application (+ CLI) where users describe a goal and AI agents autonomously handle planning, implementation, and QA validation. All work happens in isolated git worktrees so the main branch stays safe.
@@ -113,6 +121,8 @@ python run.py --list                            # List all specs
 ```bash
 cd apps/frontend
 npm run dev              # Dev mode (Electron + Vite HMR)
+npm run dev:debug        # Dev mode with Chrome DevTools remote debugging (port 9222)
+npm run dev:mcp          # Dev mode with Electron MCP server for AI testing
 npm run build            # Production build
 npm run test             # Vitest unit tests
 npm run test:watch       # Vitest watch mode
@@ -187,6 +197,21 @@ Each spec in `.auto-claude/specs/XXX-name/` contains: `spec.md`, `requirements.j
 ### Memory System (Graphiti)
 
 Graph-based semantic memory in `integrations/graphiti/`. Configured through the Electron app's onboarding/settings UI (CLI users can alternatively set `GRAPHITI_ENABLED=true` in `.env`). See [ARCHITECTURE.md](shared_docs/ARCHITECTURE.md#memory-system) for details.
+
+### Environment Variables
+
+Backend (`apps/backend/.env` or `.auto-claude/.env`):
+
+| Variable | Purpose | Values |
+|----------|---------|--------|
+| `GRAPHITI_ENABLED` | Enable semantic memory system | `true` / `false` |
+| `ELECTRON_MCP_ENABLED` | Enable Electron MCP for QA E2E testing | `true` / `false` |
+| `ANTHROPIC_API_KEY` | API key for Anthropic-compatible endpoints | API key string |
+| `NEO4J_URI` | Neo4j connection URI (if using Graphiti) | `bolt://localhost:7687` |
+| `NEO4J_USER` | Neo4j username | `neo4j` |
+| `NEO4J_PASSWORD` | Neo4j password | Password string |
+
+Frontend environment is configured through the Electron app's settings UI (OAuth tokens, API profiles, project preferences).
 
 ## Frontend Development
 
@@ -306,13 +331,17 @@ Never hardcode paths. Use `findExecutable()` and `joinPaths()`. See [ARCHITECTUR
 
 ## E2E Testing (Electron MCP)
 
-QA agents can interact with the running Electron app via Chrome DevTools Protocol:
+QA agents can interact with the running Electron app via Chrome DevTools Protocol for automated UI testing and validation.
 
-1. Start app: `npm run dev:debug` (debug mode for AI self-validation via Electron MCP)
+**Setup:**
+
+1. Start app in debug mode: `npm run dev:debug` (enables Chrome DevTools remote debugging on port 9222)
 2. Set `ELECTRON_MCP_ENABLED=true` in `apps/backend/.env`
-3. Run QA: `python run.py --spec 001 --qa`
+3. Run QA validation: `cd apps/backend && python run.py --spec 001 --qa`
 
-Tools: `take_screenshot`, `click_by_text`, `fill_input`, `get_page_structure`, `send_keyboard_shortcut`, `eval`. See [ARCHITECTURE.md](shared_docs/ARCHITECTURE.md#end-to-end-testing) for full capabilities.
+**Available MCP tools:** `take_screenshot`, `click_by_text`, `fill_input`, `get_page_structure`, `send_keyboard_shortcut`, `eval`
+
+See [ARCHITECTURE.md](shared_docs/ARCHITECTURE.md#end-to-end-testing) for full capabilities and usage examples.
 
 ## Running the Application
 

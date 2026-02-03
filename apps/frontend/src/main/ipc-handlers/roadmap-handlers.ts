@@ -600,8 +600,18 @@ ${(feature.acceptance_criteria || []).map((c: string) => `- [ ] ${c}`).join("\n"
         };
         writeFileSync(path.join(specDir, "task_metadata.json"), JSON.stringify(metadata, null, 2), 'utf-8');
 
-        // NOTE: We do NOT auto-start spec creation here - user should explicitly start the task
-        // from the kanban board when they're ready
+        // Auto-start spec creation pipeline to generate context.json and implementation phases
+        // This ensures roadmap-imported tasks have complete data and can be started immediately
+        agentManager.startSpecCreation(
+          specId,
+          project.path,
+          taskDescription,
+          specDir,
+          {
+            sourceType: 'roadmap',
+            featureId: feature.id,
+          }
+        );
 
         // Update feature with linked spec
         feature.status = "planned";

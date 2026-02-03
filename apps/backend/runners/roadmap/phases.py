@@ -24,6 +24,22 @@ if TYPE_CHECKING:
 MAX_RETRIES = 3
 
 
+def sanitize_json_content(content: str) -> str:
+    """Sanitize JSON content by replacing problematic Chinese quotes.
+
+    AI models sometimes generate Chinese quotation marks ("" '') inside JSON
+    string values, which breaks JSON parsing. This function replaces them
+    with escaped ASCII equivalents.
+    """
+    # Replace Chinese double quotes with ASCII quotes
+    content = content.replace('"', '"')
+    content = content.replace('"', '"')
+    # Replace Chinese single quotes with ASCII single quotes
+    content = content.replace(''', "'")
+    content = content.replace(''', "'")
+    return content
+
+
 class ProjectIndexPhase:
     """Handles project index creation and validation."""
 
@@ -176,7 +192,10 @@ Do NOT ask questions. Make educated inferences and create the file.
         """
         try:
             with open(self.discovery_file, encoding="utf-8") as f:
-                data = json.load(f)
+                content = f.read()
+            # Sanitize Chinese quotes that break JSON parsing
+            content = sanitize_json_content(content)
+            data = json.loads(content)
 
             required = ["project_name", "target_audience", "product_vision"]
             missing = [k for k in required if k not in data]
@@ -236,7 +255,10 @@ class FeaturesPhase:
 
         try:
             with open(self.roadmap_file, encoding="utf-8") as f:
-                data = json.load(f)
+                content = f.read()
+            # Sanitize Chinese quotes that break JSON parsing
+            content = sanitize_json_content(content)
+            data = json.loads(content)
 
             features = data.get("features", [])
             preserved = []
@@ -473,7 +495,10 @@ Output the complete roadmap to roadmap.json.
         """
         try:
             with open(self.roadmap_file, encoding="utf-8") as f:
-                data = json.load(f)
+                content = f.read()
+            # Sanitize Chinese quotes that break JSON parsing
+            content = sanitize_json_content(content)
+            data = json.loads(content)
 
             required = ["phases", "features", "vision", "target_audience"]
             missing = [k for k in required if k not in data]

@@ -12,7 +12,8 @@
   },
   "accessibility": {
     "sidebar": {
-      "autoClaude": "Auto Claude"
+      "autoClaude": "Auto Claude",
+      "projects": "项目"
     }
   },
   "steps": {
